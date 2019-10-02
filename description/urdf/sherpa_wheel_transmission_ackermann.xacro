@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<!-- Sherpa Wheels-->
+
+<robot name ="sherpa_wheel_transmission" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+  <xacro:property name="mec_red" value="300"/>
+    
+  <!-- left_steer_transmission -->
+  <transmission name="left_steer_transmission">
+    <type>trasnmission_interface/SimpleTransmission</type>
+    <joint name="left_steer">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="left_steer_motor">    
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>${mec_red}</mechanicalReduction>
+    </actuator>
+  </transmission>
+ 
+  <!-- left_front_axle_transmission -->
+  <transmission name="left_front_axle_transmission">
+    <type>trasnmission_interface/SimpleTransmission</type>
+    <joint name="left_front_axle">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="left_front_axle_motor">    
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>${mec_red}</mechanicalReduction>
+    </actuator>
+  </transmission>
+  
+  <!-- right_steer_transmission -->
+  <transmission name="right_steer_transmission">
+    <type>trasnmission_interface/SimpleTransmission</type>
+    <joint name="right_steer">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="right_steer_motor">    
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>${mec_red}</mechanicalReduction>
+    </actuator>
+  </transmission>
+ 
+  <!-- right_front_axle_transmission -->
+  <transmission name="right_front_axle_transmission">
+    <type>trasnmission_interface/SimpleTransmission</type>
+    <joint name="right_front_axle">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="right_front_axle_motor">    
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>${mec_red}</mechanicalReduction>
+    </actuator>
+  </transmission>
+  
+  <!-- left_rear_axle_transmission -->
+  <transmission name="left_rear_axle_transmission">
+    <type>trasnmission_interface/SimpleTransmission</type>
+    <joint name="left_rear_axle">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="left_rear_axle_motor">    
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>${mec_red}</mechanicalReduction>
+    </actuator>
+  </transmission>
+  
+    <!-- right_rear_axle_transmission -->
+  <transmission name="right_rear_axle_transmission">
+    <type>trasnmission_interface/SimpleTransmission</type>
+    <joint name="right_rear_axle">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="right_rear_axle_motor">    
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>${mec_red}</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  
+</robot>

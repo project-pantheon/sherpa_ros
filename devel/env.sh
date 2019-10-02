@@ -1,0 +1,1 @@
+/home/pasquale/catkin_ws/src/sherpa_ros/devel/.private/catkin_tools_prebuild/env.sh

@@ -1,0 +1,8 @@
+# Define the goal
+sherpa_ros/Tree goal 
+---
+# Define the result
+std_msgs/String result
+---
+# Define a feedback message
+std_msgs/String feedback

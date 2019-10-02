@@ -1,0 +1,39 @@
+<launch>
+
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
+
+    <rosparam file="$(find sherpa_ros)/description/config/ackermann/teb_local_planner_params.yaml" command="load"/>
+
+    <!-- observation sources located in costmap_common.yaml -->
+    <rosparam file="$(find sherpa_ros)/description/config/ackermann/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find sherpa_ros)/description/config/ackermann/costmap_common_params.yaml" command="load" ns="local_costmap" />
+
+    <!-- local costmap, needs size -->
+    <rosparam file="$(find sherpa_ros)/description/config/ackermann/local_costmap_params.yaml" command="load" />
+    <param name="oscillation_timeout" value="30.0"/>
+    <param name="oscillation_distance" value="0.5"/>
+
+    <!-- static global costmap, static map provides size -->
+    <rosparam file="$(find sherpa_ros)/description/config/ackermann/global_costmap_params.yaml" command="load" />
+    
+    	<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+		<param name="planner_frequency" value="1.0" />
+		<param name="planner_patience" value="5.0" />
+
+		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+		<param name="controller_frequency" value="5.0" />
+		<param name="controller_patience" value="15.0" />
+        <param name="clearing_rotation_allowed" value="false" /> <!-- Our carlike robot is not able to rotate in place -->
+    
+    <remap from="cmd_vel" to="sherpa/akrm_cmd" />
+    
+  </node>
+
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find sherpa_ros)/maps/mappone.yaml" output="screen">
+        <param name="frame_id" value="/map"/>
+    </node>
+
+</launch>

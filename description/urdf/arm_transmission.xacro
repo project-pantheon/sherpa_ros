@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+
+<!-- Sherpa Wheels-->
+
+<robot name ="gun_transmission" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!--xacro:arg name="prefix" default="rbsherpa_hl_"/-->
+
+<!-- pan_transmission OLD -->
+<transmission name="torso_pantilt_pan_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="torso_pantilt_pan_joint">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="torso_pantilt_pan_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  </actuator>
+</transmission>
+
+<!-- pan_transmission OLD
+<transmission name="pan_joint_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="pan_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="pan_joint_motor">    
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1.0</mechanicalReduction>
+    </actuator>
+</transmission>-->
+
+
+
+<!-- lift_transmission OLD
+<transmission name="lift_joint_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lift_joint">
+       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> 
+
+    </joint>
+    <actuator name="lift_joint_motor">    
+       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> 
+
+      <mechanicalReduction>1.0</mechanicalReduction>
+    </actuator>
+</transmission>-->
+
+<!-- yaw_transmission NEW -->
+<transmission name="gimbal_yaw_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="gimbal_yaw_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="gimbal_yaw_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </actuator>
+</transmission>
+
+<!-- yaw_transmission OLD
+<transmission name="yaw_joint_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="yaw_joint">
+       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> 
+
+    </joint>
+    <actuator name="yaw_joint_motor">    
+       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> 
+
+      <mechanicalReduction>1.0</mechanicalReduction>
+    </actuator>
+</transmission>-->
+
+<!-- roll_transmission NEW -->
+<transmission name="gimbal_roll_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="gimbal_roll_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="gimbal_roll_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </actuator>
+</transmission>
+
+<!-- roll_transmission OLD 
+<transmission name="roll_joint_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="roll_joint">
+       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> 
+
+    </joint>
+    <actuator name="roll_joint_motor">    
+       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> 
+
+      <mechanicalReduction>1.0</mechanicalReduction>
+    </actuator>
+</transmission>-->
+
+
+<!-- pitch_transmission NEW -->
+<transmission name="gimbal_pitch_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="gimbal_pitch_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="gimbal_pitch_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </actuator>
+</transmission>
+
+<!-- pitch_transmission OLD 
+<transmission name="pitch_joint_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="pitch_joint">
+       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> 
+
+    </joint>
+    <actuator name="pitch_joint_motor">    
+       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> 
+
+      <mechanicalReduction>1.0</mechanicalReduction>
+    </actuator>
+</transmission>-->
+
+<!-- lift_second_part_transmission -->
+<transmission name="lift_second_part_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lift_first_part_to_lift_second_part">
+      <!-- <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> -->
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lift_second_part_motor">    
+      <!-- <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> -->
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>100.0</mechanicalReduction>
+    </actuator>
+</transmission>
+
+<!-- lift_second_part_transmission -->
+<transmission name="lift_first_part_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lift_rail_to_lift_first_part">
+      <!-- <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> -->
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lift_first_part_motor">    
+      <!-- <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> -->
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>100.0</mechanicalReduction>
+    </actuator>
+</transmission>
+
+
+
+</robot>

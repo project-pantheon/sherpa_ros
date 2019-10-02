@@ -1,0 +1,6 @@
+nav_msgs/Odometry goal
+---
+std_msgs/String string
+duration time_elapsed
+---
+geometry_msgs/Point position

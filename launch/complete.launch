@@ -1,0 +1,61 @@
+<launch>
+
+  <!-- these are the arguments you can pass this launch file -->
+  <arg name="namespace" default="/"/>
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find sherpa_ros)/worlds/hello.world"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include>
+
+
+
+  <!-- Combine joint values-->
+  <group ns="sherpa"> 
+
+        <!-- Gui Parameter -->
+
+    <param name="use_gui" value="false"/>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/> 
+    <rosparam file="$(find sherpa_ros)/description/config/sherpa_controller_ackermann.yaml" command="load" />
+
+        <!-- load the controllers -->
+        <node name="controller_spawner" pkg="controller_manager"
+        type="spawner" respawn="false"
+        output="screen" args="$(find sherpa_ros)/description/config/sherpa_controller_ackermann.yaml"/>
+        
+        <!-- Spawn Robot model -->
+	      <param name="tf_prefix" value="sherpa"/>
+        <arg name="robot_name" default="sherpa"/>
+        <param name="robot_description" command="$(find xacro)/xacro.py '$(find sherpa_ros)/description/urdf/sherpa_ros_ackermann.xacro'" />
+		
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <remap from="/joint_states" to="/sherpa/joint_states" />
+        </node>
+        
+        <node name="sherpa_ros_urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model $(arg robot_name) -param robot_description"/>
+
+  </group>
+    
+   <!-- <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 1 /map /odom 100" />   -->
+    
+    
+    <node name="akrm_cmd" pkg="sherpa_ros" type="sherpa_ros_node"/> 
+   <!-- <node name="mid_cont" pkg="sherpa_ros" type="sherpa_mid_cont_node"/> -->
+    <node name="map_manager" pkg="sherpa_ros" type="map_manager_node"/>
+    <include file="$(find sherpa_ros)/launch/move_base.launch"/>
+    <node name="spray_target_server" pkg="sherpa_ros" type="spray_target_server_node"/>
+    <node name="navigation_goal" pkg="sherpa_ros" type="navigation_goal_node"/>
+    
+  
+</launch>

@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+
+<!-- Sherpa -->
+<!-- Test GitLab -->
+
+<robot name ="gun" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- lift_gun properties --> <!-- represents the total block lift -->
+<xacro:property name="lg_x" value="0.168109"/>
+<xacro:property name="lg_y" value="0.13725"/>
+<xacro:property name="lg_z" value="0.9420"/>
+<xacro:property name="lg_origin_x" value="${cb_origin_x+cb_x/2+lg_x/2}"/> <!-- Origin wrt chassis' frame -->
+<xacro:property name="lg_origin_y" value="0"/>
+<xacro:property name="lg_origin_z" value="${cb_origin_z}"/> <!-- Height of the top of the chassis wrt ground -->
+
+<!-- lift_rail properties -->
+<xacro:property name="lr_x" value="0.07735"/>
+<xacro:property name="lr_y" value="0.13725"/>
+<xacro:property name="lr_z" value="0.9420"/>
+<xacro:property name="lr_origin_x" value="${cb_origin_x+cb_x/2+lr_x/2}"/> <!-- Origin wrt chassis' frame -->
+<xacro:property name="lr_origin_y" value="0"/>
+<xacro:property name="lr_origin_z" value="${cb_origin_z}"/> <!-- Height of the top of the chassis wrt ground -->
+
+<!-- lift_first_part properties -->
+<xacro:property name="lfp_x" value="0.04569"/>
+<xacro:property name="lfp_y" value="0.13725"/>
+<xacro:property name="lfp_z" value="0.9420"/>
+<xacro:property name="lfp_origin_x" value="${lr_x/2+lfp_x/2}"/> <!-- Origin wrt rail's frame -->
+<xacro:property name="lfp_origin_y" value="0"/>
+<xacro:property name="lfp_origin_z" value="0"/>
+
+<!-- lift_second_part properties -->
+<xacro:property name="lsp_x" value="0.04507"/>
+<xacro:property name="lsp_y" value="0.13725"/>
+<xacro:property name="lsp_z" value="0.9420"/>
+<xacro:property name="lsp_origin_x" value="${lfp_x/2+lsp_x/2}"/> <!-- Origin wrt lift first part's frame -->
+<xacro:property name="lsp_origin_y" value="0"/>
+<xacro:property name="lsp_origin_z" value="0"/>
+
+<!-- disk_support properties --> <!-- On what the rotational dof disk is fixed wrt lift second part -->
+<xacro:property name="ds_x" value="${lsp_x*2}"/>
+<xacro:property name="ds_y" value="0.13725"/>
+<xacro:property name="ds_z" value="0.04"/>
+<xacro:property name="ds_origin_x" value="${-lsp_x/2}"/> <!-- Origin wrt lift second part's frame -->
+<xacro:property name="ds_origin_y" value="0"/>
+<xacro:property name="ds_origin_z" value="${lsp_z}"/>
+
+<!-- disk_gun properties --> <!-- Rotationa dof -->
+<xacro:property name="dg_r" value="${lsp_x}"/>
+<xacro:property name="dg_l" value="0.085"/>
+<xacro:property name="dg_origin_x" value="0"/> <!-- Origin wrt disk support's frame -->
+<xacro:property name="dg_origin_y" value="0"/>
+<xacro:property name="dg_origin_z" value="${ds_z}"/>
+
+<!-- pan properties -->
+<xacro:property name="pan_x" value="0.980915"/>
+<xacro:property name="pan_y" value="0.07"/>
+<xacro:property name="pan_z" value="0.04291"/>
+<xacro:property name="pan_origin_x" value="0"/> <!-- Origin wrt disk gun's frame -->
+<xacro:property name="pan_origin_y" value="0"/>
+<xacro:property name="pan_origin_z" value="${dg_l}"/>
+
+<!-- gun_support properties -->
+<xacro:property name="gs_x" value="0.045"/>
+<xacro:property name="gs_y" value="0.035"/>
+<xacro:property name="gs_z" value="0.12"/>
+<xacro:property name="gs_origin_x" value="${pan_x/2-gs_x/2}"/> <!-- Origin wrt pan's frame -->
+<xacro:property name="gs_origin_y" value="${gs_y/2}"/>
+<xacro:property name="gs_origin_z" value="${pan_z}"/>
+
+<!-- gun properties -->
+<xacro:property name="g_r" value="0.01"/>
+<xacro:property name="g_l" value="0.2"/>
+<xacro:property name="g_origin_x" value="0"/> <!-- Origin wrt gun support's frame -->
+<xacro:property name="g_origin_y" value="${-gs_y/2}"/>
+<xacro:property name="g_origin_z" value="0.1"/>
+
+<!-- Box Inertia -->
+<xacro:macro name="box_inertia" params="m h w d">
+		<inertia 	ixx="${m*(w*w+d*d)/12}" ixy = "0" ixz = "0"
+							iyy="${m*(d*d+h*h)/12}" iyz = "0"
+							izz="${m*(w*w+h*h)/12}" />
+</xacro:macro>
+
+<!-- Cylinder Inertia -->
+<xacro:macro name="cylinder_inertia" params="m r h">
+    <inertia  ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
+              iyy="${m*r*r/2}" iyz = "0"
+              izz="${m*(3*r*r+h*h)/12}" />
+</xacro:macro>
+
+<!-- Gun support -->
+<joint name="pan_to_gun_support" type="fixed">
+    <parent link="torso_pantilt_pan_link"/>
+    <child link="gun_support"/>
+    <origin xyz="-${gs_origin_x} -${gs_origin_y} ${gs_origin_z}" rpy="0 0 ${PI}"/>
+</joint>
+
+<link name="gun_support">
+    <visual>
+      <origin rpy="0 0 ${PI}" xyz="0 0 ${gs_z/2}"/>
+      <geometry>
+        <box size="${gs_x} ${gs_y} ${gs_z}"/>
+      </geometry>
+     </visual>
+     
+    <collision>
+      <origin rpy="0 0 ${PI}" xyz="0 0 ${gs_z/2}"/>
+      <geometry>
+        <box size="${gs_x} ${gs_y} ${gs_z}"/>
+      </geometry>
+    </collision>
+     
+    <inertial> 
+      <origin rpy="0 0 0" xyz="0 0 ${gs_z/2}"/>
+      <mass value="1" />
+      <box_inertia  m="5" h="${gs_x}" w ="${gs_y}" d="${gs_z}"/>
+    </inertial>
+</link>
+<gazebo reference="gun_support"><material>Gazebo/Black</material></gazebo>
+
+
+<!-- Gun -->
+<joint name="gun_support_to_gun" type="revolute">
+    <parent link="gun_support"/>
+    <child link="gun"/>
+    <origin xyz="${g_origin_x} ${g_origin_y} ${g_origin_z}"/>
+    <axis xyz="0 -1 0" rpy="0 0 0"/>
+    <limit effort="1" lower="-0.785398" upper="0.785398" velocity="0.1"/>
+</joint>
+
+<link name="gun">
+    <visual>
+      <origin rpy="0 1.570796 ${PI}" xyz="0 ${-g_r} 0"/> <!-- Has to rotate -->
+      <geometry>
+        <cylinder length="${g_l}" radius="${g_r}"/>
+      </geometry>
+     </visual>
+     
+    <collision>
+      <origin rpy="0 1.570796 ${PI}" xyz="0 ${-g_r} 0"/> <!-- Has to rotate -->
+      <geometry>
+        <cylinder length="${g_l}" radius="${g_r}"/>
+      </geometry>
+    </collision>
+     
+    <inertial> 
+      <origin rpy="0 1.570796 0" xyz="0 ${-g_r} 0"/> <!-- Has to rotate -->
+      <mass value="1" />
+      <cylinder_inertia m="5" r="${g_r}" h="${g_l}"/>
+    </inertial>
+</link>
+<gazebo reference="gun"><material>Gazebo/White</material></gazebo>
+
+
+<!-- Gun Laser -->
+
+<!--<joint name="laser_joint" type ="fixed">-->
+<!--    <parent link="gun"/>-->
+<!--    <child link="laser"/>-->
+<!--    <origin xyz="0 0 0" rpy="0 0 0"/>-->
+<!--    <axis xyz="0 0 0" rpy="0 0 0"/>-->
+<!--</joint>-->
+
+<!--<link name="laser">-->
+<!--    -->
+<!--    <visual>-->
+<!--        <origin rpy="0 ${PI/2} 0" xyz="1.5 0 0"/>-->
+<!--        <geometry>-->
+<!--            <cylinder length="3.0" radius="${g_r/2}"/>-->
+<!--        </geometry>-->
+<!--    </visual>-->
+<!--</link>-->
+
+<!--<gazebo reference="laser"><material>Gazebo/Red</material></gazebo>-->
+    
+
+  <!-- Gun transmission -->
+  <transmission name="gun_transmission">
+    <type>trasnmission_interface/SimpleTransmission</type>
+    <joint name="gun_support_to_gun">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="gun_motor">    
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+</robot>

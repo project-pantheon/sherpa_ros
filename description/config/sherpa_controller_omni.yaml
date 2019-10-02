@@ -1,0 +1,74 @@
+# Publish the joint states to joint_states.
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 30
+
+left_front_steering_controller:
+  joint: left_front_steer
+  type: effort_controllers/JointPositionController
+  pid: {p: 100.0, i: 0.01, d: 40.0}
+right_front_steering_controller:
+  joint: right_front_steer
+  type: effort_controllers/JointPositionController
+  pid: {p: 100.0, i: 0.01, d: 40.0} 
+left_rear_steering_controller:
+  joint: left_rear_steer
+  type: effort_controllers/JointPositionController
+  pid: {p: 100.0, i: 0.01, d: 40.0}
+right_rear_steering_controller:
+  joint: right_rear_steer
+  type: effort_controllers/JointPositionController
+  pid: {p: 100.0, i: 0.01, d: 40.0}
+
+left_front_axle_controller:
+  joint: left_front_axle
+  type: effort_controllers/JointVelocityController
+  pid: {p: 3.5, i: 1.0, d: 0.0, i_clamp: 10.0}
+right_front_axle_controller:
+  joint: right_front_axle
+  type: effort_controllers/JointVelocityController
+  pid: {p: 3.5, i: 1.0, d: 0.0, i_clamp: 10.0}
+left_rear_axle_controller:
+  joint: left_rear_axle
+  type: effort_controllers/JointVelocityController
+  pid: {p: 3.5, i: 1.0, d: 0.0, i_clamp: 10.0}
+right_rear_axle_controller:
+  joint: right_rear_axle
+  type: effort_controllers/JointVelocityController
+  pid: {p: 3.5, i: 1.0, d: 0.0, i_clamp: 10.0}
+
+pan_controller:
+  joint: torso_pantilt_pan_joint
+  type: effort_controllers/JointPositionController
+  pid: {p: 100.0, i: 0.01, d: 40.0} 
+lift_second_part_controller:
+  joint: lift_first_part_to_lift_second_part
+  type: effort_controllers/JointPositionController
+  pid: {p: 10000.0, i: 100.0, d: 1000.0, i_clamp: 500.0}
+lift_first_part_controller:
+  joint: lift_rail_to_lift_first_part
+  type: effort_controllers/JointPositionController
+  pid: {p: 10000.0, i: 100.0, d: 1000.0, i_clamp: 500.0}
+
+# Gimbal controllers
+
+yaw_controller:
+  joint: gimbal_yaw_joint
+  type: effort_controllers/JointPositionController
+  pid: {p: 100.0, i: 0.01, d: 40.0} 
+  
+roll_controller:
+  joint: gimbal_roll_joint
+  type: effort_controllers/JointPositionController
+  pid: {p: 100.0, i: 0.01, d: 40.0} 
+  
+pitch_controller:
+  joint: gimbal_pitch_joint
+  type: effort_controllers/JointPositionController
+  pid: {p: 100.0, i: 0.01, d: 40.0} 
+  
+# Gun controllers
+gun_controller:
+  joint: gun_support_to_gun
+  type: effort_controllers/JointPositionController
+  pid: {p: 0.1, i: 0.1, d: 0.05}     

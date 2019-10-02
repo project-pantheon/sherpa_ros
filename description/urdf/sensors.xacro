@@ -1,0 +1,264 @@
+<?xml version="1.0"?>
+
+<!-- Sherpa Sensors-->
+
+<robot name ="sherpa_sensors" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<!--link name="imu_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.01" length="0.01"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+	        <mass value="0.5" />
+	        <inertia  ixx="0.5" ixy="0.0" ixz="0.0" iyy="0.5" iyz="0.0" izz="0.5"/>
+	     </inertial>
+  </link>
+     
+    <joint name="imu_link_to_chassis" type="fixed">
+        <parent link="chassis"/>  
+        <child link="imu_link"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+	<gazebo reference="imu_link"><material>Gazebo/Blue</material></gazebo>
+
+    <gazebo reference="imu_link">
+		<gravity>true</gravity>
+		<sensor name="imu_sensor" type="imu">
+			<always_on>true</always_on>
+			<update_rate>100</update_rate>
+			<visualize>true</visualize>
+			<topic>imu</topic>
+			<plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+				<topicName>imu</topicName>
+				<bodyName>imu_link</bodyName>
+				<updateRateHZ>100.0</updateRateHZ>
+				<gaussianNoise>0.0</gaussianNoise>
+				<xyzOffset>0 0 0</xyzOffset>
+				<rpyOffset>0 0 0</rpyOffset>
+				<frameName>imu_link</frameName>
+      		</plugin>
+      	<pose>0 0 0 0 0 0</pose>
+    	</sensor>
+  	</gazebo-->
+
+
+
+  <!-- Front right sick sensor -->
+
+  <link name="front_sick">
+    
+        <visual>
+            <geometry>
+                <cylinder radius="0.05" length="0.12"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+	        <mass value="1.0" />
+	        <inertia  ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+	     </inertial>
+
+  </link>
+    
+      <gazebo reference="front_sick"><material>Gazebo/Yellow</material></gazebo>
+ 
+    <joint name="front_sick_to_chassis" type="fixed">
+        <parent link="chassis"/>  
+        <child link="front_sick"/>
+        <origin xyz="0.8775 -0.5225 0.35" rpy="3.1415 0 -0.785398"/>
+    </joint>
+   
+    <gazebo reference="front_sick">
+			<sensor type="ray" name="front_sick_sensor">
+				<pose>0 0 0 0 0 0</pose>
+				<visualize>false</visualize>
+				<update_rate>16.6</update_rate>
+				<ray>
+					<scan>
+						<horizontal>
+							<samples>761</samples>
+							<resolution>1</resolution>
+							<min_angle>-2.356195</min_angle>  
+							<max_angle>2.356195</max_angle>
+						</horizontal>
+					</scan>
+					<range>
+						<min>0.10</min>
+						<max>9.0</max>
+						<resolution>0.01</resolution>
+					</range>
+					<noise>
+						<type>gaussian</type>
+						<mean>0.0</mean>
+						<stddev>0.01</stddev>
+					</noise>
+				</ray>
+				<plugin name="sick_controller" filename="libgazebo_ros_laser.so">
+					<topicName>/scan</topicName>
+					<frameName>front_sick</frameName>
+				</plugin>
+			</sensor>
+		</gazebo>
+		
+		
+		<!-- Rear left sick sensor -->
+
+  <link name="rear_sick">
+    
+        <visual>
+            <geometry>
+                <cylinder radius="0.05" length="0.12"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+	        <mass value="1.0" />
+	        <inertia  ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+	     </inertial>
+
+  </link>
+    
+      <gazebo reference="rear_sick"><material>Gazebo/Yellow</material></gazebo>
+ 
+    <joint name="rear_sick_to_chassis" type="fixed">
+        <parent link="chassis"/>  
+        <child link="rear_sick"/>
+        <origin xyz="-0.8775 0.5225 0.35" rpy="3.1415 0 2.35619"/>
+    </joint>
+   
+       <gazebo reference="rear_sick">
+			<sensor type="ray" name="rear_sick_sensor">
+				<pose>0 0 0 0 0 0</pose>
+				<visualize>false</visualize>
+				<update_rate>16.6</update_rate>
+				<ray>
+					<scan>
+						<horizontal>
+							<samples>761</samples>
+							<resolution>1</resolution>
+							<min_angle>-2.356195</min_angle>  
+							<max_angle>2.356195</max_angle>
+						</horizontal>
+					</scan>
+					<range>
+						<min>0.10</min>
+						<max>9.0</max>
+						<resolution>0.01</resolution>
+					</range>
+					<noise>
+						<type>gaussian</type>
+						<mean>0.0</mean>
+						<stddev>0.01</stddev>
+					</noise>
+				</ray>
+				<plugin name="sick_controller" filename="libgazebo_ros_laser.so">
+					<topicName>/scan</topicName>
+					<frameName>rear_sick</frameName>
+				</plugin>
+			</sensor>
+		</gazebo>
+		
+		
+		<!-- Velodyne sensor -->
+		
+<!--		<link name="velodyne_base">-->
+<!--		  <visual>-->
+<!--		    <geometry>-->
+<!--		      <box size="0.2 0.1 0.02"/>-->
+<!--		    </geometry>-->
+<!--		    <origin xyz="0.075 0 0"/>-->
+<!--		 </visual>-->
+<!--		  -->
+<!--		 <inertial>-->
+<!--          <origin xyz="0 0 0" rpy="0 0 0"/>-->
+<!--	        <mass value="1.0" />-->
+<!--	        <inertia  ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>-->
+<!--	    </inertial>-->
+<!--	  </link>-->
+<!--	  -->
+<!--	  <joint name="velodyne_to_chassis" type="fixed">-->
+<!--	    <parent link="chassis"/>-->
+<!--	    <child link="velodyne_base"/>-->
+<!--	    <origin xyz="0.8875 0 0.3"/>-->
+<!--	  </joint>-->
+<!--	  -->
+
+<!--	  -->
+<!--	  <link name="velodyne">-->
+<!--	    <visual>-->
+<!--	      <geometry>-->
+<!--	        <cylinder radius="0.05" length="0.06"/>-->
+<!--	      </geometry>-->
+<!--	      <origin xyz="0.025 0 0.03" />-->
+<!--	    </visual>-->
+
+<!--	    <inertial>-->
+<!--          <origin xyz="0 0 0" rpy="0 0 0"/>-->
+<!--	        <mass value="1.0" />-->
+<!--	        <inertia  ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>-->
+<!--	    </inertial>-->
+<!--	  </link>-->
+
+<!--    <gazebo reference="velodyne"><material>Gazebo/Black</material></gazebo>-->
+<!--	  -->
+<!--	  <joint name="velodyne_to_base" type="fixed">-->
+<!--	    <parent link="velodyne_base"/>-->
+<!--	    <child link="velodyne"/>-->
+<!--	    <origin xyz="0.075 0 0"/>-->
+<!--	  </joint>-->
+<!--	  -->
+<!--	      <gazebo reference="velodyne">-->
+<!--			<sensor type="ray" name="velodyne_sensor">-->
+<!--				<pose>0 0 0 0 0 0</pose>-->
+<!--                <visualize>false</visualize>-->
+<!--				<update_rate>15</update_rate>-->
+<!--				<ray>-->
+<!--					<scan>-->
+<!--						<horizontal>-->
+<!--							<samples>300</samples>-->
+<!--							<resolution>1.0</resolution>-->
+<!--							<min_angle>-1.83591184</min_angle>  -->
+<!--							<max_angle>1.83591184</max_angle>-->
+<!--						</horizontal>-->
+<!--            -->
+<!--            <vertical>-->
+<!--							<samples>100</samples>-->
+<!--							<resolution>1.0</resolution>-->
+<!--							<min_angle>-0.3</min_angle>  -->
+<!--							<max_angle>1.2</max_angle>-->
+<!--						</vertical>-->
+<!--					</scan>-->
+<!--					-->
+<!--					<range>-->
+<!--						<min>0.10</min>-->
+<!--						<max>10.0</max>-->
+<!--						<resolution>0.01</resolution>-->
+<!--					</range>-->
+<!--					<noise>-->
+<!--						<type>gaussian</type>-->
+<!--						<mean>0.0</mean>-->
+<!--						<stddev>0.01</stddev>-->
+<!--					</noise>-->
+<!--				</ray>-->
+<!--				<plugin name="velodyne_controller" filename="libgazebo_ros_block_laser.so">-->
+<!--					<topicName>/scan_velodyne</topicName>-->
+<!--					<frameName>velodyne</frameName>-->
+<!--    				<ignoreTfPrefix>1</ignoreTfPrefix>-->
+
+<!--				</plugin>-->
+<!--			</sensor>-->
+<!--		</gazebo>-->
+	  
+	  
+</robot>
