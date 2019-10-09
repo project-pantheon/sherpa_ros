@@ -64,10 +64,12 @@
   
    <include file="$(find rm3_ackermann_controller)/launch/ackermann_controller.launch">
     <arg name="lyapunov_enable" value="true"/>
+    <arg name="mode" value="5"/>
+    <arg name="error" value="0"/>
    </include>
 
     <node name="ibvs_controller_node" pkg="rvb_mpc" type="IBVS_random_controller_node" clear_params="true" output="screen" 
-          args="$(find rvb_mpc)/parameters/params_short_term.yaml $(find rvb_mpc)/parameters/mavGuiParams.yaml">
+          args="$(find rvb_mpc)/parameters/params_short_term.yaml">
     </node>
 
     <!--camera_gui-->
