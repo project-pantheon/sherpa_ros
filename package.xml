@@ -4,19 +4,15 @@
   <version>0.0.0</version>
   <description>The sherpa_ros package</description>
 
-  
-
-
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="dave@todo.todo">dave</maintainer>
-
+  <maintainer email="renzo.carpio@uniroma3.it">Renzo Fabrizio Carpio</maintainer>
 
   <!-- One license tag required, multiple allowed, one license per tag -->
   <!-- Commonly used license strings: -->
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>TODO</license>
+  <license>ROMATRE</license>
 
 
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->

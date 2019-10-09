@@ -221,7 +221,7 @@
       <alwaysOn>true</alwaysOn>
       <updateRate>100.0</updateRate>
       <bodyName>base_link</bodyName>
-      <topicName>/odom</topicName>
+      <topicName>/odom_gps</topicName>
       <gaussianNoise>0.00</gaussianNoise>
       <frameName>/map</frameName>
       <xyzOffsets>0 0 0</xyzOffsets>

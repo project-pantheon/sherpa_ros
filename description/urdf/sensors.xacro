@@ -103,7 +103,7 @@
 					</noise>
 				</ray>
 				<plugin name="sick_controller" filename="libgazebo_ros_laser.so">
-					<topicName>/scan</topicName>
+					<topicName>/base/front_laser/scan</topicName>
 					<frameName>front_sick</frameName>
 				</plugin>
 			</sensor>
@@ -163,7 +163,7 @@
 					</noise>
 				</ray>
 				<plugin name="sick_controller" filename="libgazebo_ros_laser.so">
-					<topicName>/scan</topicName>
+					<topicName>/base/rear_laser/scan</topicName>
 					<frameName>rear_sick</frameName>
 				</plugin>
 			</sensor>
