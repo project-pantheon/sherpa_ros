@@ -142,7 +142,6 @@
 <!-- Include sherpa_wheel.xacro file -->
   
 <xacro:include filename="sherpa_wheel_omni.xacro"/>
-<xacro:include filename="sensors.xacro"/>
 <xacro:include filename="torso.xacro"/>
 <xacro:include filename="gun.xacro"/>
   <gazebo>

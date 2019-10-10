@@ -208,14 +208,8 @@
 
     </link>
     
-    
-    
-<!-->xacro:include filename="sprayer.xacro"/-->
-<xacro:include filename="sensors.xacro"/>
-
 
   <gazebo>
-
 
     <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
       <alwaysOn>true</alwaysOn>
@@ -228,16 +222,14 @@
       <rpyOffsets>0 0 0</rpyOffsets>
     </plugin>
 
-
-
-<!-- ros_control plugin -->
+    <!-- ros_control plugin -->
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
           <legacyModeNS>true</legacyModeNS>
           </plugin>
-
-
-
   </gazebo>
+
+  <xacro:include filename="sensors.xacro"/>
+
 
 </robot>
 
