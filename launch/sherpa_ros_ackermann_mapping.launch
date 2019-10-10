@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- these are the arguments you can pass this launch file -->
+    <arg name="namespace" default="/"/>
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="false"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="Y" default="0"/>
+
+    <!-- Parameters for the local planner-->
+    <arg name="random_spawn_dyn_obj" default="false"/>
+    <arg name="random_waypoint_generation" default="false"/>
+
+    <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find sherpa_ros)/worlds/empty.world"/>
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="headless" value="$(arg headless)"/>
+    </include>
+
+
+
+    <!-- Combine joint values-->
+    <group ns="sherpa"> 
+
+        <!-- Gui Parameter -->
+        <param name="use_gui" value="false"/>
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/> 
+        <rosparam file="$(find sherpa_ros)/description/config/sherpa_controller_ackermann.yaml" command="load" />
+
+        <!-- load the controllers -->
+        <node name="controller_spawner" pkg="controller_manager"
+        type="spawner" respawn="false"
+        output="screen" args="$(find sherpa_ros)/description/config/sherpa_controller_ackermann.yaml"/>
+        
+        <!-- Spawn Robot model -->
+        <param name="tf_prefix" value="sherpa"/>
+        <arg name="robot_name" default="sherpa"/>
+        <param name="robot_description" command="$(find xacro)/xacro.py '$(find sherpa_ros)/description/urdf/sherpa_ros_ackermann.xacro'" />
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+            <remap from="/joint_states" to="/sherpa/joint_states" />
+        </node>
+        
+        <node name="sherpa_ros_urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x) -y $(arg y) -Y $(arg Y)"/>
+
+    </group>
+
+    <!-- <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 1 /map /odom 100" />   -->
+
+
+    <node name="akrm_cmd" pkg="sherpa_ros" type="sherpa_ros_node"/> 
+    <!-- <node name="mid_cont" pkg="sherpa_ros" type="sherpa_mid_cont_node"/> -->
+    <node name="map_manager" pkg="sherpa_ros" type="map_manager_node"/>
+  
+   <include file="$(find rm3_ackermann_controller)/launch/ackermann_controller.launch">
+    <arg name="lyapunov_enable" value="true"/>
+    <arg name="mode" value="5"/>
+    <arg name="error" value="0"/>
+   </include>
+
+    <node name="ibvs_controller_node" pkg="rvb_mpc" type="IBVS_random_controller_node" clear_params="true" output="screen" 
+          args="$(find rvb_mpc)/parameters/params_short_term.yaml">
+    </node>
+
+    <!--camera_gui-->
+    <param name="robot_description"
+    command="$(find xacro)/xacro --inorder '$(find sherpa_ros)/description/camera_gui/camera_gui.xacro'" />
+
+    <node name="camera_gui_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model camera_gui -param robot_description"/>
+
+    <!-- Combine joint values -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+
+
+    <!-- Combine joint values -->
+    <node name="camera_gui_manager" pkg="sherpa_ros" type="camera_gui_manager"/>
+
+    <arg name="vertical_obst_1" default="vertical_obst_1"/>
+    <arg name="vertical_obst_2" default="vertical_obst_2"/>
+    <arg name="vertical_obst_3" default="vertical_obst_3"/>
+    <arg name="vertical_obst_4" default="vertical_obst_4"/>
+    <arg name="vertical_obst_5" default="vertical_obst_5"/>
+    <arg name="vertical_obst_6" default="vertical_obst_6"/>
+    <arg name="vertical_obst_7" default="vertical_obst_7"/>
+
+    <node name="spawn_$(arg vertical_obst_1)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_1.urdf
+         -urdf
+         -model $(arg vertical_obst_1)"
+        respawn="false" output="screen">
+    </node>
+
+    <node name="spawn_$(arg vertical_obst_2)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_2.urdf
+         -urdf
+         -model $(arg vertical_obst_2)"
+        respawn="false" output="screen">
+    </node>
+
+    <node name="spawn_$(arg vertical_obst_3)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_3.urdf
+         -urdf
+         -model $(arg vertical_obst_3)"
+        respawn="false" output="screen">
+    </node>
+
+    <node name="spawn_$(arg vertical_obst_4)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_4.urdf
+         -urdf
+         -model $(arg vertical_obst_4)"
+        respawn="false" output="screen">
+    </node>
+
+    <node name="spawn_$(arg vertical_obst_5)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_5.urdf
+         -urdf
+         -model $(arg vertical_obst_5)"
+        respawn="false" output="screen">
+    </node>
+
+    <node name="spawn_$(arg vertical_obst_6)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_6.urdf
+         -urdf
+         -model $(arg vertical_obst_6)"
+        respawn="false" output="screen">
+    </node>
+
+    <node name="spawn_$(arg vertical_obst_7)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_7.urdf
+         -urdf
+         -model $(arg vertical_obst_7)"
+        respawn="false" output="screen">
+    </node>
+
+
+</launch>

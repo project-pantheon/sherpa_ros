@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
   ros::NodeHandle akrm;
   //ros::Publisher value_pub = akrm.advertise<geometry_msgs::Twist>("sherpa/akrm_cmd", 10);
   SubToAckermannCmd sub_akrm;
-  ros::Subscriber vel_gamma = akrm.subscribe("sherpa/akrm_cmd", 10, &SubToAckermannCmd::AckermannSubCallback, &sub_akrm);
+  ros::Subscriber vel_gamma = akrm.subscribe("/base/base_pad/cmd_vel", 10, &SubToAckermannCmd::AckermannSubCallback, &sub_akrm);
   
   ros::Publisher left_steer_pub = akrm.advertise<std_msgs::Float64>("sherpa/left_steering_controller/command", 10);
   ros::Publisher right_steer_pub = akrm.advertise<std_msgs::Float64>("sherpa/right_steering_controller/command",10);
