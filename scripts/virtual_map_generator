@@ -1,0 +1,89 @@
+#!/bin/bash
+
+source /opt/ros/$ROS_DISTRO/setup.bash
+source ~/lab_ws/devel/setup.bash
+
+
+directory_start=${PWD}
+
+echo "Answer the next questions:"
+
+roscd sherpa_ros
+
+echo
+echo -n "How many rows do you want use? "
+read num_row
+
+echo
+echo -n "How many cols do you want use? "
+read num_col
+
+echo
+echo -n "How much distance between rows? "
+read dist_row
+
+echo
+echo -n "How much distance between cols? "
+read dist_col
+
+#origin tree point
+X_origin=`expr $dist_row/2`
+Y_origin=`expr $dist_col/2`
+Z=0
+
+cnt=1
+
+
+rm launch/virtual_map_generated.launch
+rm scripts/virtual_map_points.csv
+
+#gen tree map
+echo "<?xml version=\"1.0\"?>
+<launch>
+" >> launch/virtual_map_generated.launch
+
+for (( i=0; i<num_row; i++ ))
+do
+    Y=$(( X_origin+dist_row*i ))
+
+    for (( j=0; j<num_col; j++ ))
+    do
+        X=$(( Y_origin+dist_col*j ))
+
+        echo "
+    <!-- vertical_obst $cnt -->
+    <arg name=\"vertical_obst_$cnt\" default=\"vertical_obst_$cnt\"/>
+
+    <node name=\"spawn_\$(arg vertical_obst_$cnt)\" pkg=\"gazebo_ros\" type=\"spawn_model\"
+        args=\"-file \$(find rvb_mpc)/models/vertical_obst.urdf -urdf
+               -model \$(arg vertical_obst_$cnt)
+               -x $X -y $Y -z $Z\"
+        respawn=\"false\" output=\"screen\">
+    </node>
+
+" >> launch/virtual_map_generated.launch
+
+        cnt=$(( cnt+1 ))
+    done
+done
+
+echo "</launch>" >> launch/virtual_map_generated.launch
+
+# gen points
+cnt=1
+for (( i=0; i<=num_row; i++ ))
+do
+    coord_y=$(( dist_row*i ))
+
+    for (( j=0; j<=num_col; j++ ))
+    do
+        coord_x=$(( dist_col*j ))
+        echo -e "$coord_x,$coord_y,$cnt">> scripts/virtual_map_points.csv
+
+        cnt=$(( cnt+1 ))
+    done
+done
+
+
+
+cd $directory_start

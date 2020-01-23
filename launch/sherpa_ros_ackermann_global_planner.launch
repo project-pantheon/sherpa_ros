@@ -85,62 +85,7 @@
     <!-- Combine joint values -->
     <node name="camera_gui_manager" pkg="sherpa_ros" type="camera_gui_manager"/>
 
-    <arg name="vertical_obst_1" default="vertical_obst_1"/>
-    <arg name="vertical_obst_2" default="vertical_obst_2"/>
-    <arg name="vertical_obst_3" default="vertical_obst_3"/>
-    <arg name="vertical_obst_4" default="vertical_obst_4"/>
-    <arg name="vertical_obst_5" default="vertical_obst_5"/>
-    <arg name="vertical_obst_6" default="vertical_obst_6"/>
-    <arg name="vertical_obst_7" default="vertical_obst_7"/>
-
-    <node name="spawn_$(arg vertical_obst_1)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_1.urdf
-         -urdf
-         -model $(arg vertical_obst_1)"
-        respawn="false" output="screen">
-    </node>
-
-    <node name="spawn_$(arg vertical_obst_2)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_2.urdf
-         -urdf
-         -model $(arg vertical_obst_2)"
-        respawn="false" output="screen">
-    </node>
-
-    <node name="spawn_$(arg vertical_obst_3)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_3.urdf
-         -urdf
-         -model $(arg vertical_obst_3)"
-        respawn="false" output="screen">
-    </node>
-
-    <node name="spawn_$(arg vertical_obst_4)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_4.urdf
-         -urdf
-         -model $(arg vertical_obst_4)"
-        respawn="false" output="screen">
-    </node>
-
-    <node name="spawn_$(arg vertical_obst_5)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_5.urdf
-         -urdf
-         -model $(arg vertical_obst_5)"
-        respawn="false" output="screen">
-    </node>
-
-    <node name="spawn_$(arg vertical_obst_6)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_6.urdf
-         -urdf
-         -model $(arg vertical_obst_6)"
-        respawn="false" output="screen">
-    </node>
-
-    <node name="spawn_$(arg vertical_obst_7)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_7.urdf
-         -urdf
-         -model $(arg vertical_obst_7)"
-        respawn="false" output="screen">
-    </node>
+    <include file="$(find sherpa_ros)/launch/virtual_map_generated.launch"/>
 
 
 </launch>
