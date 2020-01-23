@@ -68,7 +68,7 @@ do
     <arg name=\"vertical_obst_$cnt\" default=\"vertical_obst_$cnt\"/>
 q
     <node name=\"spawn_\$(arg vertical_obst_$cnt)\" pkg=\"gazebo_ros\" type=\"spawn_model\"
-        args=\"-file \$(env HOME)/.gazebo/models/oak_tree_transparent/model.sdf -sdf
+        args=\"-file \$(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model \$(arg vertical_obst_$cnt)
                -x $X -y $Y -z $Z -Y $cnt\"
         respawn=\"false\" output=\"screen\">
