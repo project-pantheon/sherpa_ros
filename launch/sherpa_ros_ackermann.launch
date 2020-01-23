@@ -28,7 +28,6 @@
     </include>
 
 
-
     <!-- Combine joint values-->
     <group ns="sherpa"> 
 
@@ -46,20 +45,16 @@
         <param name="tf_prefix" value="sherpa"/>
         <arg name="robot_name" default="sherpa"/>
         <param name="robot_description" command="$(find xacro)/xacro.py '$(find sherpa_ros)/description/urdf/sherpa_ros_ackermann.xacro'" />
+        
+        <node name="sherpa_ros_urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x) -y $(arg y) -Y $(arg Y)"/>
 
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
             <remap from="/joint_states" to="/sherpa/joint_states" />
         </node>
-        
-        <node name="sherpa_ros_urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x) -y $(arg y) -Y $(arg Y)"/>
 
     </group>
 
-    <!-- <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 1 /map /odom 100" />   -->
-
-
     <node name="akrm_cmd" pkg="sherpa_ros" type="sherpa_ros_node"/> 
-    <!-- <node name="mid_cont" pkg="sherpa_ros" type="sherpa_mid_cont_node"/> -->
     <node name="map_manager" pkg="sherpa_ros" type="map_manager_node"/>
   
    <include file="$(find rm3_ackermann_controller)/launch/ackermann_controller.launch">
@@ -72,19 +67,7 @@
           args="$(find rvb_mpc)/parameters/params_short_term.yaml">
     </node>
 
-    <!--camera_gui-->
-    <param name="robot_description"
-    command="$(find xacro)/xacro --inorder '$(find sherpa_ros)/description/camera_gui/camera_gui.xacro'" />
-
-    <node name="camera_gui_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model camera_gui -param robot_description"/>
-
-    <!-- Combine joint values -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
-
-
-    <!-- Combine joint values -->
-    <node name="camera_gui_manager" pkg="sherpa_ros" type="camera_gui_manager"/>
-
+    <!-- Obstacles in ICRA Paper -->
     <arg name="vertical_obst_1" default="vertical_obst_1"/>
     <arg name="vertical_obst_2" default="vertical_obst_2"/>
     <arg name="vertical_obst_3" default="vertical_obst_3"/>
@@ -92,55 +75,148 @@
     <arg name="vertical_obst_5" default="vertical_obst_5"/>
     <arg name="vertical_obst_6" default="vertical_obst_6"/>
     <arg name="vertical_obst_7" default="vertical_obst_7"/>
+    <arg name="vertical_obst_8" default="vertical_obst_8"/>
+    <arg name="vertical_obst_9" default="vertical_obst_9"/>
+    <arg name="vertical_obst_10" default="vertical_obst_10"/>
+    <arg name="vertical_obst_11" default="vertical_obst_11"/>
+    <arg name="vertical_obst_12" default="vertical_obst_12"/>
+    <arg name="dynamic_obstacle" default="dynamic_obstacle"/>
 
     <node name="spawn_$(arg vertical_obst_1)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_1.urdf
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
          -urdf
+         -x 1
+         -y 2.5
+         -z 0
          -model $(arg vertical_obst_1)"
         respawn="false" output="screen">
     </node>
 
     <node name="spawn_$(arg vertical_obst_2)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_2.urdf
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
          -urdf
+         -x 4
+         -y 2.5
+         -z 0
          -model $(arg vertical_obst_2)"
         respawn="false" output="screen">
     </node>
 
     <node name="spawn_$(arg vertical_obst_3)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_3.urdf
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
          -urdf
+         -x 7
+         -y 2.5
+         -z 0
          -model $(arg vertical_obst_3)"
         respawn="false" output="screen">
     </node>
 
-    <node name="spawn_$(arg vertical_obst_4)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_4.urdf
+        <node name="spawn_$(arg vertical_obst_4)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
          -urdf
+         -x 10
+         -y 2.5
+         -z 0
          -model $(arg vertical_obst_4)"
         respawn="false" output="screen">
     </node>
 
+
     <node name="spawn_$(arg vertical_obst_5)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_5.urdf
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
          -urdf
+         -x 1
+         -y -2
+         -z 0
          -model $(arg vertical_obst_5)"
         respawn="false" output="screen">
     </node>
 
     <node name="spawn_$(arg vertical_obst_6)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_6.urdf
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
          -urdf
+         -x 4
+         -y -2
+         -z 0
          -model $(arg vertical_obst_6)"
         respawn="false" output="screen">
     </node>
 
     <node name="spawn_$(arg vertical_obst_7)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find rvb_mpc)/models/vertical_obst_7.urdf
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
          -urdf
+         -x 7
+         -y -2
+         -z 0
          -model $(arg vertical_obst_7)"
         respawn="false" output="screen">
     </node>
 
+        <node name="spawn_$(arg vertical_obst_8)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
+         -urdf
+         -x 10
+         -y -2
+         -z 0
+         -model $(arg vertical_obst_8)"
+        respawn="false" output="screen">
+    </node>
+
+        <node name="spawn_$(arg vertical_obst_9)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
+         -urdf
+         -x 1
+         -y -6.5
+         -z 0
+         -model $(arg vertical_obst_9)"
+        respawn="false" output="screen">
+    </node>
+
+    <node name="spawn_$(arg vertical_obst_10)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
+         -urdf
+         -x 4
+         -y -6.5
+         -z 0
+         -model $(arg vertical_obst_10)"
+        respawn="false" output="screen">
+    </node>
+
+    <node name="spawn_$(arg vertical_obst_11)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
+         -urdf
+         -x 7
+         -y -6.5
+         -z 0
+         -model $(arg vertical_obst_11)"
+        respawn="false" output="screen">
+    </node>
+
+        <node name="spawn_$(arg vertical_obst_12)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_obst_macro.urdf
+         -urdf
+         -x 10
+         -y -6.5
+         -z 0
+         -model $(arg vertical_obst_12)"
+        respawn="false" output="screen">
+    </node>
+
+
+    <node name="spawn_$(arg dynamic_obstacle)" pkg="gazebo_ros" type="spawn_model"
+        args="-file $(find rvb_mpc)/models/vertical_dynamic_obst_macro.urdf
+         -urdf
+         -x -10
+         -y -10
+         -z 0
+         -model $(arg dynamic_obstacle)"
+        respawn="false" output="screen">
+    </node>
+
+
+
+    <!-- Combine joint values -->
+    <!--node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/-->
 
 </launch>

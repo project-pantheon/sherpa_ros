@@ -36,12 +36,12 @@ int main(int argc, char** argv){
   ros::NodeHandle n;
   
   GetGroundTruth gt_sub;
-  ros::Subscriber sub = n.subscribe("/odom_gps",10, &GetGroundTruth::Callback, &gt_sub);
+  ros::Subscriber sub = n.subscribe("/odom",10, &GetGroundTruth::Callback, &gt_sub);
 
   //Building the topic string
   std::stringstream st;
 //  std::string first_part("/sherpa");
-  std::string second_part("/odom_gps");
+  std::string second_part("/odom");
 
 
   //Ros rate
@@ -66,7 +66,7 @@ int main(int argc, char** argv){
       broadcaster.sendTransform(
       tf::StampedTransform(
         tf::Transform(tf::Quaternion(gt_sub.quatx, gt_sub.quaty, gt_sub.quatz, gt_sub.quatw), tf::Vector3(gt_sub.x, gt_sub.y, gt_sub.z)),
-        ros::Time::now(),"/odom_gps", "sherpa/base_link"));
+        ros::Time::now(),"/odom", "sherpa/base_link"));
  /*   
     //Connect odom frame to base_footprint frame
       broadcaster.sendTransform(
