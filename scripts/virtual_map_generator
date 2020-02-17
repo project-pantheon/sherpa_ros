@@ -55,7 +55,7 @@ do
     <arg name=\"vertical_obst_$cnt\" default=\"vertical_obst_$cnt\"/>
 
     <node name=\"spawn_\$(arg vertical_obst_$cnt)\" pkg=\"gazebo_ros\" type=\"spawn_model\"
-        args=\"-file \$(find rvb_mpc)/models/vertical_obst.urdf -urdf
+        args=\"-file \$(find rvb_mpc)/models/vertical_obst_macro.urdf -urdf
                -model \$(arg vertical_obst_$cnt)
                -x $X -y $Y -z $Z\"
         respawn=\"false\" output=\"screen\">
