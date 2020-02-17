@@ -30,7 +30,7 @@
 
 
     <!-- Combine joint values-->
-    <group ns="sherpa"> 
+<!--    <group ns="sherpa"> -->
 
         <!-- Gui Parameter -->
         <param name="use_gui" value="false"/>
@@ -48,12 +48,12 @@
         <param name="robot_description" command="$(find xacro)/xacro.py '$(find sherpa_ros)/description/urdf/sherpa_ros_ackermann.xacro'" />
 
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
-            <remap from="/joint_states" to="/sherpa/joint_states" />
+            <remap from="/joint_states" to="joint_states" />
         </node>
         
         <node name="sherpa_ros_urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x) -y $(arg y) -Y $(arg Y)"/>
 
-    </group>
+<!--    </group>-->
 
     <!-- <node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 1 /map /odom 100" />   -->
 
@@ -72,18 +72,18 @@
           args="$(find rvb_mpc)/parameters/params_short_term.yaml">
     </node>
 
-    <!--camera_gui-->
+    <!--camera_gui
     <param name="robot_description"
-    command="$(find xacro)/xacro --inorder '$(find sherpa_ros)/description/camera_gui/camera_gui.xacro'" />
+    command="$(find xacro)/xacro - -inorder '$(find sherpa_ros)/description/camera_gui/camera_gui.xacro'" />
 
-    <node name="camera_gui_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model camera_gui -param robot_description"/>
-
-    <!-- Combine joint values -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
-
+    <node name="camera_gui_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model camera_gui -param robot_description"/>-->
 
     <!-- Combine joint values -->
-    <node name="camera_gui_manager" pkg="sherpa_ros" type="camera_gui_manager"/>
+<!--    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>-->
+
+
+    <!-- Combine joint values -->
+<!--    <node name="camera_gui_manager" pkg="sherpa_ros" type="camera_gui_manager"/>-->
 
     <include file="$(find sherpa_ros)/launch/virtual_map_generated.launch"/>
 

@@ -147,6 +147,7 @@ catkin_package(
  add_executable(${PROJECT_NAME}_node src/akrm_cmd.cpp)
  add_executable(sherpa_mid_cont_node src/mid_cont.cpp)
  add_executable(sherpa_omni_cmd_node src/omni_cmd.cpp)
+ add_executable(sherpa_omni-ackermann_cmd_node src/omni-ackermann_cmd.cpp)
  add_executable(map_manager_node src/map_manager.cpp)
  add_executable(navigation_goal_node src/navigation_goal.cpp)
  add_executable(spray_target_server_node src/spray_target_server.cpp)
@@ -166,6 +167,7 @@ catkin_package(
  add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
  add_dependencies(sherpa_mid_cont_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
  add_dependencies(sherpa_omni_cmd_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(sherpa_omni-ackermann_cmd_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
  add_dependencies(map_manager_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS}) 
  add_dependencies(navigation_goal_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS}) 
  add_dependencies(spray_target_server_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -186,6 +188,8 @@ catkin_package(
  )
  
  target_link_libraries(sherpa_omni_cmd_node ${catkin_LIBRARIES})
+
+ target_link_libraries(sherpa_omni-ackermann_cmd_node ${catkin_LIBRARIES})
 
 #       Map manager node     #
   target_link_libraries(${PROJECT_NAME}_node

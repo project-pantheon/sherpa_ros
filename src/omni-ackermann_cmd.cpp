@@ -40,13 +40,20 @@ int main(int argc, char** argv) {
   SubToAckermannCmd sub_akrm;
   ros::Subscriber vel_gamma = akrm.subscribe("/base/base_pad/cmd_vel", 10, &SubToAckermannCmd::AckermannSubCallback, &sub_akrm);
   
-  ros::Publisher left_steer_pub = akrm.advertise<std_msgs::Float64>("left_steering_controller/command", 10);
-  ros::Publisher right_steer_pub = akrm.advertise<std_msgs::Float64>("right_steering_controller/command",10);
+  ros::Publisher left_front_steer_pub = akrm.advertise<std_msgs::Float64>("left_front_steering_controller/command", 10);
+  ros::Publisher right_front_steer_pub = akrm.advertise<std_msgs::Float64>("right_front_steering_controller/command", 10);
+  ros::Publisher left_rear_steer_pub = akrm.advertise<std_msgs::Float64>("left_rear_steering_controller/command", 10);
+  ros::Publisher right_rear_steer_pub = akrm.advertise<std_msgs::Float64>("right_rear_steering_controller/command", 10);
+ 
 
   ros::Publisher left_front_axle_pub = akrm.advertise<std_msgs::Float64>("left_front_axle_controller/command", 10);
   ros::Publisher right_front_axle_pub = akrm.advertise<std_msgs::Float64>("right_front_axle_controller/command", 10);
   ros::Publisher left_rear_axle_pub = akrm.advertise<std_msgs::Float64>("left_rear_axle_controller/command", 10);
   ros::Publisher right_rear_axle_pub = akrm.advertise<std_msgs::Float64>("right_rear_axle_controller/command", 10);
+
+
+
+
 
   double h = 1.335;
   double w = 0.855;
@@ -63,8 +70,11 @@ int main(int argc, char** argv) {
   double gamma_sx, gamma_dx;
   
   /* ros message initialization */
-  std_msgs::Float64 lt_gamma;
-  std_msgs::Float64 rt_gamma;
+  std_msgs::Float64 lf_gamma;
+  std_msgs::Float64 rf_gamma;
+  std_msgs::Float64 lr_gamma;
+  std_msgs::Float64 rr_gamma;
+
   std_msgs::Float64 input_velocity;
   std_msgs::Float64 lf_vel;           /* left front wheel velocity   */
   std_msgs::Float64 rf_vel;           /* right front wheel velocity  */
@@ -90,8 +100,10 @@ int main(int argc, char** argv) {
     gamma_dx = atan2(h,(R + sign(gamma)*h/2))*sign(gamma);
 
     
-    lt_gamma.data = gamma_sx;
-    rt_gamma.data = gamma_dx;
+    lf_gamma.data = gamma_sx;
+    rf_gamma.data = gamma_dx;
+    lr_gamma.data = 0;
+    rr_gamma.data = 0;
     
     
     input_velocity.data = sub_akrm.velocity;
@@ -126,8 +138,10 @@ int main(int argc, char** argv) {
     }
     
     /* Publishing data for the steering_angle */
-    left_steer_pub.publish(lt_gamma);
-    right_steer_pub.publish(rt_gamma);
+    left_front_steer_pub.publish(lf_gamma);
+    right_front_steer_pub.publish(rf_gamma);
+    left_rear_steer_pub.publish(lr_gamma);
+    right_rear_steer_pub.publish(rr_gamma);
     
     /* Publishing data for the axle velocity */
     left_front_axle_pub.publish(lf_vel);

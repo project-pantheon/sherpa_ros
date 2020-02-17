@@ -83,7 +83,7 @@
   <joint name="base_link_to_chassis" type="fixed">
     <parent link="base_link"/>
     <child link="chassis"/>
-    <origin xyz="0 0 0"/>
+    <origin xyz="0.667 0 0"/>
   </joint>
   
   <!-- Chassis -->
@@ -143,24 +143,22 @@
   
 <!-- Include sherpa_wheel.xacro file -->
   
-<xacro:include filename="sherpa_wheel_omni.xacro"/>
-<xacro:include filename="torso.xacro"/>
-<xacro:include filename="gun.xacro"/>
+<xacro:include filename="sherpa_wheel_omni-ackermann.xacro"/>
+<xacro:include filename="torso_omni-ackermann.xacro"/>
+<xacro:include filename="gun_omni-ackermann.xacro"/>
   <gazebo>
 
 
     <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>50.0</updateRate>
+      <updateRate>100.0</updateRate>
       <bodyName>base_link</bodyName>
-      <topicName>/odom_gps</topicName>
+      <topicName>odom_gps</topicName>
       <gaussianNoise>0.00</gaussianNoise>
-      <frameName>map</frameName>
+      <frameName>/map</frameName>
       <xyzOffsets>0 0 0</xyzOffsets>
       <rpyOffsets>0 0 0</rpyOffsets>
     </plugin>
-
-
 
 <!-- ros_control plugin -->
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">

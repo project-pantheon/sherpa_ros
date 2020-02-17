@@ -8,7 +8,7 @@ q
     <node name="spawn_$(arg vertical_obst_1)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_1)
-               -x 2 -y 2 -z -0.3 -Y 1"
+               -x 2.50000 -y 2.50000 -z -0.3 -Y 1"
         respawn="false" output="screen">
     </node>
 
@@ -20,7 +20,7 @@ q
     <node name="spawn_$(arg vertical_obst_2)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_2)
-               -x 7 -y 2 -z -0.3 -Y 2"
+               -x 7.50000 -y 2.50000 -z -0.3 -Y 2"
         respawn="false" output="screen">
     </node>
 
@@ -32,7 +32,7 @@ q
     <node name="spawn_$(arg vertical_obst_3)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_3)
-               -x 12 -y 2 -z -0.3 -Y 3"
+               -x 12.50000 -y 2.50000 -z -0.3 -Y 3"
         respawn="false" output="screen">
     </node>
 
@@ -44,7 +44,7 @@ q
     <node name="spawn_$(arg vertical_obst_4)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_4)
-               -x 17 -y 2 -z -0.3 -Y 4"
+               -x 17.50000 -y 2.50000 -z -0.3 -Y 4"
         respawn="false" output="screen">
     </node>
 
@@ -56,7 +56,7 @@ q
     <node name="spawn_$(arg vertical_obst_5)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_5)
-               -x 22 -y 2 -z -0.3 -Y 5"
+               -x 22.50000 -y 2.50000 -z -0.3 -Y 5"
         respawn="false" output="screen">
     </node>
 
@@ -68,7 +68,7 @@ q
     <node name="spawn_$(arg vertical_obst_6)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_6)
-               -x 27 -y 2 -z -0.3 -Y 6"
+               -x 27.50000 -y 2.50000 -z -0.3 -Y 6"
         respawn="false" output="screen">
     </node>
 
@@ -80,7 +80,7 @@ q
     <node name="spawn_$(arg vertical_obst_7)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_7)
-               -x 32 -y 2 -z -0.3 -Y 7"
+               -x 2.50000 -y 7.50000 -z -0.3 -Y 7"
         respawn="false" output="screen">
     </node>
 
@@ -92,7 +92,7 @@ q
     <node name="spawn_$(arg vertical_obst_8)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_8)
-               -x 2 -y 7 -z -0.3 -Y 8"
+               -x 7.50000 -y 7.50000 -z -0.3 -Y 8"
         respawn="false" output="screen">
     </node>
 
@@ -104,7 +104,7 @@ q
     <node name="spawn_$(arg vertical_obst_9)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_9)
-               -x 7 -y 7 -z -0.3 -Y 9"
+               -x 12.50000 -y 7.50000 -z -0.3 -Y 9"
         respawn="false" output="screen">
     </node>
 
@@ -116,7 +116,7 @@ q
     <node name="spawn_$(arg vertical_obst_10)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_10)
-               -x 12 -y 7 -z -0.3 -Y 10"
+               -x 17.50000 -y 7.50000 -z -0.3 -Y 10"
         respawn="false" output="screen">
     </node>
 
@@ -128,7 +128,7 @@ q
     <node name="spawn_$(arg vertical_obst_11)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_11)
-               -x 17 -y 7 -z -0.3 -Y 11"
+               -x 22.50000 -y 7.50000 -z -0.3 -Y 11"
         respawn="false" output="screen">
     </node>
 
@@ -140,7 +140,7 @@ q
     <node name="spawn_$(arg vertical_obst_12)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_12)
-               -x 22 -y 7 -z -0.3 -Y 12"
+               -x 27.50000 -y 7.50000 -z -0.3 -Y 12"
         respawn="false" output="screen">
     </node>
 
@@ -152,7 +152,7 @@ q
     <node name="spawn_$(arg vertical_obst_13)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_13)
-               -x 27 -y 7 -z -0.3 -Y 13"
+               -x 2.50000 -y 12.50000 -z -0.3 -Y 13"
         respawn="false" output="screen">
     </node>
 
@@ -164,7 +164,7 @@ q
     <node name="spawn_$(arg vertical_obst_14)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_14)
-               -x 32 -y 7 -z -0.3 -Y 14"
+               -x 7.50000 -y 12.50000 -z -0.3 -Y 14"
         respawn="false" output="screen">
     </node>
 
@@ -176,7 +176,7 @@ q
     <node name="spawn_$(arg vertical_obst_15)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_15)
-               -x 2 -y 12 -z -0.3 -Y 15"
+               -x 12.50000 -y 12.50000 -z -0.3 -Y 15"
         respawn="false" output="screen">
     </node>
 
@@ -188,7 +188,7 @@ q
     <node name="spawn_$(arg vertical_obst_16)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_16)
-               -x 7 -y 12 -z -0.3 -Y 16"
+               -x 17.50000 -y 12.50000 -z -0.3 -Y 16"
         respawn="false" output="screen">
     </node>
 
@@ -200,7 +200,7 @@ q
     <node name="spawn_$(arg vertical_obst_17)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_17)
-               -x 12 -y 12 -z -0.3 -Y 17"
+               -x 22.50000 -y 12.50000 -z -0.3 -Y 17"
         respawn="false" output="screen">
     </node>
 
@@ -212,7 +212,7 @@ q
     <node name="spawn_$(arg vertical_obst_18)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_18)
-               -x 17 -y 12 -z -0.3 -Y 18"
+               -x 27.50000 -y 12.50000 -z -0.3 -Y 18"
         respawn="false" output="screen">
     </node>
 
@@ -224,7 +224,7 @@ q
     <node name="spawn_$(arg vertical_obst_19)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_19)
-               -x 22 -y 12 -z -0.3 -Y 19"
+               -x 2.50000 -y 17.50000 -z -0.3 -Y 19"
         respawn="false" output="screen">
     </node>
 
@@ -236,7 +236,7 @@ q
     <node name="spawn_$(arg vertical_obst_20)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_20)
-               -x 27 -y 12 -z -0.3 -Y 20"
+               -x 7.50000 -y 17.50000 -z -0.3 -Y 20"
         respawn="false" output="screen">
     </node>
 
@@ -248,7 +248,7 @@ q
     <node name="spawn_$(arg vertical_obst_21)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_21)
-               -x 32 -y 12 -z -0.3 -Y 21"
+               -x 12.50000 -y 17.50000 -z -0.3 -Y 21"
         respawn="false" output="screen">
     </node>
 
@@ -260,7 +260,7 @@ q
     <node name="spawn_$(arg vertical_obst_22)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_22)
-               -x 2 -y 17 -z -0.3 -Y 22"
+               -x 17.50000 -y 17.50000 -z -0.3 -Y 22"
         respawn="false" output="screen">
     </node>
 
@@ -272,7 +272,7 @@ q
     <node name="spawn_$(arg vertical_obst_23)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_23)
-               -x 7 -y 17 -z -0.3 -Y 23"
+               -x 22.50000 -y 17.50000 -z -0.3 -Y 23"
         respawn="false" output="screen">
     </node>
 
@@ -284,7 +284,7 @@ q
     <node name="spawn_$(arg vertical_obst_24)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_24)
-               -x 12 -y 17 -z -0.3 -Y 24"
+               -x 27.50000 -y 17.50000 -z -0.3 -Y 24"
         respawn="false" output="screen">
     </node>
 
@@ -296,7 +296,7 @@ q
     <node name="spawn_$(arg vertical_obst_25)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_25)
-               -x 17 -y 17 -z -0.3 -Y 25"
+               -x 2.50000 -y 22.50000 -z -0.3 -Y 25"
         respawn="false" output="screen">
     </node>
 
@@ -308,7 +308,7 @@ q
     <node name="spawn_$(arg vertical_obst_26)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_26)
-               -x 22 -y 17 -z -0.3 -Y 26"
+               -x 7.50000 -y 22.50000 -z -0.3 -Y 26"
         respawn="false" output="screen">
     </node>
 
@@ -320,7 +320,7 @@ q
     <node name="spawn_$(arg vertical_obst_27)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_27)
-               -x 27 -y 17 -z -0.3 -Y 27"
+               -x 12.50000 -y 22.50000 -z -0.3 -Y 27"
         respawn="false" output="screen">
     </node>
 
@@ -332,7 +332,7 @@ q
     <node name="spawn_$(arg vertical_obst_28)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_28)
-               -x 32 -y 17 -z -0.3 -Y 28"
+               -x 17.50000 -y 22.50000 -z -0.3 -Y 28"
         respawn="false" output="screen">
     </node>
 
@@ -344,7 +344,7 @@ q
     <node name="spawn_$(arg vertical_obst_29)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_29)
-               -x 2 -y 22 -z -0.3 -Y 29"
+               -x 22.50000 -y 22.50000 -z -0.3 -Y 29"
         respawn="false" output="screen">
     </node>
 
@@ -356,7 +356,7 @@ q
     <node name="spawn_$(arg vertical_obst_30)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_30)
-               -x 7 -y 22 -z -0.3 -Y 30"
+               -x 27.50000 -y 22.50000 -z -0.3 -Y 30"
         respawn="false" output="screen">
     </node>
 
@@ -368,7 +368,7 @@ q
     <node name="spawn_$(arg vertical_obst_31)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_31)
-               -x 12 -y 22 -z -0.3 -Y 31"
+               -x 2.50000 -y 27.50000 -z -0.3 -Y 31"
         respawn="false" output="screen">
     </node>
 
@@ -380,7 +380,7 @@ q
     <node name="spawn_$(arg vertical_obst_32)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_32)
-               -x 17 -y 22 -z -0.3 -Y 32"
+               -x 7.50000 -y 27.50000 -z -0.3 -Y 32"
         respawn="false" output="screen">
     </node>
 
@@ -392,7 +392,7 @@ q
     <node name="spawn_$(arg vertical_obst_33)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_33)
-               -x 22 -y 22 -z -0.3 -Y 33"
+               -x 12.50000 -y 27.50000 -z -0.3 -Y 33"
         respawn="false" output="screen">
     </node>
 
@@ -404,7 +404,7 @@ q
     <node name="spawn_$(arg vertical_obst_34)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_34)
-               -x 27 -y 22 -z -0.3 -Y 34"
+               -x 17.50000 -y 27.50000 -z -0.3 -Y 34"
         respawn="false" output="screen">
     </node>
 
@@ -416,7 +416,7 @@ q
     <node name="spawn_$(arg vertical_obst_35)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_35)
-               -x 32 -y 22 -z -0.3 -Y 35"
+               -x 22.50000 -y 27.50000 -z -0.3 -Y 35"
         respawn="false" output="screen">
     </node>
 
@@ -428,163 +428,7 @@ q
     <node name="spawn_$(arg vertical_obst_36)" pkg="gazebo_ros" type="spawn_model"
         args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
                -model $(arg vertical_obst_36)
-               -x 2 -y 27 -z -0.3 -Y 36"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 37 -->
-    <arg name="vertical_obst_37" default="vertical_obst_37"/>
-q
-    <node name="spawn_$(arg vertical_obst_37)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_37)
-               -x 7 -y 27 -z -0.3 -Y 37"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 38 -->
-    <arg name="vertical_obst_38" default="vertical_obst_38"/>
-q
-    <node name="spawn_$(arg vertical_obst_38)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_38)
-               -x 12 -y 27 -z -0.3 -Y 38"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 39 -->
-    <arg name="vertical_obst_39" default="vertical_obst_39"/>
-q
-    <node name="spawn_$(arg vertical_obst_39)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_39)
-               -x 17 -y 27 -z -0.3 -Y 39"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 40 -->
-    <arg name="vertical_obst_40" default="vertical_obst_40"/>
-q
-    <node name="spawn_$(arg vertical_obst_40)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_40)
-               -x 22 -y 27 -z -0.3 -Y 40"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 41 -->
-    <arg name="vertical_obst_41" default="vertical_obst_41"/>
-q
-    <node name="spawn_$(arg vertical_obst_41)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_41)
-               -x 27 -y 27 -z -0.3 -Y 41"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 42 -->
-    <arg name="vertical_obst_42" default="vertical_obst_42"/>
-q
-    <node name="spawn_$(arg vertical_obst_42)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_42)
-               -x 32 -y 27 -z -0.3 -Y 42"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 43 -->
-    <arg name="vertical_obst_43" default="vertical_obst_43"/>
-q
-    <node name="spawn_$(arg vertical_obst_43)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_43)
-               -x 2 -y 32 -z -0.3 -Y 43"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 44 -->
-    <arg name="vertical_obst_44" default="vertical_obst_44"/>
-q
-    <node name="spawn_$(arg vertical_obst_44)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_44)
-               -x 7 -y 32 -z -0.3 -Y 44"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 45 -->
-    <arg name="vertical_obst_45" default="vertical_obst_45"/>
-q
-    <node name="spawn_$(arg vertical_obst_45)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_45)
-               -x 12 -y 32 -z -0.3 -Y 45"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 46 -->
-    <arg name="vertical_obst_46" default="vertical_obst_46"/>
-q
-    <node name="spawn_$(arg vertical_obst_46)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_46)
-               -x 17 -y 32 -z -0.3 -Y 46"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 47 -->
-    <arg name="vertical_obst_47" default="vertical_obst_47"/>
-q
-    <node name="spawn_$(arg vertical_obst_47)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_47)
-               -x 22 -y 32 -z -0.3 -Y 47"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 48 -->
-    <arg name="vertical_obst_48" default="vertical_obst_48"/>
-q
-    <node name="spawn_$(arg vertical_obst_48)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_48)
-               -x 27 -y 32 -z -0.3 -Y 48"
-        respawn="false" output="screen">
-    </node>
-
-
-
-    <!-- vertical_obst 49 -->
-    <arg name="vertical_obst_49" default="vertical_obst_49"/>
-q
-    <node name="spawn_$(arg vertical_obst_49)" pkg="gazebo_ros" type="spawn_model"
-        args="-file $(find sherpa_ros)/model/oak_tree_transparent/model.sdf -sdf
-               -model $(arg vertical_obst_49)
-               -x 32 -y 32 -z -0.3 -Y 49"
+               -x 27.50000 -y 27.50000 -z -0.3 -Y 36"
         respawn="false" output="screen">
     </node>
 

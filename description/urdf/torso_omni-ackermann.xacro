@@ -1,0 +1,637 @@
+<?xml version="1.0"?>
+
+<!-- Sherpa -->
+
+<robot name ="arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Arm Parameters -->
+
+<!-- lift_gun properties --> <!-- represents the total block lift -->
+<xacro:property name="lg_x" value="0.168109"/>
+<xacro:property name="lg_y" value="0.13725"/>
+<xacro:property name="lg_z" value="0.9420"/>
+<xacro:property name="lg_origin_x" value="${cb_x+cb_x/2+lg_x/2}"/> <!-- Origin wrt chassis' frame -->
+<xacro:property name="lg_origin_y" value="0"/>
+<xacro:property name="lg_origin_z" value="${cb_origin_z}"/> <!-- Height of the top of the chassis wrt ground -->
+
+<!-- lift_rail properties -->
+<xacro:property name="lr_x" value="0.07735"/>
+<xacro:property name="lr_y" value="0.13725"/>
+<xacro:property name="lr_z" value="0.9420"/>
+<xacro:property name="lr_origin_x" value="${cb_origin_x+cb_x/2+lr_x/2}"/> <!-- Origin wrt chassis' frame -->
+<xacro:property name="lr_origin_y" value="0"/>
+<xacro:property name="lr_origin_z" value="${cb_origin_z}"/> <!-- Height of the top of the chassis wrt ground -->
+
+<!-- lift_first_part properties -->
+<xacro:property name="lfp_x" value="0.04569"/>
+<xacro:property name="lfp_y" value="0.13725"/>
+<xacro:property name="lfp_z" value="0.9420"/>
+<xacro:property name="lfp_origin_x" value="${lr_x/2+lfp_x/2}"/> <!-- Origin wrt rail's frame -->
+<xacro:property name="lfp_origin_y" value="0"/>
+<xacro:property name="lfp_origin_z" value="0"/>
+
+<!-- lift_second_part properties -->
+<xacro:property name="lsp_x" value="0.04507"/>
+<xacro:property name="lsp_y" value="0.13725"/>
+<xacro:property name="lsp_z" value="0.9420"/>
+<xacro:property name="lsp_origin_x" value="${lfp_x/2+lsp_x/2}"/> <!-- Origin wrt lift first part's frame -->
+<xacro:property name="lsp_origin_y" value="0"/>
+<xacro:property name="lsp_origin_z" value="0"/>
+
+<!-- disk_gun properties --> <!-- Rotationa dof -->
+<xacro:property name="dg_r" value="${lsp_x}"/>
+<xacro:property name="dg_l" value="0.085"/>
+<xacro:property name="dg_origin_x" value="0"/> <!-- Origin wrt disk support's frame -->
+<xacro:property name="dg_origin_y" value="0"/>
+<xacro:property name="dg_origin_z" value="${ds_z}"/>
+
+<!-- pan properties -->
+<xacro:property name="pan_x" value="0.980915"/>
+<xacro:property name="pan_y" value="0.07"/>
+<xacro:property name="pan_z" value="0.04291"/>
+<xacro:property name="pan_origin_x" value="0"/> <!-- Origin wrt disk gun's frame -->
+<xacro:property name="pan_origin_y" value="0"/>
+<xacro:property name="pan_origin_z" value="${dg_l}"/>
+
+<!-- gun_support properties -->
+<xacro:property name="gs_x" value="0.045"/>
+<xacro:property name="gs_y" value="0.035"/>
+<xacro:property name="gs_z" value="0.12"/>
+<xacro:property name="gs_origin_x" value="${pan_x/2-gs_x/2}"/> <!-- Origin wrt pan's frame -->
+<xacro:property name="gs_origin_y" value="${gs_y/2}"/>
+<xacro:property name="gs_origin_z" value="${pan_z}"/>
+
+<!-- gun properties -->
+<xacro:property name="g_r" value="0.01"/>
+<xacro:property name="g_l" value="0.2"/>
+<xacro:property name="g_origin_x" value="0"/> <!-- Origin wrt gun support's frame -->
+<xacro:property name="g_origin_y" value="${-gs_y/2-g_r}"/>
+<xacro:property name="g_origin_z" value="0.1"/>
+
+
+<!-- Lift Rail -->
+<joint name="chassis_to_lift_rail" type="fixed">
+    <parent link="chassis"/>
+    <child link="lift_rail"/>
+    <origin xyz="${lr_origin_x} ${lr_origin_y} ${lr_origin_z}"/>
+</joint>
+
+<link name="lift_rail">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 ${lr_z/2}"/>
+      <geometry>
+        <box size="${lr_x} ${lr_y} ${lr_z}"/>
+      </geometry>
+     </visual>
+     
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 ${lr_z/2}"/>
+      <geometry>
+        <box size="${lr_x*2} ${lr_y*2} ${lr_z}"/>
+      </geometry>
+    </collision>
+     
+    <inertial> 
+      <origin rpy="0 0 0" xyz="0 0 ${lr_z/2}" />
+      <mass value="1" />
+      <box_inertia  m="1" h="${lr_x}" w ="${lr_y}" d="${lr_z}"/>
+    </inertial>
+</link>
+<gazebo reference="lift_rail"><material>Gazebo/White</material></gazebo>
+
+
+<!-- Lift First Part -->
+<joint name="lift_rail_to_lift_first_part" type="prismatic">
+    <parent link="lift_rail"/>
+    <child link="lift_first_part"/>
+    <origin xyz="${lfp_origin_x} ${lfp_origin_y} ${lfp_origin_z}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000" lower="0" upper="${lr_z}" velocity="0.1"/>
+</joint>
+
+<link name="lift_first_part">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 ${lfp_z/2}"/>
+      <geometry>
+        <box size="${lfp_x} ${lfp_y} ${lfp_z}"/>
+      </geometry>
+     </visual>
+     
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 ${lfp_z/2}"/>
+      <geometry>
+        <box size="${lfp_x*2} ${lfp_y*2} ${lfp_z}"/>
+      </geometry>
+    </collision>
+     
+    <inertial> 
+      <origin rpy="0 0 0" xyz="0 0 ${lfp_z/2}" />
+      <mass value="1" />
+      <box_inertia  m="10" h="${lfp_x}" w ="${lfp_y}" d="${lfp_z}"/>
+    </inertial>
+</link>
+<gazebo reference="lift_first_part"><material>Gazebo/Grey</material></gazebo>
+
+
+<!-- Lift Second Part -->
+<joint name="lift_first_part_to_lift_second_part" type="prismatic">
+    <parent link="lift_first_part"/>
+    <child link="lift_second_part"/>
+    <origin xyz="${lsp_origin_x} ${lsp_origin_y} ${lsp_origin_z}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000" lower="0" upper="${lfp_z}" velocity="0.1"/>
+</joint>
+
+<link name="lift_second_part">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 ${lsp_z/2}"/>
+      <geometry>
+        <box size="${lsp_x} ${lsp_y} ${lsp_z}"/>
+      </geometry>
+     </visual>
+     
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 ${lsp_z/2}"/>
+      <geometry>
+        <box size="${lsp_x*2} ${lsp_y*2} ${lsp_z}"/>
+      </geometry>
+    </collision>
+     
+    <inertial> 
+      <origin rpy="0 0 0" xyz="0 0 ${lsp_z/2}" />
+      <mass value="1" />
+      <box_inertia  m="10" h="${lsp_x}" w ="${lsp_y}" d="${lsp_z}"/>
+    </inertial>
+</link>
+<gazebo reference="lift_second_part"><material>Gazebo/Black</material></gazebo>
+
+
+<!-- Disk support -->
+<joint name="lift_second_part_to_disk_support" type="fixed">
+    <parent link="lift_second_part"/>
+    <child link="disk_support"/>
+    <origin xyz="${ds_origin_x} ${ds_origin_y} ${ds_origin_z}"/>
+</joint>
+
+<link name="disk_support">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 ${ds_z/2}"/>
+      <geometry>
+        <box size="${ds_x} ${ds_y} ${ds_z}"/>
+      </geometry>
+     </visual>
+     
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 ${ds_z/2}"/>
+      <geometry>
+        <box size="${ds_x*2} ${ds_y*2} ${ds_z}"/>
+      </geometry>
+    </collision>
+     
+    <inertial> 
+      <origin rpy="0 0 0" xyz="0 0 ${ds_z/2}" />
+      <mass value="0.1" />
+      <box_inertia  m="1" h="${ds_x}" w ="${ds_y}" d="${ds_z}"/>
+    </inertial>
+</link>
+<gazebo reference="disk_support"><material>Gazebo/Black</material></gazebo>
+
+
+<!-- Disk gun -->
+<joint name="disk_support_to_disk_gun" type="fixed">
+    <parent link="disk_support"/>
+    <child link="disk_gun"/>
+    <origin xyz="${dg_origin_x} ${dg_origin_y} ${dg_origin_z}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1" lower="-3.1415" upper="3.1415" velocity="0.5"/>
+</joint>
+
+<link name="disk_gun">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 ${dg_l/2}"/> 
+      <geometry>
+        <cylinder length="${dg_l}" radius="${dg_r}"/>
+      </geometry>
+     </visual>
+     
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 ${dg_l/2}"/> 
+      <geometry>
+        <cylinder length="${dg_l}" radius="${dg_r}"/>
+      </geometry>
+    </collision>
+     
+    <inertial> 
+      <origin rpy="0 0 0" xyz="0 0 ${dg_l/2}"/> 
+      <mass value="1" />
+      <cylinder_inertia m="1" r="${dg_r}" h="${dg_l}"/>
+    </inertial>
+</link>
+<gazebo reference="disk_gun"><material>Gazebo/White</material></gazebo>
+
+<!-- Pan -->
+<joint name="torso_pantilt_pan_joint" type="revolute">
+    <parent link="disk_gun"/>
+    <child link="torso_pantilt_pan_link"/>
+    <origin xyz="0.0 0.0 ${dg_l}" rpy="0 0 0.0"/>
+     <axis xyz="0.0 0.0 -1"/>
+	<limit effort="100" lower="-3.1415" upper="3.1415" velocity="0.4"/>
+</joint>
+
+<link name="torso_pantilt_pan_link">
+    <visual>
+      <origin rpy="0.0 0.0 ${PI}" xyz="0.0 0.0 ${pan_z/2}"/>
+      <geometry>
+        <box size="${pan_x} ${pan_y} ${pan_z}"/>
+      </geometry>
+     </visual>
+     
+    <inertial> 
+      <origin rpy="0.0 0.0 ${PI}" xyz="0 0 ${pan_z/2}"/>
+      <mass value="1" />
+      <box_inertia  m="1" h="${pan_x}" w ="${pan_y}" d="${pan_z}"/>
+    </inertial>
+</link>
+<gazebo reference="torso_pantilt_pan_link"><material>Gazebo/Grey</material></gazebo>
+<!-- GPS -->
+	
+	<joint name="gps_support_joint" type="fixed">
+		<parent link="gps"/>
+		<child link="gps_support"/>
+		<origin xyz="0.0 0.0 -0.15" rpy="0 0 0"/>
+	</joint>
+	
+	<link name="gps_support">
+		
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+        			<cylinder radius="0.0090" length="0.30"/>
+			</geometry>
+		</visual>
+		
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="0.50" />
+	    		<cylinder_inertia m="0.50" r="0.0090" h="0.30"/>
+		</inertial>
+			
+	</link>
+	
+	<gazebo reference="gps_support"><material>Gazebo/Black</material></gazebo>
+	
+    <!-- TODO ____________________________________________________________________________________________ TODO   -->
+	<joint name="gps_joint" type="fixed">
+		<parent link="base_link"/>
+		<child link="gps"/>
+		<origin xyz="1.3879 -0.09320 1.0160" rpy="0 0 0"/>
+	</joint>
+	
+	<link name="gps">
+		
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+        			<cylinder radius="0.090" length="0.040"/>
+			</geometry>
+		</visual>
+		
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="0.50" />
+	    		<cylinder_inertia m="0.50" r="0.090" h="0.040"/>
+		</inertial>
+			
+	</link>
+
+<!-- FARO -->
+	
+	<joint name="faro_revolute_joint" type="fixed">
+		<parent link="torso_pantilt_pan_link"/>
+		<child link="faro"/>
+		<origin xyz="0.42830 -0.00930 -0.21110" rpy="0 0 ${PI}"/>
+	</joint>
+	
+	<link name="faro">
+		
+		<visual>
+			<origin xyz="-0.38 0.00530 0.13230" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="package://sherpa_ros/description/meshes/faro.dae" />
+			</geometry>
+		</visual>
+		
+		<inertial>
+
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+
+			<mass value="1.0" />
+			<box_inertia  m="1.0" h="0.10" w ="0.20" d="0.150"/>
+		</inertial>	
+	</link>
+	
+	<gazebo reference="faro"><material>Gazebo/Grey</material></gazebo>
+	
+<!-- Gimball -->
+
+	<joint name="arm_yaw_joint" type="fixed">
+		<parent link="torso_pantilt_pan_link"/>
+		<child link="support_yaw"/>
+		<origin xyz="-0.45470 0 -${0.15180/2} " rpy="0 0 0"/>
+	</joint>
+	
+
+	<link name="support_yaw">
+		
+		<visual>
+			<origin xyz="+0.4547 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="package://sherpa_ros/description/meshes/gimbal_support_yaw.dae" />
+			</geometry>
+		</visual>
+		
+		<inertial>
+			<mass value="1.0" />
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<box_inertia  m="1.0" h="0.040" w ="0.040" d="0.15180"/>
+		</inertial>	
+	</link>
+	<gazebo reference="support_yaw"><material>Gazebo/Grey</material></gazebo>	
+	
+	<joint name="gimbal_yaw_joint" type="revolute">
+		<parent link="torso_pantilt_pan_link"/>
+		<child link="gimbal_yaw_link"/>
+		<origin xyz="-0.45580 0.01290 -0.14820" rpy="0 0 0"/>
+		<axis xyz="0 0 -1"/>
+		<limit effort="30.0" velocity="50.0" lower="-${3.14}" upper="${3.14}"/>
+	</joint>
+	
+	<link name="gimbal_yaw_link">
+		
+		<visual>
+			<origin xyz="0.45470 0 0.08180" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="package://sherpa_ros/description/meshes/gimbal_yaw.dae" />
+			</geometry>
+		</visual>
+		
+		<inertial>
+			<mass value="1.0" />
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<box_inertia  m="1.0" h="0.340" w ="0.050" d="0.020"/>
+		</inertial>	
+	</link>
+	
+	<gazebo reference="gimbal_yaw_link"><material>Gazebo/Grey</material></gazebo>
+
+	<joint name="gimbal_roll_joint" type="revolute">
+		<parent link="gimbal_yaw_link"/>
+		<child link="gimbal_roll_link"/>
+		<origin xyz="0.14220 -0.00680 -0.14330" rpy="0.0 0.0 0.0"/>
+		<axis xyz="1.0 0.0 0.0"/>
+		<limit effort="30.0" velocity="50.0" lower="-${PI/2}" upper="${PI/2}"/>
+	</joint>
+	
+	<link name="gimbal_roll_link">
+		
+		<visual>
+			<origin xyz="0.310 0.0050 0.220" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<mesh filename="package://sherpa_ros/description/meshes/gimbal_roll.dae" />
+			</geometry>
+		</visual>
+		
+		<inertial>
+			<mass value="2.0" />
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+			<box_inertia  m="1.0" h="0.20" w ="0.340" d="0.050"/>
+		</inertial>
+			
+	</link>
+	
+	<gazebo reference="gimbal_roll_link"><material>Gazebo/Grey</material></gazebo>	
+	
+	<joint name="gimbal_pitch_joint" type="revolute">
+		<parent link="gimbal_roll_link"/>
+		<child link="gimbal_pitch_link"/>
+		<origin xyz="-0.18120 -0.13220 -0.00340" rpy="0.0 0.0 0.0"/>
+		<axis xyz="0.0 -1 0.0"/>
+		<limit effort="30.0" velocity="50.0" lower="-${PI/2}" upper="${PI/2}"/>
+	</joint>
+	
+	
+	<link name="gimbal_pitch_link">
+		
+		<visual>
+			<origin xyz="-0.480 0.13780 0.21850" rpy="0.0 0.0 ${PI}"/>
+			<geometry>
+				<mesh filename="package://sherpa_ros/description/meshes/gimbal_pitch.dae" />
+			</geometry>
+		</visual>
+		
+		<inertial>
+			<mass value="1.0"/>
+			<origin xyz="0.0 0.140 0.0" rpy="0.0 0.0 0.0"/>
+			<box_inertia  m="1.0" h="0.0050" w ="0.20" d="0.190"/>
+		</inertial>	
+	</link>
+	<gazebo reference="gimbal_pitch_link"><material>Gazebo/Grey</material></gazebo>	
+	
+	
+	<joint name="camera_joint" type="fixed">
+		<parent link="gimbal_pitch_link"/>
+		<child link="camera"/>
+		<origin xyz="0.02040 0.14450 -0.00710" rpy="0.0 0.0 0.0"/>
+	</joint>
+	
+	
+	<link name="camera">
+		
+		<visual>
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<box size="0.020 0.020 0.020"/>
+			</geometry>
+		</visual>
+		
+		<inertial>
+			<mass value="1.0" />
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+			<box_inertia  m="1.0" h="0.020" w ="0.020" d="0.020"/>
+		</inertial>
+			
+	</link>
+	
+	<joint name="micasense_joint" type="fixed">
+		<parent link="gimbal_pitch_link"/>
+		<child link="micasense"/>
+		<origin xyz="0.11540 0.14610 0.06410" rpy="0.0 0.0 0.0"/>
+	</joint>
+	
+	
+	<link name="micasense">
+		
+		<visual>
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+			<geometry>
+				<box size="0.020 0.020 0.020"/>
+			</geometry>
+		</visual>
+		
+		<inertial>
+			<mass value="1.0" />
+			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+			<box_inertia  m="1.0" h="0.020" w ="0.020" d="0.020"/>
+		</inertial>
+			
+	</link>
+	
+	
+<!-- IMU -->
+	<joint name="imu_joint" type="fixed">
+		<parent link="base_link"/>
+		<child link="imu"/>
+		<origin xyz="1.212 -0.08840 0.6970" rpy="0 0 0"/>
+	</joint>
+	
+	<link name="imu">
+		
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="0.040 0.040 0.030"/>
+			</geometry>
+		</visual>
+		
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="0.10" />
+			<box_inertia  m="0.10" h="0.040" w ="0.040" d="0.030"/>
+		</inertial>
+			
+	</link>
+	
+	<!-- Velodye -->
+	<joint name="velodyne_joint" type="fixed">
+		<parent link="base_link"/>
+		<child link="velodyne"/>
+		<origin xyz="1.5485 0.08320 0.3334" rpy="0 0 0"/> <!-- Inserire inclinazione del velodyne -->
+	</joint>
+	
+	<link name="velodyne">
+		
+		<visual>
+			<origin xyz="0.00170 -0.07440 0.11750" rpy="0 0 0"/> 
+			<geometry>
+        			<cylinder radius="0.08" length="0.080"/>
+			</geometry>
+		</visual>
+		
+		<inertial>
+			<origin xyz="0.00170 0.07440 0.11750" rpy="0 0 0"/> 
+			<mass value="0.830" />
+	    		<cylinder_inertia m="0.830" r="0.080" h="0.080"/>
+		</inertial>
+			
+	</link>
+
+<!--
+	<link name="velodyne_cover">
+		<visual>
+			<geometry>
+				<mesh filename="package://velodyne_description/meshes/VLP16_base_1.dae" />
+			</geometry>
+			<origin xyz="0 0 0" />
+		</visual>
+		<visual>
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_base_2.dae" />
+        </geometry>
+      </visual>
+
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="0.83" />
+			<inertia ixx="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" ixy="0" ixz="0"
+          iyy="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" iyz="0"
+          izz="${0.5 * 0.83 * (0.0516*0.0516)}"/>
+		</inertial>
+		
+		<collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.0516" length="0.0717"/>
+        </geometry>
+      </collision>
+    	</link>
+    	
+    	
+    	<joint name="$base_scan_joint" type="fixed" >
+      <origin xyz="0 0 0.0377" rpy="0 0 0" />
+      <parent link="velodyne_cover" />
+      <child link="velodyne"/>
+    </joint>
+
+    <link name="velodyne">
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 -0.0377" />
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
+        </geometry>
+      </visual>
+    </link>
+    	
+	
+	
+
+	<gazebo reference="velodyne">
+		<sensor type="ray" name="VLP16">
+			<pose>0 0 0 0 0 0</pose>
+			<visualize>false</visualize>
+			<update_rate>10</update_rate>
+			<ray>
+				<scan>
+						<horizontal>
+							<samples>360</samples>
+							<resolution>1</resolution>
+							<min_angle>-${PI}</min_angle>
+							<max_angle> ${PI}</max_angle>
+						</horizontal>
+					<vertical>
+						<samples>16</samples>
+						<resolution>1</resolution>
+						<min_angle>-${15.0*PI/180.0}</min_angle>
+						<max_angle> ${15.0*PI/180.0}</max_angle>
+					</vertical>
+				</scan>
+				<range>
+					<min>0.3</min>
+					<max>131.0</max>
+					<resolution>0.001</resolution>
+				</range>
+				<noise>
+					<type>gaussian</type>
+					<mean>0.0</mean>
+					<stddev>0.0</stddev>
+				</noise>
+			</ray>
+			
+			<plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_velodyne_laser.so">
+				<topicName>velodyne</topicName>
+				<frameName>velodyne</frameName>
+				<min_range>1.0</min_range>
+				<max_range>140.0</max_range>
+				<gaussianNoise>0.008</gaussianNoise>
+			</plugin>
+		</sensor>
+	</gazebo>
+	-->
+	
+
+<xacro:include filename="arm_transmission.xacro"/>
+</robot>

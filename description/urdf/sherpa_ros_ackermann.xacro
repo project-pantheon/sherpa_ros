@@ -4,8 +4,10 @@
 
 <robot name ="sherpa" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<!-- Parameters -->
-<xacro:property name="PI" value="3.1415926535897931"/>
+
+
+  <!-- Parameters -->
+  <xacro:property name="PI" value="3.1415926535897931"/>
 
   <!-- Chassis Property -->
   <xacro:property name="chassis_x" value="0.8275"/>
@@ -229,7 +231,6 @@
   </gazebo>
 
   <xacro:include filename="sensors.xacro"/>
-
 
 </robot>
 

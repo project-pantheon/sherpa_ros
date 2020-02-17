@@ -7,11 +7,15 @@ from std_srvs.srv import Empty, EmptyResponse
 import csv
 import math
 import numpy
+import time
 
 
-global pub, path, enable_global_planner, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, new_waypoint
+global pub, path, enable_global_planner, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, new_waypoint, tour_filename
 
 path='/home/renzo/lab_ws/src/sherpa_ros/scripts/'
+tour_filename='tour'
+origin_x=0
+origin_y=0
 
 enable_global_planner = False
 new_waypoint = True
@@ -25,7 +29,7 @@ def updateWaypointFromTour():
     if new_waypoint :
         i=0
         for elem in map_coordinates:
-            if elem[2] == waypoint_coordinates[waypoint_id]:
+            if elem[2] == waypoint_coordinates[waypoint_id][0]:
                 waypoint.x=map_coordinates[i][0]
                 waypoint.y=map_coordinates[i][1]
                 if waypoint_id>0 :
@@ -35,7 +39,30 @@ def updateWaypointFromTour():
                 new_waypoint = False
                 break
             i=i+1
+
+def check_go2origin(a):
     
+    global prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, enable_global_planner, new_waypoint, tour_filename
+
+    if waypoint_id+1==max_waypoint_id and enable_global_planner :
+        # update waypoint and dist
+        waypoint.x=origin_x
+        waypoint.y=origin_y
+        waypoint.z=math.atan2(waypoint.y-prev_waypoint.y, waypoint.x-prev_waypoint.x)
+        b = numpy.array((waypoint.x, waypoint.y))
+        dist = numpy.linalg.norm(a-b)
+
+        print "-----"
+        print "dist: ", dist
+        print "real_waypoint_ID: ", waypoint_id
+        print "x=", origin_x, ", y=", origin_y
+        print "Waypoint: \n", waypoint
+        print "Position: \n", a
+
+        if dist<=threshold :
+            enable_global_planner = False
+            print "global_planner end: dist=", dist
+
 
 def runGlobalPlannerService(call):
 
@@ -49,7 +76,7 @@ def runGlobalPlannerService(call):
 
 def odomCallback(odomData):
 
-    global prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, enable_global_planner, new_waypoint
+    global prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, enable_global_planner, new_waypoint, tour_filename
 
     # distance
     a = numpy.array((odomData.pose.pose.position.x, odomData.pose.pose.position.y))
@@ -59,24 +86,46 @@ def odomCallback(odomData):
     # check distance
     if waypoint_id+1<max_waypoint_id and enable_global_planner :
         if dist<=threshold :
-            if waypoint_id>0 :
-                prev_waypoint.x = waypoint.x
-                prev_waypoint.y = waypoint.y
-                prev_waypoint.z = waypoint.z
-            waypoint_id=waypoint_id+1
-            new_waypoint = True
+
+            if waypoint_coordinates[waypoint_id][1] == 1:
+                #lock scanning operations
+                #scanning calls here
+                time.sleep(10)
+                #set scanning done
+                waypoint_coordinates[waypoint_id][1]=0
+            else:
+                if waypoint_id>0 :
+                    prev_waypoint.x = waypoint.x
+                    prev_waypoint.y = waypoint.y
+                    prev_waypoint.z = waypoint.z
+                waypoint_id=waypoint_id+1
+                new_waypoint = True
 
     updateWaypointFromTour()
+    check_go2origin(a)
 
-    print "-----"
+"""    print "-----"
+    print "tour: ", tour_filename
     print "Waypoint_ID: ", waypoint_id+1
     print "Waypoint: \n", waypoint
-    print "Position: \n", odomData.pose.pose.position
+    print "Position: \n", odomData.pose.pose.position """
     
 
 def global_planner():
 
-    global pub, path, enable_global_planner, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates
+    global pub, path, enable_global_planner, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, tour_filename, origin_x, origin_y
+
+    #ROS init
+    rospy.init_node('global_planner', anonymous=True)
+
+    if rospy.has_param('~tour'):
+        tour_filename=rospy.get_param('~tour')
+
+    if rospy.has_param('~origin_x'):
+        origin_x=rospy.get_param('~origin_x')
+
+    if rospy.has_param('~origin_y'):
+        origin_y=rospy.get_param('~origin_y')
 
     #map
     with open(path+'virtual_map_points.csv', 'rb') as csvfile:
@@ -92,21 +141,20 @@ def global_planner():
         i=i+1
 
     #tour
-    with open(path+'tour.csv', 'rb') as csvfile:
+    with open(path+tour_filename+'.csv', 'rb') as csvfile:
         tourData = list(csv.reader(csvfile))
 
     #cast tour to float
-    waypoint_coordinates = [[0 for x in range(1)] for y in range(len(tourData))]
+    waypoint_coordinates = [[0 for x in range(2)] for y in range(len(tourData))]
     i=0
     for elem in tourData:
-        waypoint_coordinates[i] = float(elem[0])
+        waypoint_coordinates[i][0] = float(elem[0])
+        waypoint_coordinates[i][1] = float(elem[1])
         i=i+1
 
     #set last waypoint
     max_waypoint_id= len(tourData)
 
-    #ROS init
-    rospy.init_node('global_planner', anonymous=True)
     waypoint=Point()
     prev_waypoint=Point()
     pub = rospy.Publisher('/waypoint', Point, queue_size=1)
