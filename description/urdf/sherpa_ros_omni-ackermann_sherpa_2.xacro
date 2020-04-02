@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+
+<!-- Sherpa -->
+
+<robot name ="sherpa" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="velodyne_enabled" default="false"/>
+
+  <!-- Parameters -->
+  <xacro:property name="PI" value="3.1415926535897931"/>
+
+  <!-- Chassis Property -->
+  <xacro:property name="chassis_x" value="0.8275"/>
+  <xacro:property name="chassis_y" value="0.4825"/>
+  <xacro:property name="chassis_z" value="0.4530"/>
+  <xacro:property name="chassis_field_height" value="0.6065"/>
+  <xacro:property name="mass" value="100.0"/>
+  
+  <!-- Cable Box Property -->
+  <xacro:property name="cb_x" value="0.06"/>
+  <xacro:property name="cb_y" value="0.175"/>
+  <xacro:property name="cb_z" value="0.55"/>
+  <xacro:property name="cb_origin_x" value="-0.5675"/> <!-- Origin wrt to chassis' frame -->
+  <xacro:property name="cb_origin_y" value="0"/>
+  <xacro:property name="cb_origin_z" value="0.833"/> <!-- Height of the top of the chassis wrt ground -->
+
+  <!-- Wheel Parameters -->
+  <xacro:property name="wheel_radius" value="0.16"/>
+  <xacro:property name="wheel_width" value="0.11"/>
+  
+  <!-- Box Inertia -->
+    	<xacro:macro name="box_inertia" params="m h w d">
+		<inertia 	ixx="${m*(w*w+d*d)/12}" ixy = "0" ixz = "0"
+							iyy="${m*(d*d+h*h)/12}" iyz = "0"
+							izz="${m*(w*w+h*h)/12}" />
+	</xacro:macro>
+
+ <!-- World Link 
+  <link name="world">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 -1"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+-->
+
+ <!-- World 
+   <joint name="world_2_base_link" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0"/>
+  </joint>
+-->
+
+
+  <!-- Base Link -->
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.001"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 ${chassis_field_height}"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint name="base_link_to_chassis" type="fixed">
+    <parent link="base_link"/>
+    <child link="chassis"/>
+    <origin xyz="0.667 0 0"/>
+  </joint>
+  
+  <!-- Chassis -->
+  <link name="chassis">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 ${chassis_field_height}"/>
+      <geometry>
+        <box size="${chassis_x*2} ${chassis_y*2} ${chassis_z}"/>
+      </geometry>
+     </visual>
+     
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 ${chassis_field_height}"/>
+      <geometry>
+        <box size="${chassis_x*2} ${chassis_y*2} ${chassis_z}"/>
+      </geometry>
+    </collision>
+     
+    <inertial> 
+	    <origin rpy="0 0 0" xyz="0 0 ${chassis_field_height}" />
+	    <mass value="${mass}" />
+      <box_inertia  m="${mass}" h="${chassis_x*2}" w ="${chassis_y*2}" d="${chassis_z}"/>
+	  </inertial>
+  </link>
+  <gazebo reference="chassis"><material>Gazebo/Sherpa_2</material></gazebo>
+    
+
+  <!-- Cable Box -->
+  <joint name="cb_to_chassis" type="fixed">
+    <parent link="chassis"/>
+    <child link="cable_box"/>
+    <origin xyz="-0.5675 0 0.833"/>
+  </joint>
+  
+  <link name="cable_box">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 ${cb_z/2}"/>
+      <geometry>
+        <box size="${cb_x} ${cb_y} ${cb_z}"/>
+      </geometry>
+    </visual>
+    
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 ${cb_z/2}"/>
+      <geometry>
+        <box size="${cb_x} ${cb_y} ${cb_z}"/>
+      </geometry>
+    </collision>
+    
+    <inertial> 
+	    <origin rpy="0 0 0" xyz="0 0 0" />
+	    <mass value="1.0" />
+	    <box_inertia  m="1.0" h="${cb_x}" w ="${cb_y}" d="${cb_z}"/>
+	  </inertial>
+  </link>
+  <gazebo reference="cable_box"><material>Gazebo/Sherpa_2</material></gazebo>
+  
+<!-- Include sherpa_wheel.xacro file -->
+  
+<xacro:include filename="sherpa_wheel_omni-ackermann.xacro"/>
+<xacro:include filename="torso_omni-ackermann.xacro"/>
+<xacro:include filename="gun_omni-ackermann.xacro"/>
+  <gazebo>
+
+
+    <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>100.0</updateRate>
+      <bodyName>base_link</bodyName>
+      <topicName>odom_gps</topicName>
+      <gaussianNoise>0.00</gaussianNoise>
+      <frameName>/map</frameName>
+      <xyzOffsets>0 0 0</xyzOffsets>
+      <rpyOffsets>0 0 0</rpyOffsets>
+    </plugin>
+
+<!-- ros_control plugin -->
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+          <legacyModeNS>true</legacyModeNS>
+          </plugin>
+
+  </gazebo>
+
+</robot>
+
+

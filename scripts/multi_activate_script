@@ -10,11 +10,18 @@ k3: 9.0"
 rosservice call /sherpa_2/set_k "k1: 1.0
 k2: 6.0
 k3: 9.0"
+rosservice call /sherpa_3/set_k "k1: 1.0
+k2: 6.0
+k3: 9.0"
 
 
 rosservice call /sherpa_1/activate_controller "is_active: true"
 rosservice call /sherpa_2/activate_controller "is_active: true" 
+rosservice call /sherpa_3/activate_controller "is_active: true" 
 
 
 rosservice call /sherpa_1/run_global_planner
+sleep 4
 rosservice call /sherpa_2/run_global_planner
+sleep 40
+rosservice call /sherpa_3/run_global_planner

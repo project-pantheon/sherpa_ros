@@ -4,6 +4,7 @@ import rospy
 from geometry_msgs.msg import Point
 from nav_msgs.msg import Odometry
 from std_srvs.srv import Empty, EmptyResponse
+from scanning_controller.srv import ScanningTree, ScanningTreeResponse, ScanningTreeRequest, OffsetSet, OffsetSetResponse, OffsetSetRequest
 import csv
 import math
 import numpy
@@ -14,6 +15,7 @@ global pub, path, enable_global_planner, prev_waypoint, waypoint, waypoint_id, m
 
 path='/home/renzo/lab_ws/src/sherpa_ros/scripts/'
 tour_filename='tour'
+#origin=final position after last waypoint
 origin_x=0
 origin_y=0
 origin_Y=0
@@ -94,9 +96,37 @@ def odomCallback(odomData):
     if waypoint_id+1<max_waypoint_id and enable_global_planner :
         if dist<=threshold :
 
+            # check if scanning action is required
             if waypoint_coordinates[waypoint_id][1] >= 1:
+
                 #lock scanning operations
-                #scanning calls here
+
+                #set scanning end effector position
+                rospy.wait_for_service('/offset_set')
+                try:
+                    offset_set_client = rospy.ServiceProxy('/offset_set', OffsetSet)
+
+                    #calculate offsets
+                    offset1=-2.0
+                    offset2=-0.9
+
+                    resp = offset_set_client(offset1, offset2)
+                except rospy.ServiceException, e:
+                    print "Global Planner: OffsetSet service call failed: %s"%e
+
+                #scanning calls
+                rospy.wait_for_service('/scan_tree')
+                try:
+                    scan_tree_client = rospy.ServiceProxy('/scan_tree', ScanningTree)
+
+                    #calculate (1 front/ 2 rear/ 3 front+rear)
+                    scan_type=1
+
+                    resp = scan_tree_client(scan_type)
+                except rospy.ServiceException, e:
+                    print "Global Planner: ScanningTree service call failed: %s"%e
+
+
                 time.sleep(waypoint_coordinates[waypoint_id][1]*20)
                 #set scanning done
                 waypoint_coordinates[waypoint_id][1]=0
@@ -173,7 +203,7 @@ def global_planner():
 
     pub = rospy.Publisher('/waypoint', Point, queue_size=1)
     rospy.Subscriber("/odom_gps", Odometry, odomCallback)
-    s_print = rospy.Service('run_global_planner', Empty, runGlobalPlannerService)
+    s_glob = rospy.Service('run_global_planner', Empty, runGlobalPlannerService)
 
     #main loop
     rate = rospy.Rate(1)

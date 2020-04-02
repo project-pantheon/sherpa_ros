@@ -13,16 +13,25 @@
     <arg name="robot_1_x" default="0"/>
     <arg name="robot_1_y" default="0"/>
     <arg name="robot_1_Y" default="0"/>
+    <arg name="robot_1_x_end" default="0"/>
+    <arg name="robot_1_y_end" default="-3"/>
+    <arg name="robot_1_Y_end" default="-1.57"/>
 
     <arg name="robot_2" default="sherpa_2"/>
     <arg name="robot_2_x" default="-5"/>
     <arg name="robot_2_y" default="0"/>
     <arg name="robot_2_Y" default="0"/>
+    <arg name="robot_2_x_end" default="-3"/>
+    <arg name="robot_2_y_end" default="-3"/>
+    <arg name="robot_2_Y_end" default="-1.57"/>
 
     <arg name="robot_3" default="sherpa_3"/>
     <arg name="robot_3_x" default="0"/>
     <arg name="robot_3_y" default="-5"/>
     <arg name="robot_3_Y" default="1.57"/>
+    <arg name="robot_3_x_end" default="-6"/>
+    <arg name="robot_3_y_end" default="-3"/>
+    <arg name="robot_3_Y_end" default="-1.57"/>
 
 
     <!-- GAZEBO -->
@@ -136,8 +145,9 @@
 
         <node name="global_planner" pkg="sherpa_ros" type="global_planner_with_virtual_map.py" output="screen">
             <param name="tour" value="tour1" />
-            <param name="origin_x" value="$(arg robot_1_x)" />
-            <param name="origin_y" value="$(arg robot_1_y)" />
+            <param name="origin_x" value="$(arg robot_1_x_end)" />
+            <param name="origin_y" value="$(arg robot_1_y_end)" />
+            <param name="origin_Y" value="$(arg robot_1_Y_end)" />
             <remap from="/waypoint" to="/$(arg robot_1)/waypoint" />
             <remap from="/odom_gps" to="/$(arg robot_1)/odom_gps" />
         </node>
@@ -208,8 +218,9 @@
 
         <node name="global_planner" pkg="sherpa_ros" type="global_planner_with_virtual_map.py" output="screen">
             <param name="tour" value="tour2" />
-            <param name="origin_x" value="$(arg robot_2_x)" />
-            <param name="origin_y" value="$(arg robot_2_y)" />
+            <param name="origin_x" value="$(arg robot_2_x_end)" />
+            <param name="origin_y" value="$(arg robot_2_y_end)" />
+            <param name="origin_Y" value="$(arg robot_2_Y_end)" />
             <remap from="/waypoint" to="/$(arg robot_2)/waypoint" />
             <remap from="/odom_gps" to="/$(arg robot_2)/odom_gps" />
         </node>
@@ -281,8 +292,9 @@
 
         <node name="global_planner" pkg="sherpa_ros" type="global_planner_with_virtual_map.py" output="screen">
             <param name="tour" value="tour3" />
-            <param name="origin_x" value="$(arg robot_3_x)" />
-            <param name="origin_y" value="$(arg robot_3_y)" />
+            <param name="origin_x" value="$(arg robot_3_x_end)" />
+            <param name="origin_y" value="$(arg robot_3_y_end)" />
+            <param name="origin_Y" value="$(arg robot_3_Y_end)" />
             <remap from="/waypoint" to="/$(arg robot_3)/waypoint" />
             <remap from="/odom_gps" to="/$(arg robot_3)/odom_gps" />
         </node>
