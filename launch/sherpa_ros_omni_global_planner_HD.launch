@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- these are the arguments you can pass this launch file -->
+    <arg name="namespace" default="/"/>
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="Y" default="0"/>
+
+    <!-- Parameters for the local planner-->
+    <arg name="random_spawn_dyn_obj" default="false"/>
+    <arg name="random_waypoint_generation" default="false"/>
+
+    <!-- robot -->
+    <arg name="robot_x" default="0"/>
+    <arg name="robot_y" default="0"/>
+    <arg name="robot_Y" default="0"/>
+    <arg name="robot_x_end" default="0"/>
+    <arg name="robot_y_end" default="0"/>
+    <arg name="robot_Y_end" default="0"/>
+
+
+
+
+    <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find sherpa_ros)/worlds/empty.world"/>
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="headless" value="$(arg headless)"/>
+    </include>
+
+
+
+    <!-- Combine joint values-->
+<!--    <group ns="sherpa"> -->
+
+        <!-- Gui Parameter -->
+        <param name="use_gui" value="false"/>
+<!--        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/> -->
+<!--        <rosparam file="$(find sherpa_ros)/description/config/sherpa_controller_omni-ackermann.yaml" command="load" />-->
+        <rosparam file="$(find rm3_sherpa_description)/description/config/sherpa_controller_omni.yaml" command="load" /> 
+
+        <!-- load the controllers -->
+<!--        <node name="controller_spawner" pkg="controller_manager"-->
+<!--        type="spawner" respawn="false"-->
+<!--        output="screen" args="$(find sherpa_ros)/description/config/sherpa_controller_omni-ackermann.yaml"/>-->
+        <node name="controller_spawner" pkg="controller_manager"
+            type="spawner" respawn="false"
+            output="screen" args="$(find rm3_sherpa_description)/description/config/sherpa_controller_omni.yaml"/>
+        
+        <!-- Spawn Robot model -->
+<!--        <param name="tf_prefix" value="sherpa"/>-->
+<!--        <arg name="robot_name" default="sherpa"/>-->
+<!--        <param name="robot_description" command="$(find xacro)/xacro.py '$(find sherpa_ros)/description/urdf/sherpa_ros_omni-ackermann.xacro'" />-->
+        <arg name="tf_prefix" value="rbsherpa_hl_"/>
+        <arg name="robot_name" default="rbsherpa_hl_"/>
+        <param name="robot_description" command="$(find xacro)/xacro.py '$(find rm3_sherpa_description)/description/robots/rm3_sherpa_omni.urdf.xacro' prefix:=$(arg tf_prefix)"/>
+	
+
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+            <remap from="sherpa/joint_states" to="joint_states" />
+        </node>
+        
+        <node name="sherpa_ros_urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x) -y $(arg y) -Y $(arg Y)"/>
+
+        <!-- Gazebo Gimbal>-->
+        <node name="gimbal_gazebo" pkg="rm3_sherpa_description" type="virtual_gimbal.py" />
+        <node name="pan_gazebo" pkg="rm3_sherpa_description" type="virtual_pan.py" />
+
+<!--    </group>-->
+
+
+<!--    <node name="akrm_cmd" pkg="sherpa_ros" type="sherpa_omni-ackermann_cmd_node"/> -->
+    <!-- Kinematic control -->
+    <node name="akrm_cmd" pkg="rm3_sherpa_description" type="omni-ackermann_cmd_node"/> 
+
+
+    <!-- <node name="mid_cont" pkg="sherpa_ros" type="sherpa_mid_cont_node"/> -->
+    <node name="map_manager" pkg="sherpa_ros" type="map_manager_node"/>
+  
+   <include file="$(find rm3_ackermann_controller)/launch/ackermann_controller.launch">
+    <arg name="lyapunov_enable" value="true"/>
+    <arg name="mode" value="5"/>
+    <arg name="error" value="0"/>
+   </include>
+
+    <node name="ibvs_controller_node" pkg="rvb_mpc" type="IBVS_random_controller_node" clear_params="true" output="screen" 
+          args="$(find rvb_mpc)/parameters/params_short_term.yaml">
+    </node>
+
+    <include file="$(find sherpa_ros)/launch/virtual_map_generated.launch"/>
+
+
+    <node name="global_planner" pkg="sherpa_ros" type="global_planner.py" output="screen">
+            <param name="tour" value="tour1" />
+            <param name="origin_x" value="$(arg robot_x_end)" />
+            <param name="origin_y" value="$(arg robot_y_end)" />
+            <param name="origin_Y" value="$(arg robot_Y_end)" />
+<!--            <remap from="/waypoint" to="/$(arg robot)/waypoint" />-->
+<!--            <remap from="/odom_gps" to="/$(arg robot)/odom_gps" />-->
+        </node>
+
+
+
+</launch>

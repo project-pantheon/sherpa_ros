@@ -1,0 +1,14 @@
+#!/bin/bash
+
+source /opt/ros/$ROS_DISTRO/setup.bash
+source ~/lab_ws/devel/setup.bash
+
+
+rosservice call /set_k "k1: 1.0
+k2: 6.0
+k3: 9.0"
+
+rosservice call /activate_controller "is_active: true"
+
+rosservice call /run_global_planner
+

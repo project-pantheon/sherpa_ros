@@ -11,7 +11,7 @@ import numpy
 import time
 
 
-global pub, path, enable_global_planner, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, new_waypoint, tour_filename, origin_x, origin_y, origin_Y
+global pub, path, enable_global_planner, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, new_waypoint, tour_filename, origin_x, origin_y, origin_Y, cnt
 
 path='/home/renzo/lab_ws/src/sherpa_ros/scripts/'
 tour_filename='tour'
@@ -25,6 +25,8 @@ enable_global_planner = False
 new_waypoint = True
 waypoint_id = 0
 threshold=0.1
+
+tmp=1
 
 def updateWaypointFromTour():
 
@@ -85,7 +87,7 @@ def runGlobalPlannerService(call):
 
 def odomCallback(odomData):
 
-    global prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, enable_global_planner, new_waypoint, tour_filename
+    global prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, enable_global_planner, new_waypoint, tour_filename, tmp
 
     # distance
     a = numpy.array((odomData.pose.pose.position.x, odomData.pose.pose.position.y))
@@ -100,6 +102,8 @@ def odomCallback(odomData):
             if waypoint_coordinates[waypoint_id][1] >= 1:
 
                 #lock scanning operations
+
+                #avvia richiesta action
 
                 #set scanning end effector position
                 rospy.wait_for_service('/offset_set')
@@ -120,14 +124,21 @@ def odomCallback(odomData):
                     scan_tree_client = rospy.ServiceProxy('/scan_tree', ScanningTree)
 
                     #calculate (1 front/ 2 rear/ 3 front+rear)
-                    scan_type=1
+                    #scan_type=1
+
+                    #loop for can only one time one tree
+                    scan_type=tmp
+                    if tmp == 1:
+                        tmp=2
+                    else:
+                        tmp=2
 
                     resp = scan_tree_client(scan_type)
                 except rospy.ServiceException, e:
                     print "Global Planner: ScanningTree service call failed: %s"%e
 
 
-                time.sleep(waypoint_coordinates[waypoint_id][1]*20)
+                time.sleep(waypoint_coordinates[waypoint_id][1]*45)
                 #set scanning done
                 waypoint_coordinates[waypoint_id][1]=0
             else:
