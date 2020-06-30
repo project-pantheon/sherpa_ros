@@ -11,7 +11,7 @@ import numpy
 import time
 
 
-global pub, path, enable_global_planner, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, new_waypoint, tour_filename, origin_x, origin_y, origin_Y, cnt
+global pub, path, enable_task_manager, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, new_waypoint, tour_filename, origin_x, origin_y, origin_Y, cnt
 
 path='/home/renzo/lab_ws/src/sherpa_ros/scripts/'
 tour_filename='tour'
@@ -21,7 +21,7 @@ origin_y=0
 origin_Y=0
 origin_orientation= False
 
-enable_global_planner = False
+enable_task_manager = False
 new_waypoint = True
 waypoint_id = 0
 threshold=0.1
@@ -48,9 +48,9 @@ def updateWaypointFromTour():
 
 def check_go2origin(a):
     
-    global prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, enable_global_planner, new_waypoint, tour_filename, origin_orientation, origin_x, origin_y, origin_Y
+    global prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, enable_task_manager, new_waypoint, tour_filename, origin_orientation, origin_x, origin_y, origin_Y
 
-    if waypoint_id+1==max_waypoint_id and enable_global_planner :
+    if waypoint_id+1==max_waypoint_id and enable_task_manager :
         # update waypoint and dist
         waypoint.x=origin_x
         waypoint.y=origin_y
@@ -71,23 +71,23 @@ def check_go2origin(a):
         print "Position: \n", a
 
         if dist<=threshold :
-            enable_global_planner = False
-            print "global_planner end: dist=", dist
+            enable_task_manager = False
+            print "task_manager end: dist=", dist
 
 
-def runGlobalPlannerService(call):
+def runTaskManagerService(call):
 
-    global enable_global_planner
+    global enable_task_manager
 
-    enable_global_planner = True
-    print "global_planner service called"
+    enable_task_manager = True
+    print "task_manager service called"
 
     return EmptyResponse()
 
 
 def odomCallback(odomData):
 
-    global prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, enable_global_planner, new_waypoint, tour_filename, tmp
+    global prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, enable_task_manager, new_waypoint, tour_filename, tmp
 
     # distance
     a = numpy.array((odomData.pose.pose.position.x, odomData.pose.pose.position.y))
@@ -95,7 +95,7 @@ def odomCallback(odomData):
     dist = numpy.linalg.norm(a-b)
 
     # check distance
-    if waypoint_id+1<max_waypoint_id and enable_global_planner :
+    if waypoint_id+1<max_waypoint_id and enable_task_manager :
         if dist<=threshold :
 
             # check if scanning action is required
@@ -116,7 +116,7 @@ def odomCallback(odomData):
 
                     resp = offset_set_client(offset1, offset2)
                 except rospy.ServiceException, e:
-                    print "Global Planner: OffsetSet service call failed: %s"%e
+                    print "Task Manager: OffsetSet service call failed: %s"%e
 
                 #scanning calls
                 rospy.wait_for_service('/scan_tree')
@@ -124,21 +124,22 @@ def odomCallback(odomData):
                     scan_tree_client = rospy.ServiceProxy('/scan_tree', ScanningTree)
 
                     #calculate (1 front/ 2 rear/ 3 front+rear)
-                    #scan_type=1
+#                    scan_type=1
 
-                    #loop for can only one time one tree
+#                    #loop for can only one time one tree
                     scan_type=tmp
                     if tmp == 1:
                         tmp=2
                     else:
-                        tmp=2
+                        tmp=1
 
                     resp = scan_tree_client(scan_type)
                 except rospy.ServiceException, e:
-                    print "Global Planner: ScanningTree service call failed: %s"%e
+                    print "Task Manager: ScanningTree service call failed: %s"%e
 
 
-                time.sleep(waypoint_coordinates[waypoint_id][1]*45)
+                #time.sleep(waypoint_coordinates[waypoint_id][1]*45)
+
                 #set scanning done
                 waypoint_coordinates[waypoint_id][1]=0
             else:
@@ -159,12 +160,12 @@ def odomCallback(odomData):
     print "Position: \n", odomData.pose.pose.position """
     
 
-def global_planner():
+def task_manager():
 
-    global pub, path, enable_global_planner, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, tour_filename, origin_x, origin_y, origin_Y
+    global pub, path, enable_task_manager, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_coordinates, tour_filename, origin_x, origin_y, origin_Y
 
     #ROS init
-    rospy.init_node('global_planner', anonymous=True)
+    rospy.init_node('task_manager', anonymous=True)
 
     if rospy.has_param('~tour'):
         tour_filename=rospy.get_param('~tour')
@@ -214,18 +215,18 @@ def global_planner():
 
     pub = rospy.Publisher('/waypoint', Point, queue_size=1)
     rospy.Subscriber("/odom_gps", Odometry, odomCallback)
-    s_glob = rospy.Service('run_global_planner', Empty, runGlobalPlannerService)
+    s_glob = rospy.Service('run_task_manager', Empty, runTaskManagerService)
 
     #main loop
     rate = rospy.Rate(1)
     while not rospy.is_shutdown():
-        if enable_global_planner :
+        if enable_task_manager :
             pub.publish(waypoint)
         rate.sleep()
 
 if __name__ == '__main__':
     try:
-        global_planner()
+        task_manager()
     except rospy.ROSInterruptException:
         pass
 

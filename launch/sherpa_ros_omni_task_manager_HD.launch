@@ -95,20 +95,20 @@
    </include>
 
     <node name="ibvs_controller_node" pkg="rvb_mpc" type="IBVS_random_controller_node" clear_params="true" output="screen" 
-          args="$(find rvb_mpc)/parameters/params_short_term.yaml">
+          args="$(find pantheon_planning_and_control)/parameters/params_short_term.yaml">
     </node>
 
     <include file="$(find sherpa_ros)/launch/virtual_map_generated.launch"/>
 
 
-    <node name="global_planner" pkg="sherpa_ros" type="global_planner.py" output="screen">
-            <param name="tour" value="tour1" />
-            <param name="origin_x" value="$(arg robot_x_end)" />
-            <param name="origin_y" value="$(arg robot_y_end)" />
-            <param name="origin_Y" value="$(arg robot_Y_end)" />
-<!--            <remap from="/waypoint" to="/$(arg robot)/waypoint" />-->
-<!--            <remap from="/odom_gps" to="/$(arg robot)/odom_gps" />-->
-        </node>
+    <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" output="screen">
+        <param name="tour" value="tour1" />
+        <param name="origin_x" value="$(arg robot_x_end)" />
+        <param name="origin_y" value="$(arg robot_y_end)" />
+        <param name="origin_Y" value="$(arg robot_Y_end)" />
+        <!--<remap from="/waypoint" to="/$(arg robot)/waypoint"/>-->
+        <!--<remap from="/odom_gps" to="/$(arg robot)/odom_gps"/>-->
+    </node>
 
 
 
