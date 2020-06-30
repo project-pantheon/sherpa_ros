@@ -24,9 +24,7 @@
     <arg name="robot_x_end" default="0"/>
     <arg name="robot_y_end" default="0"/>
     <arg name="robot_Y_end" default="0"/>
-
-
-
+    <arg name="odometry_topic" default="/odom_gps"/>
 
     <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -89,26 +87,30 @@
     <node name="map_manager" pkg="sherpa_ros" type="map_manager_node"/>
   
    <include file="$(find rm3_ackermann_controller)/launch/ackermann_controller.launch">
-    <arg name="lyapunov_enable" value="true"/>
-    <arg name="mode" value="5"/>
-    <arg name="error" value="0"/>
+        <arg name="frequency" default="20.0"/>
+        <arg name="cmd_topic" default="/base/base_pad/cmd_vel"/>
+        <arg name="joint_state_topic" default="/base/joint_states"/>
+        <arg name="odom_topic" default="$(arg odometry_topic)"/>
+        <arg name="lyapunov_enable" default="true"/>
+        <arg name="lyapunov_topic" default="/lyapunov"/>
+        <arg name="trajectory_pts_topic" default="/sherpa/trajectory_pts"/>
+        <arg name="waypoint_topic" default="/waypoint"/>
+        <arg name="yaw_topic" default="/yaw_navigation"/>
+        <arg name="threshold_time" default="2.0"/>
+        <arg name="threshold_pose" default="0.20"/>
+        <arg name="threshold_trajectory" default="0.30"/> 
    </include>
 
-    <node name="ibvs_controller_node" pkg="rvb_mpc" type="IBVS_random_controller_node" clear_params="true" output="screen" 
+
+    <node name="ibvs_controller_node" pkg="pantheon_planning_and_control" type="IBVS_random_controller_node" clear_params="true" output="screen" 
           args="$(find pantheon_planning_and_control)/parameters/params_short_term.yaml">
+        <remap from="/ekf_localization_slam_node/slam_odom_magnetic" to="$(arg odometry_topic)"/>
     </node>
 
     <include file="$(find sherpa_ros)/launch/virtual_map_generated.launch"/>
 
 
-    <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" output="screen">
-        <param name="tour" value="tour1" />
-        <param name="origin_x" value="$(arg robot_x_end)" />
-        <param name="origin_y" value="$(arg robot_y_end)" />
-        <param name="origin_Y" value="$(arg robot_Y_end)" />
-        <!--<remap from="/waypoint" to="/$(arg robot)/waypoint"/>-->
-        <!--<remap from="/odom_gps" to="/$(arg robot)/odom_gps"/>-->
-    </node>
+
 
 
 

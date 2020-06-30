@@ -14,8 +14,8 @@ from os.path import expanduser
 
 global pub, path, enable_task_manager, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, new_waypoint, tour_filename, origin_x, origin_y, origin_Y, cnt
 
-path = expanduser("~") + '/catkin_ws/src/sherpa_ros/scripts/'
-tour_filename='tour'
+path = expanduser("~") + '/lab_ws/src/sherpa_ros/scripts/'
+tour_filename='tour_warehouse'
 #origin=final position after last waypoint
 origin_x=0
 origin_y=0
