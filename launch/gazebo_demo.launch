@@ -9,6 +9,7 @@
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
 
+    <!-- Gazebo robot spawn-->
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
     <arg name="Y" default="0"/>
@@ -17,17 +18,11 @@
     <arg name="random_spawn_dyn_obj" default="false"/>
     <arg name="random_waypoint_generation" default="false"/>
 
-    <!-- robot -->
-    <arg name="robot_x" default="0"/>
-    <arg name="robot_y" default="0"/>
-    <arg name="robot_Y" default="0"/>
-    <arg name="robot_x_end" default="0"/>
-    <arg name="robot_y_end" default="0"/>
-    <arg name="robot_Y_end" default="0"/>
-
-
     <!--odometry-->
     <arg name="odometry_topic" default="/ekf_localization_slam_node/slam_odom_magnetic"/>
+
+    <!--enable_scanning-->
+    <arg name="enable_scanning" default="false"/>
 
     <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -38,8 +33,6 @@
         <arg name="use_sim_time" value="$(arg use_sim_time)"/>
         <arg name="headless" value="$(arg headless)"/>
     </include>
-
-
 
     <!-- Combine joint values-->
 <!--    <group ns="sherpa"> -->
@@ -109,8 +102,6 @@
 
     <node name="ibvs_controller_node" pkg="pantheon_planning_and_control" type="IBVS_random_controller_node" clear_params="true" output="screen" 
           args="$(find pantheon_planning_and_control)/parameters/params_short_term.yaml">
-<!--        <remap from="$(arg odometry_topic)" to="$(arg odometry_topic)" to="/ekf_localization_slam_node/slam_odom_magnetic"/>-->
-<!--        <remap from="/ekf_localization_slam_node/slam_odom_magnetic" to="$(arg odometry_topic)"/>-->
     </node>
 
     <include file="$(find sherpa_ros)/launch/virtual_map_generated.launch"/>
@@ -118,12 +109,8 @@
 
     <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" output="screen">
         <param name="tour" value="tour_warehouse" />
-        <param name="origin_x" value="$(arg robot_x_end)" />
-        <param name="origin_y" value="$(arg robot_y_end)" />
-        <param name="origin_Y" value="$(arg robot_Y_end)" />
         <param name="odometry_topic" value="$(arg odometry_topic)" />
-<!--        <remap from="/odom_gps" to="/ekf_localization_slam_node/slam_odom_magnetic"/>-->
-<!--        <remap from="/trajectory_pts" to="/sherpa/trajectory_pts"/>-->
+        <param name="enable_scanning" value="$(arg enable_scanning)" />
     </node>
 
 

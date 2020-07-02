@@ -9,20 +9,20 @@ import csv
 import math
 import numpy
 import time
-
+import tf
+import os
 from os.path import expanduser
 
-global pub, path, enable_task_manager, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, new_waypoint, tour_filename, origin_x, origin_y, origin_Y, cnt
 
-path = expanduser("~") + '/lab_ws/src/sherpa_ros/scripts/'
+global pub, path, enable_task_manager, enable_scanning, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, new_waypoint, tour_filename, cnt
+
+default_workspace_value=expanduser("~")+'/catkin_ws'
+path = os.getenv('ROS_WORKSPACE', default_workspace_value)+'/src/sherpa_ros/scripts/'
+
 tour_filename='tour_warehouse'
-#origin=final position after last waypoint
-origin_x=0
-origin_y=0
-origin_Y=0
-origin_orientation= False
 
 enable_task_manager = False
+enable_scanning = True
 new_waypoint = True
 waypoint_id = 0
 threshold=0.3
@@ -33,53 +33,24 @@ tmp=1
 
 def updateWaypointFromTour():
 
-    global prev_waypoint, waypoint, waypoint_id, map_coordinates, waypoint_data, new_waypoint
+    global waypoint, waypoint_id, map_coordinates, waypoint_data, new_waypoint
 
     if new_waypoint :
         i=0
         for elem in map_coordinates:
             if elem[2] == waypoint_data[waypoint_id][0]:
-                waypoint.x=map_coordinates[i][0]
-                waypoint.y=map_coordinates[i][1]
-                waypoint.z=waypoint_data[waypoint_id][1] 
+                waypoint.pose.pose.position.x=map_coordinates[i][0]
+                waypoint.pose.pose.position.y=map_coordinates[i][1]
 
-#                if waypoint_id>0 :
-#                    waypoint.z=math.atan2(waypoint.y-prev_waypoint.y, waypoint.x-prev_waypoint.x)
-#                else :
-#                    waypoint.z=0
-
+                quaternion = tf.transformations.quaternion_from_euler(0, 0, waypoint_data[waypoint_id][1])
+                waypoint.pose.pose.orientation.x = quaternion[0]
+                waypoint.pose.pose.orientation.y = quaternion[1]
+                waypoint.pose.pose.orientation.z = quaternion[2]
+                waypoint.pose.pose.orientation.w = quaternion[3]
 
                 new_waypoint = False
                 break
             i=i+1
-
-def check_go2origin(a):
-    
-    global prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, enable_task_manager, new_waypoint, tour_filename, origin_orientation, origin_x, origin_y, origin_Y
-
-    if waypoint_id+1==max_waypoint_id and enable_task_manager :
-        # update waypoint and dist
-        waypoint.x=origin_x
-        waypoint.y=origin_y
-
-        if origin_orientation :
-            waypoint.z=origin_Y
-        else :
-            waypoint.z=math.atan2(waypoint.y-prev_waypoint.y, waypoint.x-prev_waypoint.x)
-        
-        b = numpy.array((waypoint.x, waypoint.y))
-        dist = numpy.linalg.norm(a-b)
-
-        print "-----"
-        print "dist: ", dist
-        print "real_waypoint_ID: ", waypoint_id
-        print "x=", origin_x, ", y=", origin_y
-        print "Waypoint: \n", waypoint
-        print "Position: \n", a
-
-        if dist<=threshold :
-            enable_task_manager = False
-            print "task_manager end: dist=", dist
 
 
 def runTaskManagerService(call):
@@ -94,11 +65,11 @@ def runTaskManagerService(call):
 
 def odomCallback(odomData):
 
-    global prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, enable_task_manager, new_waypoint, tour_filename, tmp
+    global waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, enable_task_manager, enable_scanning, new_waypoint, tour_filename, tmp
 
     # distance
     a = numpy.array((odomData.pose.pose.position.x, odomData.pose.pose.position.y))
-    b = numpy.array((waypoint.x, waypoint.y))
+    b = numpy.array((waypoint.pose.pose.position.x, waypoint.pose.pose.position.y))
     dist = numpy.linalg.norm(a-b)
 
     # check distance
@@ -106,78 +77,89 @@ def odomCallback(odomData):
         if dist<=threshold :
 
             # check if scanning action is required
-            if waypoint_data[waypoint_id][2] >= 1:
+            if waypoint_data[waypoint_id][2] >= 1 :
 
-                #lock scanning operations
+                if enable_scanning :
 
-                #avvia richiesta action
+                    #lock scanning operations
 
-                #set scanning end effector position
-                rospy.wait_for_service('/offset_set')
-                try:
-                    offset_set_client = rospy.ServiceProxy('/offset_set', OffsetSet)
+                    #avvia richiesta action
 
-                    #calculate offsets
-                    offset1=-2.0
-                    offset2=-0.9
+                    #set scanning end effector position
+                    rospy.wait_for_service('/offset_set')
+                    try:
+                        offset_set_client = rospy.ServiceProxy('/offset_set', OffsetSet)
 
-                    resp = offset_set_client(offset1, offset2)
-                except rospy.ServiceException, e:
-                    print "Task Manager: OffsetSet service call failed: %s"%e
+                        #calculate offsets
+                        offset1=-2.0
+                        offset2=-0.9
 
-                #scanning calls
-                rospy.wait_for_service('/scan_tree')
-                try:
-                    scan_tree_client = rospy.ServiceProxy('/scan_tree', ScanningTree)
+                        resp = offset_set_client(offset1, offset2)
+                    except rospy.ServiceException, e:
+                        print "Task Manager: OffsetSet service call failed: %s"%e
 
-                    #calculate (1 front/ 2 rear/ 3 front+rear)
-#                    scan_type=1
+                    #scanning calls
+                    rospy.wait_for_service('/scan_tree')
+                    try:
+                        scan_tree_client = rospy.ServiceProxy('/scan_tree', ScanningTree)
 
-#                    #loop for can only one time one tree
-#                    scan_type=tmp
-#                    if tmp == 1:
-#                        tmp=2
-#                    else:
-#                        tmp=1
-                    
-                    #global planner codification relative to the robot [45 135 -135 -45] deg
-                    if waypoint_data[waypoint_id][6]==1 & waypoint_data[waypoint_id][5] ==1 :
-                        scan_type =3
-                    elif waypoint_data[waypoint_id][6]==1 :
-                        scan_type =1
-                    elif waypoint_data[waypoint_id][5]==1 :
-                        scan_type =2
+                        #calculate (1 front/ 2 rear/ 3 front+rear)
+    #                    scan_type=1
 
-                    resp = scan_tree_client(scan_type)
-                except rospy.ServiceException, e:
-                    print "Task Manager: ScanningTree service call failed: %s"%e
+    #                    #loop for can only one time one tree
+    #                    scan_type=tmp
+    #                    if tmp == 1:
+    #                        tmp=2
+    #                    else:
+    #                        tmp=1
+                        
+                        #global planner codification relative to the robot [45 135 -135 -45] deg
+                        if waypoint_data[waypoint_id][6]==1 & waypoint_data[waypoint_id][5] ==1 :
+                            scan_type =3
+                        elif waypoint_data[waypoint_id][6]==1 :
+                            scan_type =1
+                        elif waypoint_data[waypoint_id][5]==1 :
+                            scan_type =2
 
+                        resp = scan_tree_client(scan_type)
+                    except rospy.ServiceException, e:
+                        print "Task Manager: ScanningTree service call failed: %s"%e
 
-                #time.sleep(waypoint_data[waypoint_id][1]*45)
+                else :
+                    time.sleep(waypoint_data[waypoint_id][2]*10)
 
                 #set scanning done
                 waypoint_data[waypoint_id][2]=0
             else:
-                if waypoint_id>0 :
-                    prev_waypoint.x = waypoint.x
-                    prev_waypoint.y = waypoint.y
-                    prev_waypoint.z = waypoint.z
                 waypoint_id=waypoint_id+1
                 new_waypoint = True
 
     updateWaypointFromTour()
-    check_go2origin(a)
 
     print "-----"
     print "tour: ", tour_filename
     print "Waypoint_ID: ", waypoint_id+1
-    print "Waypoint: \n", waypoint
-    print "Position: \n", odomData.pose.pose.position
-    
+    print "Waypoint_position: \n", waypoint.pose.pose.position
+    print "Position_position: \n", odomData.pose.pose.position
+
+    quaternion = (
+        waypoint.pose.pose.orientation.x,
+        waypoint.pose.pose.orientation.y,
+        waypoint.pose.pose.orientation.z,
+        waypoint.pose.pose.orientation.w)
+    euler = tf.transformations.euler_from_quaternion(quaternion)
+    print "Waypoint_orientation: \n", euler[2]
+    quaternion = (
+        odomData.pose.pose.orientation.x,
+        odomData.pose.pose.orientation.y,
+        odomData.pose.pose.orientation.z,
+        odomData.pose.pose.orientation.w)
+    euler = tf.transformations.euler_from_quaternion(quaternion)
+    print "Position_orientation: \n", euler[2]
 
 def task_manager():
 
-    global pub, path, enable_task_manager, prev_waypoint, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, tour_filename, origin_x, origin_y, origin_Y
+    global pub, path, enable_task_manager, enable_scanning, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, tour_filename
 
     #ROS init
     rospy.init_node('task_manager', anonymous=True)
@@ -185,25 +167,23 @@ def task_manager():
     if rospy.has_param('~tour'):
         tour_filename=rospy.get_param('~tour')
 
-    if rospy.has_param('~origin_x'):
-        origin_x=rospy.get_param('~origin_x')
-
-    if rospy.has_param('~origin_y'):
-        origin_y=rospy.get_param('~origin_y')
-
-    if rospy.has_param('~origin_Y'):
-        origin_orientation=True
-        origin_Y=rospy.get_param('~origin_Y')
-
     if rospy.has_param('~odometry_topic'):
         odometry_topic=rospy.get_param('~odometry_topic')
     else :
         odometry_topic=('/odom_gps')
 
+    if rospy.has_param('~enable_scanning'):
+        enable_scanning=rospy.get_param('~enable_scanning')
+    else :
+        enable_scanning=(True)
+
     if rospy.has_param('~map_points'):
         map_points=rospy.get_param('~map_points')
     else :
         map_points=('virtual_map_points')
+
+
+    enable_scanning
 
     #map
     with open(path+ map_points+'.csv', 'rb') as csvfile:
@@ -240,12 +220,9 @@ def task_manager():
     #set last waypoint
     max_waypoint_id= len(tourData)
 
-    waypoint=Point()
-    prev_waypoint=Point()
-    #prev_waypoint.x=origin_x
-    #prev_waypoint.y=origin_y
+    waypoint=Odometry()
 
-    pub = rospy.Publisher('/waypoint', Point, queue_size=1)
+    pub = rospy.Publisher('/command/pose', Odometry, queue_size=1)
     rospy.Subscriber(odometry_topic, Odometry, odomCallback)
     s_glob = rospy.Service('run_task_manager', Empty, runTaskManagerService)
 
