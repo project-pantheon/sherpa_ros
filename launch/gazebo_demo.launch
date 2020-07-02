@@ -47,8 +47,7 @@
 <!--        <node name="controller_spawner" pkg="controller_manager"-->
 <!--        type="spawner" respawn="false"-->
 <!--        output="screen" args="$(find sherpa_ros)/description/config/sherpa_controller_omni-ackermann.yaml"/>-->
-        <node name="controller_spawner" pkg="controller_manager"
-            type="spawner" respawn="false"
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
             output="screen" args="$(find rm3_sherpa_description)/description/config/sherpa_controller_omni.yaml"/>
         
         <!-- Spawn Robot model -->
@@ -97,6 +96,8 @@
         <arg name="threshold_time" default="2.0"/>
         <arg name="threshold_pose" default="0.20"/>
         <arg name="threshold_trajectory" default="0.30"/> 
+        <arg name="threshold_trajectory_near_waypoint" default="0.35"/>
+        <arg name="dynamic_trajectory_enable" default="true"/>
    </include>
 
 
@@ -107,7 +108,7 @@
     <include file="$(find sherpa_ros)/launch/virtual_map_generated.launch"/>
 
 
-    <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" output="screen">
+    <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" >
         <param name="tour" value="tour_warehouse" />
         <param name="odometry_topic" value="$(arg odometry_topic)" />
         <param name="enable_scanning" value="$(arg enable_scanning)" />

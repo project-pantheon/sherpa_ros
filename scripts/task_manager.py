@@ -126,7 +126,7 @@ def odomCallback(odomData):
                         print "Task Manager: ScanningTree service call failed: %s"%e
 
                 else :
-                    time.sleep(waypoint_data[waypoint_id][2]*10)
+                    time.sleep(waypoint_data[waypoint_id][2]*100)
 
                 #set scanning done
                 waypoint_data[waypoint_id][2]=0
