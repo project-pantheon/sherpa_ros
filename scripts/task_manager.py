@@ -25,7 +25,7 @@ enable_task_manager = False
 enable_scanning = True
 new_waypoint = True
 waypoint_id = 0
-threshold=0.3
+threshold=0.2
 
 gimbal_values=[0]
 
@@ -74,8 +74,10 @@ def odomCallback(odomData):
 
     # check distance
     if waypoint_id+1<max_waypoint_id and enable_task_manager :
-        if dist<=threshold :
+        if dist<threshold :
 
+            #time.sleep(5)
+            
             # check if scanning action is required
             if waypoint_data[waypoint_id][2] >= 1 :
 
@@ -126,7 +128,7 @@ def odomCallback(odomData):
                         print "Task Manager: ScanningTree service call failed: %s"%e
 
                 else :
-                    time.sleep(waypoint_data[waypoint_id][2]*100)
+                    time.sleep(waypoint_data[waypoint_id][2]*5)
 
                 #set scanning done
                 waypoint_data[waypoint_id][2]=0
@@ -182,6 +184,8 @@ def task_manager():
     else :
         map_points=('virtual_map_points')
 
+    if rospy.has_param('~threshold'):
+        threshold=rospy.get_param('~threshold')
 
     enable_scanning
 

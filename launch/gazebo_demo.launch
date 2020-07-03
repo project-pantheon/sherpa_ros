@@ -84,20 +84,20 @@
     </node>
   
    <include file="$(find rm3_ackermann_controller)/launch/ackermann_controller.launch">
-        <arg name="frequency" default="20.0"/>
-        <arg name="cmd_topic" default="/base/base_pad/cmd_vel"/>
-        <arg name="joint_state_topic" default="/base/joint_states"/>
-        <arg name="odom_topic" default="$(arg odometry_topic)"/>
-        <arg name="lyapunov_enable" default="true"/>
-        <arg name="lyapunov_topic" default="/lyapunov"/>
-        <arg name="trajectory_pts_topic" default="/sherpa/trajectory_pts"/>
-        <arg name="waypoint_topic" default="/waypoint"/>
-        <arg name="yaw_topic" default="/yaw_navigation"/>
-        <arg name="threshold_time" default="2.0"/>
-        <arg name="threshold_pose" default="0.20"/>
-        <arg name="threshold_trajectory" default="0.30"/> 
-        <arg name="threshold_trajectory_near_waypoint" default="0.35"/>
-        <arg name="dynamic_trajectory_enable" default="true"/>
+        <arg name="frequency" value="20.0"/>
+        <arg name="cmd_topic" value="/base/base_pad/cmd_vel"/>
+        <arg name="joint_state_topic" value="/base/joint_states"/>
+        <arg name="odom_topic" value="$(arg odometry_topic)"/>
+        <arg name="lyapunov_enable" value="true"/>
+        <arg name="lyapunov_topic" value="/lyapunov"/>
+        <arg name="trajectory_pts_topic" value="/sherpa/trajectory_pts"/>
+        <arg name="waypoint_topic" value="/waypoint"/>
+        <arg name="yaw_topic" value="/yaw_navigation"/>
+        <arg name="threshold_time" value="2.0"/>
+        <arg name="threshold_pose" value="0.20"/>
+        <arg name="threshold_trajectory" value="0.50"/> <!--ad percentage to threshold_pose-->
+        <arg name="threshold_trajectory_near_waypoint" value="0.35"/>
+        <arg name="dynamic_trajectory_enable" value="true"/>
    </include>
 
 
@@ -108,10 +108,11 @@
     <include file="$(find sherpa_ros)/launch/virtual_map_generated.launch"/>
 
 
-    <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" >
+    <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" output="screen" >
         <param name="tour" value="tour_warehouse" />
         <param name="odometry_topic" value="$(arg odometry_topic)" />
         <param name="enable_scanning" value="$(arg enable_scanning)" />
+        <param name="threshold" value="0.25"/>
     </node>
 
 
