@@ -4,7 +4,7 @@ import rospy
 from geometry_msgs.msg import Point
 from nav_msgs.msg import Odometry
 from std_srvs.srv import Empty, EmptyResponse
-from scanning_controller.srv import ScanningTree, ScanningTreeResponse, ScanningTreeRequest, OffsetSet, OffsetSetResponse, OffsetSetRequest
+#from scanning_controller.srv import ScanningTree, ScanningTreeResponse, ScanningTreeRequest, OffsetSet, OffsetSetResponse, OffsetSetRequest
 import csv
 import math
 import numpy

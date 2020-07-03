@@ -5,7 +5,7 @@
     <arg name="namespace" default="/"/>
     <arg name="paused" default="false"/>
     <arg name="use_sim_time" default="true"/>
-    <arg name="gui" default="true"/>
+    <arg name="gui" default="false"/>
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
 
@@ -94,8 +94,8 @@
         <arg name="waypoint_topic" value="/waypoint"/>
         <arg name="yaw_topic" value="/yaw_navigation"/>
         <arg name="threshold_time" value="2.0"/>
-        <arg name="threshold_pose" value="0.20"/>
-        <arg name="threshold_trajectory" value="0.50"/> <!--ad percentage to threshold_pose-->
+        <arg name="threshold_pose" value="0.30"/>
+        <arg name="threshold_trajectory" value="0.20"/> <!--ad percentage to threshold_pose-->
         <arg name="threshold_trajectory_near_waypoint" value="0.35"/>
         <arg name="dynamic_trajectory_enable" value="true"/>
    </include>
@@ -109,10 +109,10 @@
 
 
     <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" output="screen" >
-        <param name="tour" value="tour_warehouse" />
+        <param name="tour" value="tour_warehouse_backup" />
         <param name="odometry_topic" value="$(arg odometry_topic)" />
         <param name="enable_scanning" value="$(arg enable_scanning)" />
-        <param name="threshold" value="0.25"/>
+        <param name="threshold" value="0.4"/>
     </node>
 
 
