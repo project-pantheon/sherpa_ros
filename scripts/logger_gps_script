@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source ~/.bashrc
+
+rosbag record /logger_gps_fix /logger_gps_imu /logger_gps_imu_fix /logger_gps_raw /logger_gps_slam_fix /logger_odom_imu /logger_odom_slam 

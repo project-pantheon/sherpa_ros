@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <arg name="connection_type" default="MS_CAMERA_ETHERNET"/>
+    <arg name="sensor_debug" default="false"/>
+    <arg name="arms_debug" default="false"/>
+
+    <include file="$(find rbsherpa_hl_bringup)/launch/gimbal.launch">
+    </include>
+
+    <node name="mongo" pkg="scanning_controller" type="mongo"/>
+
+
+    <include file="$(find scanning_controller)/launch/complete_scanning.launch">
+        <arg name="sensor_debug" value="$(arg sensor_debug)"/>
+        <arg name="arms_debug" value="$(arg arms_debug)"/>
+        <arg name="connection_type" value="$(arg connection_type)"/>
+    </include>
+
+
+</launch>

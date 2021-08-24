@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- these are the arguments you can pass this launch file -->
+    <arg name="namespace" default="/"/>
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+
+    <!-- Gazebo robot spawn-->
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="Y" default="0"/>
+
+    <!-- Parameters for the local planner-->
+    <arg name="random_spawn_dyn_obj" default="false"/>
+    <arg name="random_waypoint_generation" default="false"/>
+
+    <!--odometry-->
+    <arg name="odometry_topic" default="/ekf_localization_slam_node/slam_odom_magnetic"/>
+
+    <!--enable_scanning-->
+    <arg name="enable_scanning" default="true"/>
+
+    <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find sherpa_ros)/worlds/fixed_camera.world"/>
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="headless" value="$(arg headless)"/>
+    </include>
+
+    <!-- Combine joint values-->
+<!--    <group ns="sherpa"> -->
+
+        <!-- Gui Parameter -->
+        <param name="use_gui" value="false"/>
+<!--        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/> -->
+<!--        <rosparam file="$(find sherpa_ros)/description/config/sherpa_controller_omni-ackermann.yaml" command="load" />-->
+        <rosparam file="$(find rm3_sherpa_description)/description/config/sherpa_controller_omni.yaml" command="load" /> 
+
+        <!-- load the controllers -->
+<!--        <node name="controller_spawner" pkg="controller_manager"-->
+<!--        type="spawner" respawn="false"-->
+<!--        output="screen" args="$(find sherpa_ros)/description/config/sherpa_controller_omni-ackermann.yaml"/>-->
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+            output="screen" args="$(find rm3_sherpa_description)/description/config/sherpa_controller_omni.yaml"/>
+        
+        <!-- Spawn Robot model -->
+<!--        <param name="tf_prefix" value="sherpa"/>-->
+<!--        <arg name="robot_name" default="sherpa"/>-->
+<!--        <param name="robot_description" command="$(find xacro)/xacro.py '$(find sherpa_ros)/description/urdf/sherpa_ros_omni-ackermann.xacro'" />-->
+        <arg name="tf_prefix" value="rbsherpa_hl_"/>
+        <arg name="robot_name" default="rbsherpa_hl_"/>
+        <param name="robot_description" command="$(find xacro)/xacro.py '$(find rm3_sherpa_description)/description/robots/rm3_sherpa_omni.urdf.xacro' prefix:=$(arg tf_prefix)"/>
+	
+
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+            <remap from="sherpa/joint_states" to="joint_states" />
+        </node>
+        
+        <node name="sherpa_ros_urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x) -y $(arg y) -Y $(arg Y)"/>
+
+        <!-- Gazebo Gimbal>-->
+        <node name="gimbal_gazebo" pkg="rm3_sherpa_description" type="virtual_gimbal.py" />
+        <node name="pan_gazebo" pkg="rm3_sherpa_description" type="virtual_pan.py" />
+
+<!--    </group>-->
+
+
+<!--    <node name="akrm_cmd" pkg="sherpa_ros" type="sherpa_omni-ackermann_cmd_node"/> -->
+    <!-- Kinematic control -->
+    <node name="akrm_cmd" pkg="rm3_sherpa_description" type="omni-ackermann_cmd_node"/> 
+
+
+    <!-- <node name="mid_cont" pkg="sherpa_ros" type="sherpa_mid_cont_node"/> -->
+    <node name="map_manager" pkg="sherpa_ros" type="map_manager_node">
+        <param name="odom" value="$(arg odometry_topic)"/>
+    </node>
+  
+   <include file="$(find rm3_ackermann_controller)/launch/ackermann_controller.launch">
+        <arg name="frequency" value="20.0"/>
+        <arg name="cmd_topic" value="/base/base_pad/cmd_vel"/>
+        <arg name="joint_state_topic" value="/base/joint_states"/>
+        <arg name="odom_topic" value="$(arg odometry_topic)"/>
+        <arg name="lyapunov_enable" value="true"/>
+        <arg name="lyapunov_topic" value="/lyapunov"/>
+        <arg name="trajectory_pts_topic" value="/sherpa/trajectory_pts"/>
+        <arg name="waypoint_topic" value="/waypoint"/>
+        <arg name="yaw_topic" value="/yaw_navigation"/>
+        <arg name="threshold_time" value="2.0"/>
+        <arg name="threshold_pose" value="0.30"/>
+        <arg name="threshold_trajectory" value="0.20"/> <!--ad percentage to threshold_pose-->
+        <arg name="threshold_trajectory_near_waypoint" value="0.35"/>
+        <arg name="dynamic_trajectory_enable" value="true"/>
+   </include>
+
+
+<!--    <node name="ibvs_controller_node" pkg="pantheon_planning_and_control" type="IBVS_random_controller_node" clear_params="true"-->
+<!--          args="$(find pantheon_planning_and_control)/parameters/params_short_term.yaml">-->
+<!--    </node>-->
+
+    <include file="$(find sherpa_ros)/launch/virtual_map_generated.launch"/>
+
+
+    <node name="task_manager" pkg="sherpa_ros" type="task_manager_waypoints.py" output="screen" >
+        <param name="tour" value="tours/kmean_3" />
+        <param name="odometry_topic" value="$(arg odometry_topic)" />
+        <param name="enable_scanning" value="$(arg enable_scanning)" />
+        <param name="threshold" value="0.4"/>
+        <param name="map_points" value="virtual_map_points"/>
+    </node>
+
+
+    <node name="fake_gazebo_slam" pkg="sherpa_ros" type="fake_gazebo_slam.py" output="screen"/>
+
+
+    <param name="arrow_description" command="$(find xacro)/xacro.py '$(find rm3_sherpa_description)/description/robots/arrow.urdf.xacro'"/>
+
+    <node name="arrow_urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model arrow -param arrow_description -x $(arg x) -y $(arg y) -Y $(arg Y)"/>
+
+
+</launch>

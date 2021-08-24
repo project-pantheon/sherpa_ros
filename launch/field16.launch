@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- these are the arguments you can pass this launch file -->
+
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="Y" default="0"/>
+
+    <!-- Parameters for the local planner-->
+    <arg name="random_spawn_dyn_obj" default="false"/>
+    <arg name="random_waypoint_generation" default="false"/>
+
+    <!-- robot -->
+    <arg name="robot_x" default="0"/>
+    <arg name="robot_y" default="0"/>
+    <arg name="robot_Y" default="0"/>
+    <arg name="robot_x_end" default="0"/>
+    <arg name="robot_y_end" default="0"/>
+    <arg name="robot_Y_end" default="0"/>
+    
+    <!--enable_scanning-->
+    <arg name="enable_scanning" default="true"/>
+
+    <arg name="initial_waypoint_id" default="1"/>
+
+<!--    <arg name="odometry_topic" default="/odom_gps"/>-->
+    <arg name="odometry_topic" default="/ekf_slam_node/slam_odom"/>
+
+    <!--Ackermann controller mode-->
+    <arg name="controller_mode" default="1"/>
+    <!-- mode:      1 encoder       -->
+    <!--            2 gps_bearing   -->
+    <!--            3 gps_imu       -->
+    <!--            4 ekf           -->
+    <!--            5 gazebo        -->
+
+
+
+    <!-- Combine joint values-->
+<!--    <group ns="sherpa"> -->
+
+        <!-- Gui Parameter -->
+        <param name="use_gui" value="false"/>
+
+        <arg name="tf_prefix" value="rbsherpa_hl_"/>
+        <arg name="robot_name" default="rbsherpa_hl_"/>
+
+
+    <!-- <node name="mid_cont" pkg="sherpa_ros" type="sherpa_mid_cont_node"/> -->
+    <node name="map_manager" pkg="sherpa_ros" type="map_manager_node"/>
+  
+   <!--include file="$(find rm3_ackermann_controller)/launch/ackermann_controller.launch">
+        <arg name="frequency" value="20.0"/>
+        <arg name="cmd_topic" value="/base/base_pad/cmd_vel"/>
+        <arg name="joint_state_topic" value="/base/joint_states"/>
+        <arg name="odom_topic" value="$(arg odometry_topic)"/>
+        <arg name="lyapunov_enable" value="true"/>
+        <arg name="lyapunov_topic" value="/lyapunov"/>
+        <arg name="trajectory_pts_topic" value="/sherpa/trajectory_pts"/>
+        <arg name="waypoint_topic" value="/waypoint"/>
+        <arg name="yaw_topic" value="/yaw_navigation"/>
+        <arg name="threshold_time" value="2.0"/>
+        <arg name="threshold_pose" value="0.30"/>
+        <arg name="threshold_trajectory" value="0.20"/> <!- -ad percentage to threshold_pose- ->
+        <arg name="threshold_trajectory_near_waypoint" value="0.35"/>
+        <arg name="dynamic_trajectory_enable" value="true"/>
+   </include-->
+
+<!--    <node name="ibvs_controller_node" pkg="rvb_mpc" type="IBVS_random_controller_node" clear_params="true" output="screen" -->
+<!--          args="$(find rvb_mpc)/parameters/params_short_term.yaml">-->
+<!--    </node>-->
+
+
+    <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" output="screen">
+        <param name="task_name" value="scanning" />
+	    <param name="tour" value="field16_tour" />
+        <param name="map_points" value="field16_map" />
+        <param name="odometry_topic" value="$(arg odometry_topic)" />
+        <param name="enable_scanning" value="$(arg enable_scanning)" />
+        <param name="threshold" value="0.4"/>
+        <param name="initial_waypoint_id" value="$(arg initial_waypoint_id)"/>
+    </node>
+
+
+
+</launch>

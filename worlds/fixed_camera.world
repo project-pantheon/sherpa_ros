@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+    <gui>
+        <camera name="user_camera">
+            <pose>17.826740 -15.680682 34.378189 -0.000002 0.857542 1.577469</pose>
+        </camera>
+    </gui>
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- reference to your plugin -->
+    <plugin name="sherpa_ros" filename="libsherpa_ros.so"/>
+  </world>
+</sdf>

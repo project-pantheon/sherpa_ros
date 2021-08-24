@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+    <include file="$(find pantheon_2d_slam)/launch/live_local_slam.launch">
+    </include>
+
+    <include file="$(find rm3_ackermann_controller)/launch/ackermann_controller.launch">
+    </include>
+
+
+</launch>

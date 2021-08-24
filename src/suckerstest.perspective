@@ -1,0 +1,310 @@
+{
+  "keys": {},
+  "groups": {
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "type": "repr",
+          "repr": "{u'rqt_service_caller/ServiceCaller': [1], u'rqt_topic/TopicPlugin': [1], u'rqt_publisher/Publisher': [1]}"
+        }
+      },
+      "groups": {
+        "plugin__rqt_robot_steering__RobotSteering__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__RobotSteeringUi": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "u'true'"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'Robot Steering'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "topic": {
+                  "type": "repr",
+                  "repr": "u'/rbsherpa_hl_a/cmd_vel'"
+                },
+                "vx_min": {
+                  "type": "repr",
+                  "repr": "u'-1'"
+                },
+                "vw_min": {
+                  "type": "repr",
+                  "repr": "u'-3'"
+                },
+                "vw_max": {
+                  "type": "repr",
+                  "repr": "u'3'"
+                },
+                "vx_max": {
+                  "type": "repr",
+                  "repr": "u'1'"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_plot__Plot__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__DataPlotWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "u'true'"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'MatPlot'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "autoscroll": {
+                  "type": "repr",
+                  "repr": "u'true'"
+                },
+                "plot_type": {
+                  "type": "repr",
+                  "repr": "u'1'"
+                },
+                "topics": {
+                  "type": "repr",
+                  "repr": "u''"
+                },
+                "y_limits": {
+                  "type": "repr",
+                  "repr": "[u'4636775', u'4636785']"
+                },
+                "x_limits": {
+                  "type": "repr",
+                  "repr": "[u'1570459921.2206087', u'1570459981.2206087']"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_plot__Plot__2": {
+          "keys": {},
+          "groups": {
+            "dock_widget__DataPlotWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "u'true'"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'MatPlot (2)'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "autoscroll": {
+                  "type": "repr",
+                  "repr": "u'true'"
+                },
+                "plot_type": {
+                  "type": "repr",
+                  "repr": "u'1'"
+                },
+                "topics": {
+                  "type": "repr",
+                  "repr": "u'/odom_gps_ekf/pose/pose/position/x'"
+                },
+                "y_limits": {
+                  "type": "repr",
+                  "repr": "[u'290017.75861073565', u'290030']"
+                },
+                "x_limits": {
+                  "type": "repr",
+                  "repr": "[u'1570459921.2206087', u'1570459981.2206087']"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_publisher__Publisher__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__PublisherWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'Message Publisher'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "publishers": {
+                  "type": "repr",
+                  "repr": "u\"[{'topic_name': '/ekf_slam_node/origin', 'type_name': 'geometry_msgs/Point', 'enabled': False, 'rate': 1.0, 'expressions': {u'/ekf_slam_node/origin/y': '4684364.21', u'/ekf_slam_node/origin/x': '277234.15'}, 'publisher_id': 0, 'counter': 234}, {'topic_name': '/ekf_slam_node/slam_odom', 'type_name': 'nav_msgs/Odometry', 'enabled': False, 'rate': 2.0, 'expressions': {u'/ekf_slam_node/slam_odom/pose/pose/orientation/w': '1', u'/ekf_slam_node/slam_odom/pose/pose/position/x': '3', u'/ekf_slam_node/slam_odom/pose/pose/position/y': '0.44', u'/ekf_slam_node/slam_odom/pose/pose/position/z': '0'}, 'publisher_id': 1, 'counter': 2}, {'topic_name': '/ekf_slam_node/slam_odom', 'type_name': 'nav_msgs/Odometry', 'enabled': False, 'rate': 1.0, 'expressions': {u'/ekf_slam_node/slam_odom/pose/pose/orientation/w': '1'}, 'publisher_id': 2, 'counter': 1}, {'topic_name': '/ekf_slam_node/slam_odom', 'type_name': 'nav_msgs/Odometry', 'enabled': False, 'rate': 3.0, 'expressions': {u'/ekf_slam_node/slam_odom/pose/pose/orientation/w': '1', u'/ekf_slam_node/slam_odom/pose/pose/position/x': '6.2', u'/ekf_slam_node/slam_odom/pose/pose/position/y': '0.53'}, 'publisher_id': 3, 'counter': 1}, {'topic_name': '/ekf_slam_node/slam_odom', 'type_name': 'nav_msgs/Odometry', 'enabled': False, 'rate': 4.0, 'expressions': {u'/ekf_slam_node/slam_odom/pose/pose/orientation/w': '1', u'/ekf_slam_node/slam_odom/pose/pose/position/x': '9', u'/ekf_slam_node/slam_odom/pose/pose/position/y': '0.53'}, 'publisher_id': 4, 'counter': 1}, {'topic_name': '/ekf_slam_node/slam_odom', 'type_name': 'nav_msgs/Odometry', 'enabled': False, 'rate': 5.0, 'expressions': {u'/ekf_slam_node/slam_odom/pose/pose/orientation/w': '0', u'/ekf_slam_node/slam_odom/pose/pose/position/x': '8.9', u'/ekf_slam_node/slam_odom/pose/pose/position/y': '5.44', u'/ekf_slam_node/slam_odom/pose/pose/orientation/z': '1'}, 'publisher_id': 5, 'counter': 1}, {'topic_name': '/ekf_slam_node/slam_odom', 'type_name': 'nav_msgs/Odometry', 'enabled': False, 'rate': 6.0, 'expressions': {u'/ekf_slam_node/slam_odom/pose/pose/orientation/w': '0', u'/ekf_slam_node/slam_odom/pose/pose/position/x': '6.15', u'/ekf_slam_node/slam_odom/pose/pose/position/y': '5.21', u'/ekf_slam_node/slam_odom/pose/pose/orientation/z': '1'}, 'publisher_id': 6, 'counter': 1}, {'topic_name': '/ekf_slam_node/slam_odom', 'type_name': 'nav_msgs/Odometry', 'enabled': False, 'rate': 7.0, 'expressions': {u'/ekf_slam_node/slam_odom/pose/pose/orientation/w': '0', u'/ekf_slam_node/slam_odom/pose/pose/position/x': '2.9', u'/ekf_slam_node/slam_odom/pose/pose/position/y': '5.12', u'/ekf_slam_node/slam_odom/pose/pose/orientation/z': '1'}, 'publisher_id': 7, 'counter': 1}, {'topic_name': '/ekf_slam_node/slam_odom', 'type_name': 'nav_msgs/Odometry', 'enabled': False, 'rate': 8.0, 'expressions': {u'/ekf_slam_node/slam_odom/pose/pose/orientation/w': '0', u'/ekf_slam_node/slam_odom/pose/pose/position/x': '-0.04', u'/ekf_slam_node/slam_odom/pose/pose/position/y': '4.6', u'/ekf_slam_node/slam_odom/pose/pose/orientation/z': '1'}, 'publisher_id': 8, 'counter': 1}]\""
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_topic__TopicPlugin__1": {
+          "keys": {},
+          "groups": {
+            "plugin": {
+              "keys": {
+                "tree_widget_header_state": {
+                  "type": "repr(QByteArray.hex)",
+                  "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000000000010000000000000004010000000500000000000000010000000300000004000000020000000500000000000000010000000400000002000000030000000000000000000003fa00000005010100010000000000000000050000007dffffffff000000810000000300000005000001540000000100000003000000e40000000100000003000000970000000100000003000000a30000000100000003000000880000000100000003000003e800')",
+                  "pretty-print": "                                                  }         T                              "
+                }
+              },
+              "groups": {}
+            },
+            "dock_widget__TopicWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'Topic Monitor'"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_tf_tree__RosTfTree__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__RosTfTreeUi": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "u'true'"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'TF Tree'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "highlight_connections_check_box_state": {
+                  "type": "repr",
+                  "repr": "u'true'"
+                },
+                "auto_fit_graph_check_box_state": {
+                  "type": "repr",
+                  "repr": "u'true'"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_service_caller__ServiceCaller__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ServiceCallerWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'Service Caller'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "splitter_orientation": {
+                  "type": "repr",
+                  "repr": "2"
+                }
+              },
+              "groups": {}
+            }
+          }
+        }
+      }
+    },
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "type": "repr(QByteArray.hex)",
+          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb00020000000000d3000000240000077f000002db000000d3000000400000077f000002db00000000000000000780')",
+          "pretty-print": "       $       @         "
+        },
+        "state": {
+          "type": "repr(QByteArray.hex)",
+          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd0000000200000002000004bd00000286fc0100000001fb0000006a007200710074005f0072006f0062006f0074005f007300740065006500720069006e0067005f005f0052006f0062006f0074005300740065006500720069006e0067005f005f0031005f005f0052006f0062006f0074005300740065006500720069006e0067005500690100000000000004bd000000000000000000000003000006ad0000027efc0100000005fb0000004c007200710074005f00740066005f0074007200650065005f005f0052006f0073005400660054007200650065005f005f0031005f005f0052006f007300540066005400720065006500550069010000028d000004b20000000000000000fb00000042007200710074005f0070006c006f0074005f005f0050006c006f0074005f005f0031005f005f00440061007400610050006c006f007400570069006400670065007401000000000000037e0000000000000000fb00000042007200710074005f0070006c006f0074005f005f0050006c006f0074005f005f0032005f005f00440061007400610050006c006f007400570069006400670065007401000002f7000003390000000000000000fb00000058007200710074005f007000750062006c00690073006800650072005f005f005000750062006c00690073006800650072005f005f0031005f005f005000750062006c006900730068006500720057006900640067006500740100000000000003f3000002ab00fffffffc000003fa000002b3000002a700fffffffa000000000200000002fb00000072007200710074005f0073006500720076006900630065005f00630061006c006c00650072005f005f005300650072007600690063006500430061006c006c00650072005f005f0031005f005f005300650072007600690063006500430061006c006c006500720057006900640067006500740100000000ffffffff0000016500fffffffb0000004c007200710074005f0074006f007000690063005f005f0054006f0070006900630050006c007500670069006e005f005f0031005f005f0054006f00700069006300570069006400670065007401000000740000020a0000007e00ffffff000006ad0000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "pretty-print": "                 jrqt_robot_steering__RobotSteering__1__RobotSteeringUi                   Lrqt_tf_tree__RosTfTree__1__RosTfTreeUi          Brqt_plot__Plot__1__DataPlotWidget          Brqt_plot__Plot__2__DataPlotWidget          Xrqt_publisher__Publisher__1__PublisherWidget                                                                                       e                                            t   ~                                                          "
+        }
+      },
+      "groups": {
+        "toolbar_areas": {
+          "keys": {
+            "MinimizedDockWidgetsToolbar": {
+              "type": "repr",
+              "repr": "8"
+            }
+          },
+          "groups": {}
+        }
+      }
+    }
+  }
+}
