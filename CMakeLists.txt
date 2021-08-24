@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
   trajectory_msgs
   std_msgs
   tf
+  std_srvs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -62,11 +63,12 @@ find_package(catkin REQUIRED COMPONENTS
  )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
+ add_service_files(
+   FILES
 #   Service1.srv
 #   Service2.srv
-# )
+    SavePoint.srv
+ )
 
 ## Generate actions in the 'action' folder
  add_action_files(
@@ -81,7 +83,7 @@ find_package(catkin REQUIRED COMPONENTS
    DEPENDENCIES
    nav_msgs
    actionlib_msgs
-   std_msgs  # Or other packages containing msgs
+   std_msgs  # Or other packages containing msgs 
  )
 
 ################################################
@@ -116,7 +118,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES sherpa_ros
-  CATKIN_DEPENDS nav_msgs roscpp std_msgs geometry_msgs actionlib_msgs
+  CATKIN_DEPENDS nav_msgs roscpp std_msgs geometry_msgs actionlib_msgs message_runtime std_srvs
 #  DEPENDS system_lib
 )
 
@@ -286,6 +288,8 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   std_msgs
   tf
+  std_srvs
+  message_generation
 )
 
 # Depend on system install of Gazebo
@@ -306,6 +310,8 @@ catkin_package(
     geometry_msgs
     std_msgs
     tf
+    message_runtime
+    std_srvs
   LIBRARIES ${PROJECT_NAME}
 )
 

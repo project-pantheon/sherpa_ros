@@ -5,9 +5,10 @@
     <arg name="namespace" default="/"/>
     <arg name="paused" default="false"/>
     <arg name="use_sim_time" default="true"/>
-    <arg name="gui" default="false"/>
+    <arg name="gui" default="true"/>
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
+    <arg name="initial_waypoint_id" default="1"/>
 
     <!-- Gazebo robot spawn-->
     <arg name="x" default="0"/>
@@ -19,7 +20,7 @@
     <arg name="random_waypoint_generation" default="false"/>
 
     <!--odometry-->
-    <arg name="odometry_topic" default="/ekf_localization_slam_node/slam_odom_magnetic"/>
+    <arg name="odometry_topic" default="/ekf_slam_node/slam_odom"/>
 
     <!--enable_scanning-->
     <arg name="enable_scanning" default="false"/>
@@ -101,18 +102,20 @@
    </include>
 
 
-    <node name="ibvs_controller_node" pkg="pantheon_planning_and_control" type="IBVS_random_controller_node" clear_params="true" output="screen" 
+    <node name="ibvs_controller_node" pkg="pantheon_planning_and_control" type="IBVS_random_controller_node" clear_params="true"
           args="$(find pantheon_planning_and_control)/parameters/params_short_term.yaml">
     </node>
 
     <include file="$(find sherpa_ros)/launch/virtual_map_generated.launch"/>
 
-
-    <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" output="screen" >
-        <param name="tour" value="tour_warehouse_backup" />
+    <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" output="screen">
+        <param name="task_name" value="spraying" />
+	    <param name="tour" value="tours/tour_griglia" />
+        <param name="map_points" value="maps/griglia" />
         <param name="odometry_topic" value="$(arg odometry_topic)" />
         <param name="enable_scanning" value="$(arg enable_scanning)" />
         <param name="threshold" value="0.4"/>
+        <param name="initial_waypoint_id" value="$(arg initial_waypoint_id)"/>
     </node>
 
 

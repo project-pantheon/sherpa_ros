@@ -65,7 +65,7 @@ def fake_gazebo_slam():
 
     obstacles=navigationObstacles()
 
-    pub = rospy.Publisher('/ekf_localization_slam_node/navigation_obstacles', navigationObstacles, queue_size=1)
+    pub = rospy.Publisher('/ekf_slam_node/navigation_obstacles', navigationObstacles, queue_size=1)
     
     obstacles=gen_obstacles(obstacles)
 

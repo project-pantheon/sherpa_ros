@@ -1,7 +1,6 @@
 #!/bin/bash
 
-source /opt/ros/$ROS_DISTRO/setup.bash
-source ~/lab_ws/devel/setup.bash
+source ~/.bashrc
 
 
 rosservice call /set_k "k1: 1.0
@@ -10,5 +9,6 @@ k3: 9.0"
 
 rosservice call /activate_controller "is_active: true"
 
+sleep 4
 rosservice call /run_task_manager
 
