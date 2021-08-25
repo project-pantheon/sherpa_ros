@@ -164,10 +164,10 @@ def parsingService(call):
         # in tree_landmarks_data abbiamo i final target con quantitivo e in selected_trees c'e' la lista finale degli alberi scelti che hanno un landmark
         # che ricade nella soglia threshold_tree_distance
 
-        rotation_map = numpy.array([[1,1],[1,1]])
+        rotation_map = numpy.array([[1,0],[0,1]])
         rotation_theta_zero = numpy.dot(rotation_map,numpy.array([[0.9995, -0.0303], [0.0303, 0.9995]]))
         rotation_theta_pi = numpy.dot(rotation_map,numpy.array([[-0.9995, 0.0303], [-0.0303, -0.9995]]))
-        delta_col = 2.5
+        delta_col = 2.5 #leggere da file
         delta_row = 2.5
         delta_vec = numpy.array([[-delta_col/2],[delta_row/2]])
 
@@ -188,6 +188,7 @@ def parsingService(call):
         new_entries_flag = false
         map_entries = numpy.empty((0,3))
         tour_entries = numpy.empty((0,7))
+        reduction_distance = 0.8
 
         for tree in selected_trees:
             tree_coords = numpy.reshape(dict_tree[tree],(2,1))
@@ -204,33 +205,75 @@ def parsingService(call):
             # point_A must correspond to orientation close to 0 whereas point B close to -pi (using >0 and <0 to check it)
             found_point_A = false
             found_point_B = false
-            if tour_array[map_id_min_A][1] > 0:
+
+            if map_id_min_A in tour_array[:,0:1] and tour_array[map_id_min_A][1] > 0:
                 found_point_A = true
-            if tour_array[map_id_min_B][1] < 0:
+            if map_id_min_B in tour_array[:,0:1] and tour_array[map_id_min_B][1] < 0:
                 found_point_B = true
+            # store sucker coords
+            suckerCoords = tree_landmarks_data[tree_count_id][4:6]
+            # evaluate if ID has been found
             if found_point_A or found_point_B:
+                delta_vec_closer = delta_vec * reduction_distance
+                point_A_closer = tree_coords + rotation_theta_zero.dot(delta_vec_closer)
+                point_B_closer = tree_coords + rotation_theta_pi.dot(delta_vec_closer)
                 if found_point_A and found_point_B:
                     # both points are part of the tour, select the one closer to the sucker
-                    suckerCoords = tree_landmarks_data[tree_count_id][4:6]
                     sucker_dist_to_A = distance.cdist(suckerCoords,numpy.reshape(point_A,(1,2)))
                     sucker_dist_to_B = distance.cdist(suckerCoords,numpy.reshape(point_B,(1,2)))
                     if sucker_dist_to_A < sucker_dist_to_B:
                         # point_A is closer
+                        tour_array[map_id_min_A][1] = -0.7853981634 #-45 degrees
                         tour_array[map_id_min_A][2] = 3
+                        # add information about sucker: x, y, 0.2, seconds of sprayer
+                        tour_array[map_id_min_A][3] = suckerCoords[0]
+                        tour_array[map_id_min_A][4] = suckerCoords[1]
+                        tour_array[map_id_min_A][5] = 0.2 #fix 20 cm from ground
+                        tour_array[map_id_min_A][6] = tree_landmarks_data[tree_count_id][3]
+                        # update map with closer point
+                        map_array[map_id_min_A][1] = point_A_closer[0]
+                        map_array[map_id_min_A][2] = point_A_closer[1]
                     else:
                         # point_B is closer
+                        tour_array[map_id_min_B][1] = 2.3561944901 #135 degrees
                         tour_array[map_id_min_B][2] = 3
+                        # add information about sucker: x, y, 0.2, seconds of sprayer
+                        tour_array[map_id_min_B][3] = suckerCoords[0]
+                        tour_array[map_id_min_B][4] = suckerCoords[1]
+                        tour_array[map_id_min_B][5] = 0.2 #fix 20 cm from ground
+                        tour_array[map_id_min_B][6] = tree_landmarks_data[tree_count_id][3]
+                        # update map with closer point
+                        map_array[map_id_min_B][1] = point_B_closer[0]
+                        map_array[map_id_min_B][2] = point_B_closer[1]
                 elif found_point_A:
                     # adjust entry of tour for point A
+                    tour_array[map_id_min_A][1] = -0.7853981634 #-45 degrees
                     tour_array[map_id_min_A][2] = 3
+                    # add information about sucker: x, y, 0.2, seconds of sprayer
+                    tour_array[map_id_min_A][3] = suckerCoords[0]
+                    tour_array[map_id_min_A][4] = suckerCoords[1]
+                    tour_array[map_id_min_A][5] = 0.2 #fix 20 cm from ground
+                    tour_array[map_id_min_A][6] = tree_landmarks_data[tree_count_id][3]
+                    # update map with closer point
+                    map_array[map_id_min_A][1] = point_A_closer[0]
+                    map_array[map_id_min_A][2] = point_A_closer[1]
                 else:
                     # adjust entry of tour for point B
+                    tour_array[map_id_min_B][1] = 2.3561944901 #135 degrees
                     tour_array[map_id_min_B][2] = 3
+                    # add information about sucker: x, y, 0.2, seconds of sprayer
+                    tour_array[map_id_min_B][3] = suckerCoords[0]
+                    tour_array[map_id_min_B][4] = suckerCoords[1]
+                    tour_array[map_id_min_B][5] = 0.2 #fix 20 cm from ground
+                    tour_array[map_id_min_B][6] = tree_landmarks_data[tree_count_id][3]
+                    # update map with closer point
+                    map_array[map_id_min_B][1] = point_B_closer[0]
+                    map_array[map_id_min_B][2] = point_B_closer[1]
             else:
                 print "No tour point has been found. New one will be added to map and tour."
                 last_id_entry_map_array = last_id_entry_map_array+1
                 map_entry = numpy.array([last_id_entry_map_array, point_A[0], point_A[1]])
-                tour_entry = numpy.array([last_id_entry_map_array, 0.0303346732, 3, 0, 0, 0, 0])
+                tour_entry = numpy.array([last_id_entry_map_array, -0.7853981634, 3, suckerCoords[0], suckerCoords[1], 0.2, tree_landmarks_data[tree_count_id][3]])
                 # add to list
                 map_entries = numpy.append(map_entries,numpy.reshape(map_entry,(1,3)),axis=0)
                 tour_entries = numpy.append(tour_entries,numpy.reshape(tour_entry,(1,7)),axis=0)
@@ -256,7 +299,6 @@ def parsingService(call):
             output_writer = csv.writer(output, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             for row in tour_final:
                 output_writer.writerow(row)
-
 
     else :
         print "Could not retrieve suckers' area"
