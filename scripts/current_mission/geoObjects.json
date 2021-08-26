@@ -1,0 +1,2356 @@
+[
+    {
+        "id": "Field_18",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        12.295802,
+                        42.279666
+                    ],
+                    [
+                        12.298428,
+                        42.279867
+                    ],
+                    [
+                        12.297786,
+                        42.278018
+                    ],
+                    [
+                        12.295367,
+                        42.278365
+                    ],
+                    [
+                        12.295802,
+                        42.279666
+                    ]
+                ]
+            ]
+        },
+        "properties": {
+            "type": "field"
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Field_16",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        12.298428,
+                        42.279867
+                    ],
+                    [
+                        12.301931,
+                        42.280112
+                    ],
+                    [
+                        12.301124,
+                        42.277604
+                    ],
+                    [
+                        12.297316,
+                        42.276665
+                    ],
+                    [
+                        12.298428,
+                        42.279867
+                    ]
+                ]
+            ]
+        },
+        "properties": {
+            "type": "field"
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_S1",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2979611111111,
+                42.279802777777796
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_S2",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.29795,
+                42.2797611111111
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_S3",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2979277777778,
+                42.2797166666667
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_S4",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297905555555598,
+                42.2796777777778
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_S5",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297880555555599,
+                42.2796305555556
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_S6",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2978722222222,
+                42.279591666666704
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_S7",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297858333333302,
+                42.2795444444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_S8",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297847222222199,
+                42.2795
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_S9",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297827777777801,
+                42.279458333333295
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_S10",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297816666666698,
+                42.2794027777778
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_S1",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298675,
+                42.2796361111111
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_S2",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2987111111111,
+                42.279641666666706
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_S3",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2987444444444,
+                42.279641666666706
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_S4",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2987833333333,
+                42.2796444444445
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_S5",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2988166666667,
+                42.2796472222222
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_S6",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2988472222222,
+                42.2796472222222
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_S7",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2988888888889,
+                42.2796527777778
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_S8",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2989277777778,
+                42.27965
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_S9",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2989611111111,
+                42.279658333333295
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_S10",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298994444444402,
+                42.279658333333295
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_F1",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.29795,
+                42.2797611111111
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_F2",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297905555555598,
+                42.2796777777778
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_F3",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2978722222222,
+                42.279591666666704
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_F4",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297847222222199,
+                42.2795
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_F5",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297816666666698,
+                42.2794027777778
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_F1",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29866951,
+                    42.279720804
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_F2",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.298706271,
+                    42.279724443
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_F3",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29874400,
+                    42.279728481
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_F4",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.298778568,
+                    42.279729304
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_F5",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.298813414,
+                    42.279730881
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_F6",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.298852567,
+                    42.279732183
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_F7",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29888703,
+                    42.279733730
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_F8",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29891723,
+                    42.279737195
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_F9",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29895120,
+                    42.27974052
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_F10",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.298990689,
+                    42.279742446
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_A1",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298658333333302,
+                42.27979722222221
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_A2",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298691666666699,
+                42.279802777777796
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_A3",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298730555555599,
+                42.279802777777796
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_A4",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2987638888889,
+                42.2798055555556
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_A5",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2988,
+                42.2798083333333
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_A6",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2988027777778,
+                42.2797694444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_A7",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2987666666667,
+                42.2797694444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_A8",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298730555555599,
+                42.2797666666667
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_A9",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298697222222199,
+                42.2797638888889
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_A10",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298658333333302,
+                42.2797611111111
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_B1",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2990194444444,
+                42.2798194444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_B2",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.299055555555599,
+                42.279825
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_B3",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.299091666666698,
+                42.279825
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_B4",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29912930,
+                    42.27982453
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_B5",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29916586,
+                    42.27982949
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_B6",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29917125,
+                    42.279789824
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_B7",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29913423,
+                    42.27978898
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_B8",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29909787,
+                    42.27978512
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_B9",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.299055555555599,
+                42.279788888888895
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_B10",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2990194444444,
+                42.2797861111111
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_C1",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2988361111111,
+                42.2798083333333
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_C2",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2988722222222,
+                42.2798111111111
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_C3",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2989111111111,
+                42.279816666666704
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_C4",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2989472222222,
+                42.279816666666704
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_C5",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298983333333302,
+                42.2798194444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_C6",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29899198,
+                    42.27978027
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_C7",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29895316,
+                    42.27977692
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_C8",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.2989188,
+                    42.279775839
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_C9",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29888519,
+                    42.27977374
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_C10",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                    12.29884755,
+                    42.27977260
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_I1",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2980666666667,
+                42.2797861111111
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_I2",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2980527777778,
+                42.2797444444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_I3",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2980361111111,
+                42.2797
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_I4",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298019444444401,
+                42.2796555555556
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_I5",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2980055555556,
+                42.2796083333333
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_I6",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2979888888889,
+                42.2795694444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_I7",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2979777777778,
+                42.279525
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_I8",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2979611111111,
+                42.2794805555556
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_I9",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297947222222199,
+                42.279433333333294
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_I10",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297936111111099,
+                42.279391666666704
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_NI1",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298230555555598,
+                42.279752777777794
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_NI2",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298222222222199,
+                42.279708333333296
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_NI3",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2982111111111,
+                42.27966666666671
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_NI4",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2981972222222,
+                42.2796194444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_NI5",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298183333333302,
+                42.279577777777796
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_NI6",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2981638888889,
+                42.2795333333333
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_NI7",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.29815,
+                42.2794888888889
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_NI8",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2981388888889,
+                42.2794444444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_NI9",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2981277777778,
+                42.2794055555555
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Ad_NI10",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2981111111111,
+                42.279363888888895
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_I1",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.29855,
+                42.279788888888895
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_I2",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298555555555598,
+                42.279752777777794
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_I3",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2985611111111,
+                42.2797138888889
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_I4",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2985638888889,
+                42.2796722222222
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_I5",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298566666666698,
+                42.2796305555556
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_I6",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298575,
+                42.279591666666704
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_I7",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2985805555556,
+                42.27955
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_I8",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2985861111111,
+                42.279511111111105
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_I9",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2985888888889,
+                42.2794694444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_I10",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2985944444444,
+                42.2794305555556
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_NI1",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298444444444401,
+                42.279780555555604
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_NI2",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2984472222222,
+                42.279747222222205
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_NI3",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2984527777778,
+                42.279708333333296
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_NI4",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2984527777778,
+                42.2796638888889
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_NI5",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298458333333302,
+                42.279625
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_NI6",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2984638888889,
+                42.2795861111111
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_NI7",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298466666666698,
+                42.2795444444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_NI8",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2984722222222,
+                42.2795055555556
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_NI9",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.298475,
+                42.2794638888889
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "Yo_NI10",
+        "age_class": "young",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2984805555556,
+                42.279425
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "young"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "C1",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2978,
+                42.2797388888889
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "C2",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297741666666699,
+                42.279752777777794
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T2.1",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297769444444402,
+                42.2796472222222
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T2.2",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2977111111111,
+                42.2796611111111
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T2.3",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297741666666699,
+                42.279563888888894
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T2.4",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2976805555556,
+                42.279575
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T1.5",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2977111111111,
+                42.279475
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T1.6",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2976527777778,
+                42.279486111111105
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "C3",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297683333333302,
+                42.279388888888896
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "C4",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297625,
+                42.2793972222222
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T1.1",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2976083333333,
+                42.279722222222205
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T1.2",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2975472222222,
+                42.2797388888889
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "C5",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297580555555598,
+                42.279641666666706
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "C6",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297516666666699,
+                42.2796527777778
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T1.3",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.2975472222222,
+                42.279547222222206
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T1.4",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297483333333302,
+                42.2795583333333
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T2.5",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297516666666699,
+                42.279461111111104
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    },
+    {
+        "id": "T2.6",
+        "created": "2020-06-15_14-56-00.0",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                12.297458333333301,
+                42.2794694444444
+            ]
+        },
+        "properties": {
+            "type": "tree",
+            "info": {
+                "age_class": "adult"
+            }
+        },
+        "type": "Feature"
+    }
+]

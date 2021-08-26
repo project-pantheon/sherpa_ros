@@ -3,7 +3,7 @@
 import rospy
 from geometry_msgs.msg import Point
 from nav_msgs.msg import Odometry
-from std_srvs.srv import Empty, EmptyResponse
+from std_srvs.srv import Empty, EmptyResponse, SetBool
 from scanning_controller.srv import ScanningTree, ScanningTreeResponse, ScanningTreeRequest, OffsetSet, OffsetSetResponse, OffsetSetRequest
 from rm3_ackermann_controller.srv import ActivateController, ActivateControllerResponse, ActivateControllerRequest
 from pyproj import Proj
@@ -15,9 +15,6 @@ import time
 import tf
 import os
 from os.path import expanduser
-
-from paramiko import SSHClient
-from scp import SCPClient
 
 global pub, path, enable_task_manager, enable_task, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, new_waypoint, tour_filename, cnt, threshold_waypoint, task_name, origin_utm_lon, origin_utm_lat, origin_lon, origin_lat, origin_set
 
@@ -85,31 +82,32 @@ def sprayingTask():
     #activation manager_suckers
     if (waypoint_data[waypoint_id][2]==1):
         rospy.wait_for_service('/manager_suckers/activate_nodes')
+        print "Requested activation for manager suckers"
         try:
-            manager_suckers_client = rospy.ServiceProxy('/manager_suckers/activate_nodes', Empty)
-            resp = manager_suckers_client(Empty())
+            manager_suckers_activation_client = rospy.ServiceProxy('/manager_suckers/activate_nodes', Empty)
+            resp = manager_suckers_activation_client()
         except rospy.ServiceException, e:
             print "Task Manager: manager_suckers service call failed: %s"%e    
     elif (waypoint_data[waypoint_id][2]==2):
         # Call service for computing suckers
         rospy.wait_for_service('/manager_suckers/compute_mesh_area')
         try:
-            manager_suckers_client = rospy.ServiceProxy('/manager_suckers/compute_mesh_area', Empty)
-            resp = manager_suckers_client(Empty())
+            manager_suckers_request_client = rospy.ServiceProxy('/manager_suckers/compute_mesh_area', Empty)
+            resp = manager_suckers_request_client()
         except rospy.ServiceException, e:
             print "Task Manager: manager_suckers service call failed: %s"%e    
         # Call service for parsing
         rospy.wait_for_service('/landmark_parser/parsing')
         try:
             landmark_parsing_client = rospy.ServiceProxy('/landmark_parser/parsing', Empty)
-            resp = landmark_parsing_client(Empty())
+            resp = landmark_parsing_client()
         except rospy.ServiceException, e:
             print "Task Manager: LandmarkParser Parsing service call failed: %s"%e
         # Call service for tour creation
         rospy.wait_for_service('/landmark_parser/tour')
         try:
             landmark_tour_client = rospy.ServiceProxy('/landmark_parser/tour', Empty)
-            resp = landmark_tour_client(Empty())
+            resp = landmark_tour_client()
         except rospy.ServiceException, e:
             print "Task Manager: LandmarkParser Tour service call failed: %s"%e
 
@@ -141,7 +139,7 @@ def runTaskManagerService(call):
 
     enable_task_manager = True
     print "task_manager service called"
-
+    
     return EmptyResponse()
 
 def robotMovementsEnable(status):
@@ -162,7 +160,7 @@ def odomCallback(odomData):
     a = numpy.array((odomData.pose.pose.position.x, odomData.pose.pose.position.y))
     b = numpy.array((waypoint.pose.pose.position.x, waypoint.pose.pose.position.y))
     dist = numpy.linalg.norm(a-b)
-
+    
     # check distance
     if waypoint_id+1<=max_waypoint_id and enable_task_manager :
         skip_step=False
@@ -173,7 +171,6 @@ def odomCallback(odomData):
                 new_waypoint = True
 
         if not skip_step and dist<threshold :
-
             #time.sleep(5)
             
             # check if scanning action is required
@@ -205,8 +202,8 @@ def odomCallback(odomData):
         print "-----"
         print "tour: ", tour_filename
         print "Waypoint_ID: ", waypoint_id+1
-        print "Waypoint_position: \n", waypoint.pose.pose.position
-        print "Position_position: \n", odomData.pose.pose.position
+#        print "Waypoint_position: \n", waypoint.pose.pose.position
+#        print "Position_position: \n", odomData.pose.pose.position
 
         quaternion = (
             waypoint.pose.pose.orientation.x,
@@ -214,14 +211,14 @@ def odomCallback(odomData):
             waypoint.pose.pose.orientation.z,
             waypoint.pose.pose.orientation.w)
         euler = tf.transformations.euler_from_quaternion(quaternion)
-        print "Waypoint_orientation: \n", euler[2]
+#        print "Waypoint_orientation: \n", euler[2]
         quaternion = (
             odomData.pose.pose.orientation.x,
             odomData.pose.pose.orientation.y,
             odomData.pose.pose.orientation.z,
             odomData.pose.pose.orientation.w)
         euler = tf.transformations.euler_from_quaternion(quaternion)
-        print "Position_orientation: \n", euler[2]
+#        print "Position_orientation: \n", euler[2]
     else :
         enable_task_manager=False
         print "-----"
