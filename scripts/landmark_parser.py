@@ -5,7 +5,6 @@ from geometry_msgs.msg import Point
 from nav_msgs.msg import Odometry
 from visualization_msgs.msg import Marker
 from std_srvs.srv import Empty, EmptyResponse
-from scanning_controller.srv import ScanningTree, ScanningTreeResponse, ScanningTreeRequest, OffsetSet, OffsetSetResponse, OffsetSetRequest
 from rm3_ackermann_controller.srv import ActivateController, ActivateControllerResponse, ActivateControllerRequest
 from pyproj import Proj
 from scipy.spatial import distance
@@ -338,8 +337,8 @@ def landmark_parser():
 
     rospy.Subscriber(landmarks_topic, Marker, landmarksCallback)
     rospy.Subscriber('/ekf_slam_node/origin', Point, originCallback)
-    s_parsing = rospy.Service('/parsing', Empty, parsingService)
-    s_tour = rospy.Service('/tour', Empty, tourService)
+    s_parsing = rospy.Service('/landmark_parser/parsing', Empty, parsingService)
+    s_tour = rospy.Service('/landmark_parser/tour', Empty, tourService)
 
     rospy.spin()
 

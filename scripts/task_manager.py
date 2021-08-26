@@ -87,7 +87,7 @@ def sprayingTask():
         rospy.wait_for_service('/manager_suckers/activate_nodes')
         try:
             manager_suckers_client = rospy.ServiceProxy('/manager_suckers/activate_nodes', Empty)
-            resp = manager_suckers_client(Empty())
+            resp = manager_suckers_client()
         except rospy.ServiceException, e:
             print "Task Manager: manager_suckers service call failed: %s"%e    
     elif (waypoint_data[waypoint_id][2]==2):
@@ -95,21 +95,21 @@ def sprayingTask():
         rospy.wait_for_service('/manager_suckers/compute_mesh_area')
         try:
             manager_suckers_client = rospy.ServiceProxy('/manager_suckers/compute_mesh_area', Empty)
-            resp = manager_suckers_client(Empty())
+            resp = manager_suckers_client()
         except rospy.ServiceException, e:
             print "Task Manager: manager_suckers service call failed: %s"%e    
         # Call service for parsing
         rospy.wait_for_service('/landmark_parser/parsing')
         try:
             landmark_parsing_client = rospy.ServiceProxy('/landmark_parser/parsing', Empty)
-            resp = landmark_parsing_client(Empty())
+            resp = landmark_parsing_client()
         except rospy.ServiceException, e:
             print "Task Manager: LandmarkParser Parsing service call failed: %s"%e
         # Call service for tour creation
         rospy.wait_for_service('/landmark_parser/tour')
         try:
             landmark_tour_client = rospy.ServiceProxy('/landmark_parser/tour', Empty)
-            resp = landmark_tour_client(Empty())
+            resp = landmark_tour_client()
         except rospy.ServiceException, e:
             print "Task Manager: LandmarkParser Tour service call failed: %s"%e
 
