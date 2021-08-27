@@ -199,15 +199,32 @@ def parsingService(call):
             print "\nTree landmarks: ", tree_landmarks_data, '\n'
             print "Selected trees: ", selected_trees, '\n'
             
-            # in tree_landmarks_data abbiamo i final target con quantitivo e in selected_trees c'e' la lista finale degli alberi scelti che hanno un landmark
-            # che ricade nella soglia threshold_tree_distance
+            # in tree_landmarks_data abbiamo i final target con quantitivo e in selected_trees c'e' la lista finale degli alberi scelti che hanno un landmark che ricade nella soglia threshold_tree_distance
 
-            rotation_map = numpy.array([[1,0],[0,1]])
+            field_id_name = mission_data['location']
+            map_config_file = path+'maps/maps_config.json'
+            map_data_found = False
+            # find map data from map_config_file
+            with open(map_config_file, 'rb') as map_config_json_file:
+                map_config_data = json.load(map_config_json_file)
+                for d in map_config_data:
+                    if d['id']==field_id_name:
+                        map_orientation = d['field']['orientation']
+                        delta_rows = d['field']['delta_rows']
+                        delta_cols = d['field']['delta_cols']
+                        map_data_found = True
+            if not map_data_found:
+                map_orientation = 0.0303346732
+                delta_rows = 4
+                delta_cols = 3.5
+            
+            # compute rotation matrices data
+            rotation_map = numpy.array([[numpy.cos(map_orientation),-numpy.sin(map_orientation)],[numpy.sin(map_orientation),numpy.cos(map_orientation)]])
             rotation_theta_zero = numpy.dot(rotation_map,numpy.array([[0.9995, -0.0303], [0.0303, 0.9995]]))
             rotation_theta_pi = numpy.dot(rotation_map,numpy.array([[-0.9995, 0.0303], [-0.0303, -0.9995]]))
-            delta_col = 2.5 #leggere da file
-            delta_row = 2.5
-            delta_vec = numpy.array([[-delta_col/2],[delta_row/2]])
+            
+            # compute delta vector
+            delta_vec = numpy.array([[-delta_cols/2],[delta_rows/2]])
 
             # load tour data
             with open(path+'current_mission/tour.csv', 'rb') as csvfile:
@@ -242,6 +259,7 @@ def parsingService(call):
             tour_entries = numpy.empty((0,7))
             reduction_distance = 0.8
             threshold_grid = 1.0
+            angle_threshold = 0.25 # = 14.324 degrees, this threshold is used to discern the orientation of the tour 
 
             for tree in selected_trees:
                 print "Evaluating Tree: ", tree, '\n'
@@ -271,10 +289,12 @@ def parsingService(call):
                 # point_A must correspond to orientation close to 0 whereas point B close to -pi (using >0 and <0 to check it)
                 found_point_A = False
                 found_point_B = False
-
-                if map_id_min_A+1 in tour_array[:,0:1] and tour_array[map_id_min_A][1] > 0:
+                
+                # check if the ID is in list and if the orientation is close to 0
+                if map_id_min_A+1 in tour_array[:,0:1] and abs(tour_array[map_id_min_A][1]-0)<angle_threshold:
                     found_point_A = True
-                if map_id_min_B+1 in tour_array[:,0:1] and tour_array[map_id_min_B][1] < 0:
+                # check if the ID is in list and if the orientation is close to pi
+                if map_id_min_B+1 in tour_array[:,0:1] and abs(abs(tour_array[map_id_min_B][1])-numpy.pi)<angle_threshold:
                     found_point_B = True
                 # store sucker coords
                 suckerCoords = tree_landmarks_data[tree_count_id][4:6]
