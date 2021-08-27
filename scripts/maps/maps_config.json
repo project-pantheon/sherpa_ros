@@ -1,0 +1,50 @@
+[
+    {
+		"id": "Field_18",
+		"field": {
+			"delta_rows": 5,
+			"delta_cols": 5,
+			"trees_cols": 20,
+			"trees_rows": 20,
+			"orientation": 0.0303346732
+		},
+		"map_file": "Adult.csv",
+		"mapping": "AdultTrees.csv"
+	},
+    {
+        "id": "Field_16",
+        "field": {
+            "delta_rows": 4,
+            "delta_cols": 3.5,
+            "trees_cols": 20,
+            "trees_rows": 20,
+			"orientation": 0.0303346732
+        },
+        "map_file": "Young.csv",
+        "mapping": "YoungTrees.csv"
+    },
+    {
+        "id": "Field_16_GFP",
+        "field": {
+            "delta_rows": 4,
+            "delta_cols": 3.5,
+            "trees_cols": 24,
+            "trees_rows": 4,
+			"orientation": 0.0303346732
+        },
+        "map_file": "YoungGFP.csv",
+        "mapping": "YoungGFPtrees.csv"
+    },
+    {
+        "id": "MapTest",
+        "field": {
+            "delta_rows": 5,
+            "delta_cols": 5,
+            "trees_cols": 18,
+            "trees_rows": 1,
+			"orientation": 0.0303346732
+        },
+        "map_file": "MapTest.csv",
+        "mapping": "MapTestTrees.csv"
+    }
+]
