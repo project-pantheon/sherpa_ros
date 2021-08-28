@@ -21,8 +21,6 @@ from os.path import expanduser
 from paramiko import SSHClient
 from scp import SCPClient
 
-import paramiko
-
 global threshold, landmarks, path, origin_utm_lon, origin_utm_lat, origin_set
 
 threshold_sucker_distance = 1.5
@@ -61,16 +59,16 @@ def parsingService(call):
         area_file_name = rospy.get_param('/mesh_filter/filename')
         area_suckers_file = area_file_path+area_file_name+'.txt'
         suckers_landmarks_file = path+'suckers/'+area_file_name+'_landmark'+'.csv'
-        suckers_map_file = path+'current_mission/'+area_file_name+'_map'+'.csv'
-        suckers_tour_file = path+'current_mission/'+area_file_name+'_tour'+'.csv'
+        suckers_map_file = path+'current_mission/spray_map'+'.csv'
+        suckers_tour_file = path+'current_mission/spray_tour'+'.csv'
         # create ssh and scp objects
         ssh = SSHClient()
         # decommentare queste due sul robot
-#        ssh.load_system_host_keys()
-#        ssh.connect("10.10.1.125",22,"newline","pantheon.jetson")
+        ssh.load_system_host_keys()
+        ssh.connect("10.10.1.125",22,"newline","pantheon.jetson")
         # commentare queste due sul robot
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect("192.168.1.12",22,"newline","pantheon.jetson")
+#        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+#        ssh.connect("192.168.1.12",22,"newline","pantheon.jetson")
         scp = SCPClient(ssh.get_transport())
         # retrieve file
         if not os.path.isdir(path+'suckers'):
@@ -305,8 +303,8 @@ def parsingService(call):
                     point_B_closer = tree_coords + rotation_theta_pi.dot(delta_vec_closer)
                     if found_point_A and found_point_B:
                         # both points are part of the tour, select the one closer to the sucker
-                        sucker_dist_to_A = distance.cdist(suckerCoords,numpy.reshape(point_A,(1,2)))
-                        sucker_dist_to_B = distance.cdist(suckerCoords,numpy.reshape(point_B,(1,2)))
+                        sucker_dist_to_A = distance.cdist(numpy.reshape(suckerCoords,(1,2)),numpy.reshape(point_A,(1,2)))
+                        sucker_dist_to_B = distance.cdist(numpy.reshape(suckerCoords,(1,2)),numpy.reshape(point_B,(1,2)))
                         if sucker_dist_to_A < sucker_dist_to_B:
                             # point_A is closer
                             tour_array[map_id_min_A][1] = -0.7853981634 #-45 degrees
@@ -405,13 +403,6 @@ def parsingService(call):
 
     return EmptyResponse()
 
-def tourService(call):
-
-
-    print "landmark_parser Tour service called"
-
-    return EmptyResponse()
-
 def originCallback(originData):
     global origin_utm_lon, origin_utm_lat, origin_set
     if not origin_set :
@@ -441,7 +432,6 @@ def landmark_parser():
     rospy.Subscriber(landmarks_topic, Marker, landmarksCallback)
     rospy.Subscriber('/ekf_slam_node/origin', Point, originCallback)
     s_parsing = rospy.Service('/landmark_parser/parsing', Empty, parsingService)
-    s_tour = rospy.Service('/landmark_parser/tour', Empty, tourService)
 
     rospy.spin()
 

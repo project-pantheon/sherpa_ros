@@ -18,7 +18,7 @@ import os
 from os.path import expanduser
 import json
 
-global pub, path, enable_task_manager, enable_task, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, new_waypoint, tour_filename, cnt, threshold_waypoint, task_name, origin_utm_lon, origin_utm_lat, origin_lon, origin_lat, origin_set, sprayingAction
+global pub, path, enable_task_manager, enable_task, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, new_waypoint, tour_filename, cnt, threshold_waypoint, task_name, origin_utm_lon, origin_utm_lat, origin_lon, origin_lat, origin_set, sprayingAction, reference
 
 default_workspace_value=expanduser("~")+'/catkin_ws'
 path = os.getenv('ROS_WORKSPACE', default_workspace_value)+'/src/sherpa_ros/scripts/'
@@ -28,7 +28,7 @@ tour_filename='tour_warehouse'
 enable_task_manager = False
 enable_task = True
 new_waypoint = True
-waypoint_id = 0
+waypoint_id = 1
 threshold=0.2
 threshold_waypoint=0.6
 sprayingAction=False
@@ -89,8 +89,11 @@ def sprayingTask():
         try:
             manager_suckers_activation_client = rospy.ServiceProxy('/manager_suckers/activate_nodes', Empty)
             resp = manager_suckers_activation_client()
+            print "Waiting a bit for the activation"
+            time.sleep(10)
+            print "Activation completed"
         except rospy.ServiceException, e:
-            print "Task Manager: manager_suckers service call failed: %s"%e    
+            print "Task Manager: manager_suckers service call failed: %s"%e
     elif (waypoint_data[waypoint_id][2]==2):
         # Call service for computing suckers
         rospy.wait_for_service('/manager_suckers/compute_mesh_area')
@@ -106,13 +109,6 @@ def sprayingTask():
             resp = landmark_parsing_client()
         except rospy.ServiceException, e:
             print "Task Manager: LandmarkParser Parsing service call failed: %s"%e
-        # Call service for tour creation
-        rospy.wait_for_service('/landmark_parser/tour')
-        try:
-            landmark_tour_client = rospy.ServiceProxy('/landmark_parser/tour', Empty)
-            resp = landmark_tour_client()
-        except rospy.ServiceException, e:
-            print "Task Manager: LandmarkParser Tour service call failed: %s"%e
 
     elif (waypoint_data[waypoint_id][2]==3):
         #required publication of target
@@ -151,9 +147,10 @@ def updateWaypointFromTour():
 
 def runTaskManagerService(call):
 
-    global enable_task_manager
+    global enable_task_manager, sprayingAction
 
     enable_task_manager = True
+    sprayingAction = False
     print "task_manager service called"
 
     
@@ -171,7 +168,7 @@ def robotMovementsEnable(status):
 
 def odomCallback(odomData):
 
-    global waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, enable_task_manager, enable_task, new_waypoint, tour_filename, tmp, threshold_waypoint, task_name, sprayingAction
+    global waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, enable_task_manager, enable_task, new_waypoint, tour_filename, tmp, threshold_waypoint, task_name, sprayingAction, reference
 
     # distance
     a = numpy.array((odomData.pose.pose.position.x, odomData.pose.pose.position.y))
@@ -213,14 +210,14 @@ def odomCallback(odomData):
                 waypoint_id=waypoint_id+1
                 new_waypoint = True
     
-    if waypoint_id+1<=max_waypoint_id:
+    if waypoint_id+1<=max_waypoint_id :
         updateWaypointFromTour()
 
         print "-----"
         print "tour: ", tour_filename
         print "Waypoint_ID: ", waypoint_id+1
-#        print "Waypoint_position: \n", waypoint.pose.pose.position
-#        print "Position_position: \n", odomData.pose.pose.position
+        print "Waypoint_position: \n", waypoint.pose.pose.position
+        print "Position_position: \n", odomData.pose.pose.position
 
         quaternion = (
             waypoint.pose.pose.orientation.x,
@@ -228,23 +225,23 @@ def odomCallback(odomData):
             waypoint.pose.pose.orientation.z,
             waypoint.pose.pose.orientation.w)
         euler = tf.transformations.euler_from_quaternion(quaternion)
-#        print "Waypoint_orientation: \n", euler[2]
+        print "Waypoint_orientation: \n", euler[2]
         quaternion = (
             odomData.pose.pose.orientation.x,
             odomData.pose.pose.orientation.y,
             odomData.pose.pose.orientation.z,
             odomData.pose.pose.orientation.w)
         euler = tf.transformations.euler_from_quaternion(quaternion)
-#        print "Position_orientation: \n", euler[2]
+        print "Position_orientation: \n", euler[2]
     else :
         if not sprayingAction :
             #sprayingAction
             sprayingAction=True
-
-            #readMapAndTour(path, map_points,reference,tour_filename)
+            waypoint_id = 0
+            print "\n\n\n\nSPRAYING PHASE\n\n\n\n"
+            readMapAndTour(path, 'spray_map','spray_tour')
         else :
             enable_task_manager=False
-            sprayingAction=False
             print "-----"
             print "end"
             print "-----"
@@ -256,9 +253,9 @@ def originCallback(originData):
         origin_utm_lat = originData.y
         origin_set=True
 
-def readMapAndTour(path, map_points,reference,tour_filename):
+def readMapAndTour(path, map_points,tour_filename):
 
-    global origin_set, origin_utm_lon, origin_utm_lat, map_coordinates, waypoint_data, waypoint_id, max_waypoint_id, waypoint
+    global origin_set, origin_utm_lon, origin_utm_lat, map_coordinates, waypoint_data, waypoint_id, max_waypoint_id, waypoint, reference
 
     #map
     with open(path+ map_points+'.csv', 'rb') as csvfile:
@@ -307,11 +304,11 @@ def readMapAndTour(path, map_points,reference,tour_filename):
     for elem in tourData:
         waypoint_data[i][0] = float(elem[0])
         waypoint_data[i][1] = float(elem[1])
-        waypoint_data[i][2] = int(elem[2])
-        waypoint_data[i][3] = int(elem[3])
-        waypoint_data[i][4] = int(elem[4])
-        waypoint_data[i][5] = int(elem[5])
-        waypoint_data[i][6] = int(elem[6])
+        waypoint_data[i][2] = float(elem[2])
+        waypoint_data[i][3] = float(elem[3])
+        waypoint_data[i][4] = float(elem[4])
+        waypoint_data[i][5] = float(elem[5])
+        waypoint_data[i][6] = float(elem[6])
         i=i+1
 
     print waypoint_data
@@ -334,7 +331,7 @@ def readMapAndTour(path, map_points,reference,tour_filename):
 
 def task_manager():
 
-    global pub, path, enable_task_manager, enable_task, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, tour_filename, threshold_waypoint, task_name, origin_utm_lon, origin_utm_lat, origin_lon, origin_lat, origin_set
+    global pub, path, enable_task_manager, enable_task, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, tour_filename, threshold_waypoint, task_name, origin_utm_lon, origin_utm_lat, origin_lon, origin_lat, origin_set, reference
 
     #ROS init
     rospy.init_node('task_manager', anonymous=True)
@@ -378,14 +375,12 @@ def task_manager():
         waypoint_id=rospy.get_param('~initial_waypoint_id')
 	waypoint_id=waypoint_id-1
 
-
     if map_points=='mission':
         path=path+'current_mission/'
         map_points='map'
         tour_filename='tour'
         
-
-    readMapAndTour(path, map_points,reference,tour_filename)
+    readMapAndTour(path, map_points,tour_filename)
 
     pub = rospy.Publisher('/command/pose', Odometry, queue_size=1)
     rospy.Subscriber(odometry_topic, Odometry, odomCallback)

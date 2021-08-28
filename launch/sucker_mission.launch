@@ -16,7 +16,7 @@
         <param name="reference" value="geo" />
         <param name="task_name" value="spraying" />
 	    <param name="tour" value="current_mission/tour" />
-        <param name="map_points" value="current_mission/map" />
+        <param name="map_points" value="mission" />
         <param name="odometry_topic" value="$(arg odometry_topic)" />
         <param name="enable_task" value="$(arg enable_task)" />
         <param name="threshold" value="0.25"/>
