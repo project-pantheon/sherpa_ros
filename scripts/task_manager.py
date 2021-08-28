@@ -7,6 +7,7 @@ from std_srvs.srv import Empty, EmptyResponse
 from scanning_controller.srv import ScanningTree, ScanningTreeResponse, ScanningTreeRequest, OffsetSet, OffsetSetResponse, OffsetSetRequest
 from rm3_ackermann_controller.srv import ActivateController, ActivateControllerResponse, ActivateControllerRequest
 from pyproj import Proj
+from spray_controller.srv import AimingSpraying, AimingSprayingResponse
 
 import csv
 import math
@@ -110,6 +111,19 @@ def sprayingTask():
             resp = landmark_tour_client()
         except rospy.ServiceException, e:
             print "Task Manager: LandmarkParser Tour service call failed: %s"%e
+
+    elif (waypoint_data[waypoint_id][2]==3):
+        #required publication of target
+
+        # Call service for aiming and spraying
+        rospy.wait_for_service('/auto_aim_spray_fire')
+        try:
+            manager_suckers_client = rospy.ServiceProxy('/auto_aim_spray_fire', AimingSpraying)
+            target=Point(waypoint_data[waypoint_id][3],waypoint_data[waypoint_id][4],waypoint_data[waypoint_id][5])
+            resp = manager_suckers_client(waypoint_data[waypoint_id][6],target)
+        except rospy.ServiceException, e:
+            print "Task Manager: manager_suckers service call failed: %s"%e
+
 
 def updateWaypointFromTour():
 
