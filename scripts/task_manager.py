@@ -16,8 +16,9 @@ import time
 import tf
 import os
 from os.path import expanduser
+import json
 
-global pub, path, enable_task_manager, enable_task, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, new_waypoint, tour_filename, cnt, threshold_waypoint, task_name, origin_utm_lon, origin_utm_lat, origin_lon, origin_lat, origin_set
+global pub, path, enable_task_manager, enable_task, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, new_waypoint, tour_filename, cnt, threshold_waypoint, task_name, origin_utm_lon, origin_utm_lat, origin_lon, origin_lat, origin_set, sprayingAction
 
 default_workspace_value=expanduser("~")+'/catkin_ws'
 path = os.getenv('ROS_WORKSPACE', default_workspace_value)+'/src/sherpa_ros/scripts/'
@@ -30,6 +31,7 @@ new_waypoint = True
 waypoint_id = 0
 threshold=0.2
 threshold_waypoint=0.6
+sprayingAction=False
 
 #origin_lat=42.2800659
 #origin_lon=12.3013824
@@ -153,6 +155,7 @@ def runTaskManagerService(call):
 
     enable_task_manager = True
     print "task_manager service called"
+
     
     return EmptyResponse()
 
@@ -168,7 +171,7 @@ def robotMovementsEnable(status):
 
 def odomCallback(odomData):
 
-    global waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, enable_task_manager, enable_task, new_waypoint, tour_filename, tmp, threshold_waypoint, task_name
+    global waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, enable_task_manager, enable_task, new_waypoint, tour_filename, tmp, threshold_waypoint, task_name, sprayingAction
 
     # distance
     a = numpy.array((odomData.pose.pose.position.x, odomData.pose.pose.position.y))
@@ -234,10 +237,17 @@ def odomCallback(odomData):
         euler = tf.transformations.euler_from_quaternion(quaternion)
 #        print "Position_orientation: \n", euler[2]
     else :
-        enable_task_manager=False
-        print "-----"
-        print "end"
-        print "-----"
+        if not sprayingAction :
+            #sprayingAction
+            sprayingAction=True
+
+            #readMapAndTour(path, map_points,reference,tour_filename)
+        else :
+            enable_task_manager=False
+            sprayingAction=False
+            print "-----"
+            print "end"
+            print "-----"
 
 def originCallback(originData):
     global origin_utm_lon, origin_utm_lat, origin_set
@@ -246,51 +256,9 @@ def originCallback(originData):
         origin_utm_lat = originData.y
         origin_set=True
 
-def task_manager():
+def readMapAndTour(path, map_points,reference,tour_filename):
 
-    global pub, path, enable_task_manager, enable_task, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, tour_filename, threshold_waypoint, task_name, origin_utm_lon, origin_utm_lat, origin_lon, origin_lat, origin_set
-
-    #ROS init
-    rospy.init_node('task_manager', anonymous=True)
-
-    if rospy.has_param('~reference'):
-        reference=rospy.get_param('~reference')
-    else :
-        reference=('geo') #local or geo
-
-    if rospy.has_param('~tour'):
-        tour_filename=rospy.get_param('~tour')
-
-    if rospy.has_param('~odometry_topic'):
-        odometry_topic=rospy.get_param('~odometry_topic')
-    else :
-        odometry_topic=('/odom_gps')
-
-    if rospy.has_param('~enable_task'):
-        enable_task=rospy.get_param('~enable_task')
-    else :
-        enable_task=(True)
-
-    if rospy.has_param('~task_name'):
-        task_name=rospy.get_param('~task_name')
-    else :
-        task_name=('scanning')
-
-    if rospy.has_param('~map_points'):
-        map_points=rospy.get_param('~map_points')
-    else :
-#        map_points=('virtual_map_points_demo')
-        map_points=('YoungGFP')
-
-    if rospy.has_param('~threshold'):
-        threshold=rospy.get_param('~threshold')
-
-    if rospy.has_param('~threshold_waypoint'):
-        threshold_waypoint=rospy.get_param('~threshold_waypoint')
-
-    if rospy.has_param('~initial_waypoint_id'):
-        waypoint_id=rospy.get_param('~initial_waypoint_id')
-	waypoint_id=waypoint_id-1
+    global origin_set, origin_utm_lon, origin_utm_lat, map_coordinates, waypoint_data, waypoint_id, max_waypoint_id, waypoint
 
     #map
     with open(path+ map_points+'.csv', 'rb') as csvfile:
@@ -311,8 +279,6 @@ def task_manager():
         rate = rospy.Rate(10)
         while not rospy.is_shutdown() and not origin_set:
             rate.sleep() 
-
-        #origin_utm_lon, origin_utm_lat = utmProj(origin_lon, origin_lat)
 
     i=0
     for elem in mapData:
@@ -365,6 +331,61 @@ def task_manager():
     waypoint.pose.pose.orientation.w = quaternion[3]
 
     new_waypoint = False
+
+def task_manager():
+
+    global pub, path, enable_task_manager, enable_task, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, tour_filename, threshold_waypoint, task_name, origin_utm_lon, origin_utm_lat, origin_lon, origin_lat, origin_set
+
+    #ROS init
+    rospy.init_node('task_manager', anonymous=True)
+
+    if rospy.has_param('~reference'):
+        reference=rospy.get_param('~reference')
+    else :
+        reference=('geo') #local or geo
+
+    if rospy.has_param('~tour'):
+        tour_filename=rospy.get_param('~tour')
+
+    if rospy.has_param('~odometry_topic'):
+        odometry_topic=rospy.get_param('~odometry_topic')
+    else :
+        odometry_topic=('/odom_gps')
+
+    if rospy.has_param('~enable_task'):
+        enable_task=rospy.get_param('~enable_task')
+    else :
+        enable_task=(True)
+
+    if rospy.has_param('~task_name'):
+        task_name=rospy.get_param('~task_name')
+    else :
+        task_name=('scanning')
+
+    if rospy.has_param('~map_points'):
+        map_points=rospy.get_param('~map_points')
+    else :
+#        map_points=('virtual_map_points_demo')
+        map_points=('mission')
+
+    if rospy.has_param('~threshold'):
+        threshold=rospy.get_param('~threshold')
+
+    if rospy.has_param('~threshold_waypoint'):
+        threshold_waypoint=rospy.get_param('~threshold_waypoint')
+
+    if rospy.has_param('~initial_waypoint_id'):
+        waypoint_id=rospy.get_param('~initial_waypoint_id')
+	waypoint_id=waypoint_id-1
+
+
+    if map_points=='mission':
+        path=path+'current_mission/'
+        map_points='map'
+        tour_filename='tour'
+        
+
+    readMapAndTour(path, map_points,reference,tour_filename)
 
     pub = rospy.Publisher('/command/pose', Odometry, queue_size=1)
     rospy.Subscriber(odometry_topic, Odometry, odomCallback)
