@@ -304,7 +304,8 @@ def parsingService(call):
                     sucker_dist_to_B = distance.cdist(numpy.reshape(suckerCoords,(1,2)),numpy.reshape(point_B,(1,2)))
                     if sucker_dist_to_A < sucker_dist_to_B:
                         # point_A is closer
-                        tour_array[map_id_min_A][1] = -0.7853981634 #-45 degrees
+                        #tour_array[map_id_min_A][1] = -0.7853981634 #-45 degrees
+                        tour_array[map_id_min_A][1] = -0.523598775598299 #-30 degrees
                         tour_array[map_id_min_A][2] = 3
                         # add information about sucker: x, y, 0.2, seconds of sprayer
                         tour_array[map_id_min_A][3] = suckerCoords[0]
@@ -316,7 +317,8 @@ def parsingService(call):
                         map_array[map_id_min_A][2] = point_A_closer[1]
                     else:
                         # point_B is closer
-                        tour_array[map_id_min_B][1] = 2.3561944901 #135 degrees
+                        #tour_array[map_id_min_B][1] = 2.3561944901 #135 degrees
+                        tour_array[map_id_min_B][1] = 2.094395102393195 #120 degrees
                         tour_array[map_id_min_B][2] = 3
                         # add information about sucker: x, y, 0.2, seconds of sprayer
                         tour_array[map_id_min_B][3] = suckerCoords[0]
@@ -328,7 +330,8 @@ def parsingService(call):
                         map_array[map_id_min_B][2] = point_B_closer[1]
                 elif found_point_A:
                     # adjust entry of tour for point A
-                    tour_array[map_id_min_A][1] = -0.7853981634 #-45 degrees
+                    #tour_array[map_id_min_A][1] = -0.7853981634 #-45 degrees
+                    tour_array[map_id_min_A][1] = -0.523598775598299 #-30 degrees
                     tour_array[map_id_min_A][2] = 3
                     # add information about sucker: x, y, 0.2, seconds of sprayer
                     tour_array[map_id_min_A][3] = suckerCoords[0]
@@ -340,7 +343,8 @@ def parsingService(call):
                     map_array[map_id_min_A][2] = point_A_closer[1]
                 else:
                     # adjust entry of tour for point B
-                    tour_array[map_id_min_B][1] = 2.3561944901 #135 degrees
+                    #tour_array[map_id_min_B][1] = 2.3561944901 #135 degrees
+                    tour_array[map_id_min_B][1] = 2.094395102393195 #120 degrees
                     tour_array[map_id_min_B][2] = 3
                     # add information about sucker: x, y, 0.2, seconds of sprayer
                     tour_array[map_id_min_B][3] = suckerCoords[0]
@@ -354,7 +358,7 @@ def parsingService(call):
                 print "No tour point has been found. New one will be added to map and tour."
                 last_id_entry_map_array = last_id_entry_map_array+1
                 map_entry = numpy.array([last_id_entry_map_array, point_A[0], point_A[1]])
-                tour_entry = numpy.array([last_id_entry_map_array, -0.7853981634, 3, suckerCoords[0], suckerCoords[1], sucker_height, tree_landmarks_data[tree_count_id][3]])
+                tour_entry = numpy.array([last_id_entry_map_array, -0.523598775598299, 3, suckerCoords[0], suckerCoords[1], sucker_height, tree_landmarks_data[tree_count_id][3]])
                 # add to list
                 map_entries = numpy.append(map_entries,numpy.reshape(map_entry,(1,3)),axis=0)
                 tour_entries = numpy.append(tour_entries,numpy.reshape(tour_entry,(1,7)),axis=0)
