@@ -24,7 +24,7 @@ from scp import SCPClient
 global threshold, landmarks, path, origin_utm_lon, origin_utm_lat, origin_set
 
 threshold_sucker_distance = 1.5
-threshold_tree_distance = 1.0
+threshold_tree_distance = 1.5
 
 default_workspace_value=expanduser("~")+'/catkin_ws'
 path = os.getenv('ROS_WORKSPACE', default_workspace_value)+'/src/sherpa_ros/scripts/'
@@ -55,20 +55,18 @@ def parsingService(call):
         area_file_path=rospy.get_param('/mesh_filter/area_path')
     else :
         area_file_path=('/home/newline/catkin_ws/src/mesh_filter/area/')
-    if rospy.has_param('/mesh_filter/filename'):
-        area_file_name = rospy.get_param('/mesh_filter/filename')
+    #if rospy.has_param('/mesh_filter/filename'):
+    if True:
+        #area_file_name = rospy.get_param('/mesh_filter/filename')
+        area_file_name = 'suckers_31_08'
         area_suckers_file = area_file_path+area_file_name+'.txt'
         suckers_landmarks_file = path+'suckers/'+area_file_name+'_landmark'+'.csv'
         suckers_map_file = path+'current_mission/spray_map'+'.csv'
         suckers_tour_file = path+'current_mission/spray_tour'+'.csv'
         # create ssh and scp objects
         ssh = SSHClient()
-        # decommentare queste due sul robot
-        ssh.load_system_host_keys()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect("10.10.1.125",22,"newline","pantheon.jetson")
-        # commentare queste due sul robot
-#        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-#        ssh.connect("192.168.1.12",22,"newline","pantheon.jetson")
         scp = SCPClient(ssh.get_transport())
         # retrieve file
         if not os.path.isdir(path+'suckers'):
@@ -255,9 +253,9 @@ def parsingService(call):
             new_entries_flag = False
             map_entries = numpy.empty((0,3))
             tour_entries = numpy.empty((0,7))
-            reduction_distance = 0.8
+            reduction_distance = 1.0
             threshold_grid = 1.0
-            angle_threshold = 0.25 # = 14.324 degrees, this threshold is used to discern the orientation of the tour 
+            angle_threshold = 0.4363 # = 25 degrees, this threshold is used to discern the orientation of the tour 
 
             for tree in selected_trees:
                 print "Evaluating Tree: ", tree, '\n'
@@ -294,8 +292,8 @@ def parsingService(call):
                 # check if the ID is in list and if the orientation is close to pi
                 if map_id_min_B+1 in tour_array[:,0:1] and abs(abs(tour_array[map_id_min_B][1])-numpy.pi)<angle_threshold:
                     found_point_B = True
-                # store sucker coords
-                suckerCoords = tree_landmarks_data[tree_count_id][4:6]
+                # store sucker coords ---- #EDIT NOW WE TAKE LANDMARK COORDS
+                suckerCoords = tree_landmarks_data[tree_count_id][7:9]
                 # evaluate if ID has been found
                 if found_point_A or found_point_B:
                     delta_vec_closer = delta_vec * reduction_distance
@@ -389,7 +387,11 @@ def parsingService(call):
             # write new tour file
             with open(suckers_tour_file, mode='w') as output:
                 output_writer = csv.writer(output, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                for row in tour_final:
+                tour_length = tour_final.shape(0)
+                for i in range(tour_length)
+                #for row in tour_final:
+                    # edit: write tour starting from the bottom to the top of the array
+                    row = tour_length[tour_length-1-i,:]
                     output_writer.writerow(row)
 
             print "Tour and Map updated.\n"
