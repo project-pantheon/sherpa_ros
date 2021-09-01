@@ -388,7 +388,7 @@ def parsingService(call):
             with open(suckers_tour_file, mode='w') as output:
                 output_writer = csv.writer(output, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 tour_length = tour_final.shape(0)
-                for i in range(tour_length)
+                for i in range(tour_length):
                 #for row in tour_final:
                     # edit: write tour starting from the bottom to the top of the array
                     row = tour_length[tour_length-1-i,:]
