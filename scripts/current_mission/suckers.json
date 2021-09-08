@@ -1,0 +1,24 @@
+{
+    "id_campaign": "camp_2021-09-08_17-02-50", 
+    "id_mission_part": "M_2021-07-19_16-58-15__Field_16_1", 
+    "results": [
+        {
+            "id_target": "Yo_B1", 
+            "info": {
+                "herbicide": "Metam_potassium", 
+                "phenology": "active_growing", 
+                "quantity": 20, 
+                "sucker_area": 0.2
+            }
+        }, 
+        {
+            "id_target": "Yo_B2", 
+            "info": {
+                "herbicide": "Metam_potassium", 
+                "phenology": "active_growing", 
+                "quantity": 31, 
+                "sucker_area": 0.27
+            }
+        }
+    ]
+}

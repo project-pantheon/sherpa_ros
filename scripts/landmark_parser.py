@@ -66,6 +66,7 @@ def parsingService(call):
     suckers_landmarks_file = path+'suckers/'+area_file_name+'_landmark'+'.csv'
     suckers_map_file = path+'current_mission/spray_map'+'.csv'
     suckers_tour_file = path+'current_mission/spray_tour'+'.csv'
+    path_json_suckers = path+'current_mission/suckers'+'.json'
     # create ssh and scp objects
     ssh = SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -159,10 +160,14 @@ def parsingService(call):
                 count = count+1
                 
         # Read target list
-        mission_target_file = path+'current_mission/mission.json'
+        mission_target_file = path+'current_mission/mission_processed.json'
         with open(mission_target_file, 'r') as mission_json_file:
             mission_data = json.load(mission_json_file)
+            mission_part_ID = mission_data['id_mission_part']
             final_targets = mission_data['targets']
+            mission_info = mission_data['info']
+            chemical_info = mission_info['chemical_products']
+            phenology_info = mission_info['phenology']
 
         # Local coordinates of trees
         utmProj = Proj("+proj=utm +zone=33N, +north +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
@@ -212,6 +217,7 @@ def parsingService(call):
                     delta_rows = d['field']['delta_rows']
                     delta_cols = d['field']['delta_cols']
                     map_data_found = True
+                    print "Map found in map_config_file. Orientation", map_orientation, ", delta_rows: ", delta_rows, ", delta_cols: ", delta_cols
         if not map_data_found:
             map_orientation = 0.0303346732
             delta_rows = 4
@@ -422,10 +428,43 @@ def parsingService(call):
                 output_writer.writerow(row)
 
         print "Tour and Map updated.\n"
+
+        # Producing JSON output file
+        suckers_output = {}
+        suckers_output['id_campaign'] = time.strftime("camp_%Y-%m-%d_%H-%M-%S", time.localtime())
+        suckers_output['id_mission_part'] = mission_part_ID
+        suckers_output['results'] = []
+        tree_count = 0
+        # for each requested tree
+        for tree in final_targets:
+            entry = {}
+            entry['id_target'] = tree
+            entry['info'] = {}
+            entry['info']['herbicide'] = chemical_info
+            entry['info']['phenology'] = phenology_info
+            # if the tree has been found and suckers have been detected
+            if tree in selected_trees:
+                entry['info']['sucker_area'] = tree_landmarks_data[tree_count][1]
+                entry['info']['quantity'] = tree_landmarks_data[tree_count][2]
+            else:
+                entry['info']['sucker_area'] = 0
+                entry['info']['quantity'] = 0
+            # add entry to collection
+            suckers_output['results'].append(entry)
+            tree_count = tree_count+1
+
+        # Writing JSON output file
+        with open(path_json_suckers, 'w') as suckers_outfile:
+            json.dump(suckers_output, suckers_outfile,indent=4,sort_keys=True)
+        # Saving in suckers folder a copy of the json
+        path_json_suckers_copy = path+'suckers/'+area_file_name+'_output'+'.json'
+        with open(path_json_suckers_copy, 'w') as suckers_outfile:
+            json.dump(suckers_output, suckers_outfile,indent=4,sort_keys=True)
+
     else:
         print "\nNo sucker has been detected. No operation can be made.\n"
 
-    print "landmark_parser Parsing service called"
+    print "landmark_parser Parsing service call end"
 
     return EmptyResponse()
 

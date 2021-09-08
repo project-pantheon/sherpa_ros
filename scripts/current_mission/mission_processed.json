@@ -1,15 +1,14 @@
-{ 
-	"id_mission_base": "M_2021-07-01_15-59-59__Field_16",
-	"nrobots": 1,
+{
+	"id_mission_part": "M_2021-07-19_16-58-15__Field_16_1",
 	"full_trees": 0,
 	"tasks": [
 		"Suckers_detection",
 		"Suckers_management"
 	],
-	"planned_date": "2021-06-30T22:00:00.000Z",
+	"planned_date": "2021-07-19T14:58:11.726Z",
 	"location": "Field_16",
-	"maps_config_id": "Field_16_GFP",
-	"targets":[
+	"maps_config_id": "MapTest",
+	"targets": [
 		"Yo_B1",
 		"Yo_B2",
 		"Yo_B3",
