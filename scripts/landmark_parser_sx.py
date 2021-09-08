@@ -64,6 +64,7 @@ def parsingService(call):
     area_file_name = suckers_filename.data
     area_suckers_file = area_file_path+area_file_name+'.txt'
     suckers_landmarks_file = path+'suckers/'+area_file_name+'_landmark'+'.csv'
+    suckers_landmarks_tree_file = path+'suckers/'+area_file_name+'_tree_landmark'+'.csv'
     suckers_map_file = path+'current_mission/spray_map'+'.csv'
     suckers_tour_file = path+'current_mission/spray_tour'+'.csv'
     path_json_suckers = path+'current_mission/suckers'+'.json'
@@ -184,6 +185,7 @@ def parsingService(call):
             
 	    # Parse target list and suckers_landmarks_data
         tree_landmarks_data = numpy.empty((0,10))
+        tree_coords_data = numpy.empty((0,2))
         landmarksCoords = suckers_landmarks_data[:,7:9]
         selected_trees = []
         for tree in final_targets:
@@ -198,11 +200,24 @@ def parsingService(call):
             # If the landmark is within "threshold" distance from the tree then add it to the list
             if tree_landmarks_dist[min_landmark_id] < threshold_tree_distance:
                 tree_landmarks_data = numpy.append(tree_landmarks_data,numpy.reshape(suckers_landmarks_data[min_landmark_id],(1,10)),axis=0)
+                tree_coords_data = numpy.append(tree_coords_data,numpy.reshape([tree_coords[0],tree_coords[1]],(1,2)),axis=0)
                 selected_trees.append(tree)
         
         print "\nTree landmarks: ", tree_landmarks_data, '\n'
         print "Selected trees: ", selected_trees, '\n'
         
+        # save log file with landmarks and associated trees
+        with open(suckers_landmarks_tree_file, mode='w') as output:
+            output_writer = csv.writer(output, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            count = 0
+            for row in tree_landmarks_data:
+                row_list = list(row)
+                row_list.insert(0,selected_trees[count])
+                row_list.insert(1,tree_coords_data[count][1])
+                row_list.insert(1,tree_coords_data[count][0])
+                output_writer.writerow(row_list)
+                count = count+1
+
         # in tree_landmarks_data abbiamo i final target con quantitivo e in selected_trees c'e' la lista finale degli alberi scelti che hanno un landmark che ricade nella soglia threshold_tree_distance
 
         field_id_name = mission_data['location']
