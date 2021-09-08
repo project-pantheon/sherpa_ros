@@ -4,7 +4,8 @@ import rospy
 from geometry_msgs.msg import Point
 from nav_msgs.msg import Odometry
 from std_srvs.srv import Empty, EmptyResponse
-from scanning_controller.srv import ScanningTree, ScanningTreeResponse, ScanningTreeRequest, OffsetSet, OffsetSetResponse, OffsetSetRequest
+from std_srvs.srv import SetBool, SetBoolResponse
+#from scanning_controller.srv import ScanningTree, ScanningTreeResponse, ScanningTreeRequest, OffsetSet, OffsetSetResponse, OffsetSetRequest
 from rm3_ackermann_controller.srv import ActivateController, ActivateControllerResponse, ActivateControllerRequest
 from pyproj import Proj
 from spray_controller.srv import AimingSpraying, AimingSprayingResponse
@@ -18,7 +19,7 @@ import os
 from os.path import expanduser
 import json
 
-global pub, path, enable_task_manager, enable_task, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, new_waypoint, tour_filename, cnt, threshold_waypoint, task_name, origin_utm_lon, origin_utm_lat, origin_lon, origin_lat, origin_set, sprayingAction, reference
+global pub, path, enable_task_manager, enable_task, waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, new_waypoint, tour_filename, cnt, threshold_waypoint, task_name, origin_utm_lon, origin_utm_lat, origin_lon, origin_lat, origin_set, sprayingAction, reference, status_str, msg_filter, timer
 
 default_workspace_value=expanduser("~")+'/catkin_ws'
 path = os.getenv('ROS_WORKSPACE', default_workspace_value)+'/src/sherpa_ros/scripts/'
@@ -38,10 +39,14 @@ sprayingAction=False
 origin_utm_lat=0
 origin_utm_lon=0
 origin_set=False
+timer=0
 
 gimbal_values=[0]
 
 tmp=1
+
+status_str="idle"
+msg_filter=0
 
 def runTask():
     global task_name
@@ -84,6 +89,8 @@ def sprayingTask():
 
     #activation manager_suckers
     if (waypoint_data[waypoint_id][2]==1):
+        setMaxVel(True)
+
         rospy.wait_for_service('/manager_suckers/activate_nodes')
         print "Requested activation for manager suckers"
         try:
@@ -95,6 +102,7 @@ def sprayingTask():
         except rospy.ServiceException, e:
             print "Task Manager: manager_suckers service call failed: %s"%e
     elif (waypoint_data[waypoint_id][2]==2):
+        setMaxVel(False)
         # Call service for computing suckers
         rospy.wait_for_service('/manager_suckers/compute_mesh_area')
         try:
@@ -113,14 +121,23 @@ def sprayingTask():
     elif (waypoint_data[waypoint_id][2]==3):
         #required publication of target
 
-        # Call service for aiming and spraying
-        rospy.wait_for_service('/auto_aim_spray_fire')
-        try:
-            manager_suckers_client = rospy.ServiceProxy('/auto_aim_spray_fire', AimingSpraying)
-            target=Point(waypoint_data[waypoint_id][3],waypoint_data[waypoint_id][4],waypoint_data[waypoint_id][5])
-            resp = manager_suckers_client(waypoint_data[waypoint_id][6],target)
-        except rospy.ServiceException, e:
-            print "Task Manager: manager_suckers service call failed: %s"%e
+        fire_done=False
+        while not fire_done:
+            print "Task Manager: starting auto_aim_spray_fire"
+            try:
+                # Call service for aiming and spraying
+                rospy.wait_for_service('/auto_aim_spray_fire',10)
+                try:
+                    manager_suckers_client = rospy.ServiceProxy('/auto_aim_spray_fire', AimingSpraying)
+                    target=Point(waypoint_data[waypoint_id][3],waypoint_data[waypoint_id][4],waypoint_data[waypoint_id][5])
+                    resp = manager_suckers_client(waypoint_data[waypoint_id][6],target)
+                    fire_done=True
+                except rospy.ServiceException, e:
+                    print "Task Manager: auto_aim_spray_fire service call failed: %s"%e
+            except rospy.ServiceException, e:
+                print "Task Manager: auto_aim_spray_fire service timeout: %s"%e
+            time.sleep(5)
+            
 
 
 def updateWaypointFromTour():
@@ -147,12 +164,12 @@ def updateWaypointFromTour():
 
 def runTaskManagerService(call):
 
-    global enable_task_manager, sprayingAction
+    global enable_task_manager, sprayingAction,status_str
 
     enable_task_manager = True
     sprayingAction = False
     print "task_manager service called"
-
+    status_str="waypoint"
     
     return EmptyResponse()
 
@@ -165,10 +182,18 @@ def robotMovementsEnable(status):
     except rospy.ServiceException, e:
         print "Task Manager: Activate_controller service call failed: %s"%e
 
+def setMaxVel(status):
+        rospy.wait_for_service('/set_max_vel')
+        try:
+            set_max_vel = rospy.ServiceProxy('/set_max_vel', SetBool)
+
+            resp = set_max_vel(status)
+        except rospy.ServiceException, e:
+            print "Task Manager: set_max_vel service call failed: %s"%e
 
 def odomCallback(odomData):
 
-    global waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, enable_task_manager, enable_task, new_waypoint, tour_filename, tmp, threshold_waypoint, task_name, sprayingAction, reference
+    global waypoint, waypoint_id, max_waypoint_id, threshold, map_coordinates, waypoint_data, enable_task_manager, enable_task, new_waypoint, tour_filename, tmp, threshold_waypoint, task_name, sprayingAction, reference, msg_filter, status_str, timer
 
     # distance
     a = numpy.array((odomData.pose.pose.position.x, odomData.pose.pose.position.y))
@@ -178,28 +203,42 @@ def odomCallback(odomData):
     # check distance
     if waypoint_id+1<=max_waypoint_id and enable_task_manager :
         skip_step=False
+        force_procedure=False
         if dist<threshold_waypoint :
+            
+            if timer<500:
+                #print timer    
+                timer=timer+1
+            else:
+                timer=0
+                print "Task forced."
+                force_procedure=True
+            
             if waypoint_data[waypoint_id][2] == 0:
                 skip_step=True
                 waypoint_id=waypoint_id+1
                 new_waypoint = True
+                timer=0
 
-        if not skip_step and dist<threshold :
+        if (not skip_step and dist<threshold) or force_procedure:
             #time.sleep(5)
             
             # check if scanning action is required
             if waypoint_data[waypoint_id][2] >= 1 :
+                
 
                 if enable_task :
-
+                    print "Task Manager: ----running task----"
                     #robot movements disable
                     robotMovementsEnable(False)
 
+                    status_str="task"
                     #run Task
-                    runTask()
+                    runTask()                    
 
                     #robot movements enable
                     robotMovementsEnable(True)
+                    status_str="waypoint"
                     
                 else :
                     time.sleep(waypoint_data[waypoint_id][2]*5)
@@ -209,42 +248,52 @@ def odomCallback(odomData):
             else:
                 waypoint_id=waypoint_id+1
                 new_waypoint = True
+                timer=0
     
     if waypoint_id+1<=max_waypoint_id :
         updateWaypointFromTour()
 
-        print "-----"
-        print "tour: ", tour_filename
-        print "Waypoint_ID: ", waypoint_id+1
-        print "Waypoint_position: \n", waypoint.pose.pose.position
-        print "Position_position: \n", odomData.pose.pose.position
+        if msg_filter==0:
+            print "-----"
+            print "tour: ", tour_filename
+            print "Waypoint_ID: ", waypoint_id+1
+            print "Waypoint_position: \n", waypoint.pose.pose.position
+            print "Position_position: \n", odomData.pose.pose.position
 
-        quaternion = (
-            waypoint.pose.pose.orientation.x,
-            waypoint.pose.pose.orientation.y,
-            waypoint.pose.pose.orientation.z,
-            waypoint.pose.pose.orientation.w)
-        euler = tf.transformations.euler_from_quaternion(quaternion)
-        print "Waypoint_orientation: \n", euler[2]
-        quaternion = (
-            odomData.pose.pose.orientation.x,
-            odomData.pose.pose.orientation.y,
-            odomData.pose.pose.orientation.z,
-            odomData.pose.pose.orientation.w)
-        euler = tf.transformations.euler_from_quaternion(quaternion)
-        print "Position_orientation: \n", euler[2]
+            quaternion = (
+                waypoint.pose.pose.orientation.x,
+                waypoint.pose.pose.orientation.y,
+                waypoint.pose.pose.orientation.z,
+                waypoint.pose.pose.orientation.w)
+            euler = tf.transformations.euler_from_quaternion(quaternion)
+            print "Waypoint_orientation: \n", euler[2]
+            quaternion = (
+                odomData.pose.pose.orientation.x,
+                odomData.pose.pose.orientation.y,
+                odomData.pose.pose.orientation.z,
+                odomData.pose.pose.orientation.w)
+            euler = tf.transformations.euler_from_quaternion(quaternion)
+            print "Position_orientation: \n", euler[2]
+            print "Status: " , status_str
+            print "Dist:", dist
+        elif msg_filter>50:
+            msg_filter=-1
+        
     else :
         if not sprayingAction :
             #sprayingAction
             sprayingAction=True
             waypoint_id = 0
+            status_str="waypoint"
             print "\n\n\n\nSPRAYING PHASE\n\n\n\n"
             readMapAndTour(path, 'spray_map','spray_tour')
         else :
+            status_str="idle"
             enable_task_manager=False
             print "-----"
             print "end"
             print "-----"
+    msg_filter=msg_filter+1
 
 def originCallback(originData):
     global origin_utm_lon, origin_utm_lat, origin_set
@@ -328,6 +377,7 @@ def readMapAndTour(path, map_points,tour_filename):
     waypoint.pose.pose.orientation.w = quaternion[3]
 
     new_waypoint = False
+    timer=0
 
 def task_manager():
 

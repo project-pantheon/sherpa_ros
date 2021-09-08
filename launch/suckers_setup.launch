@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+
+    <include file="$(find sherpa_ros)/launch/slam_setup_live.launch">
+    </include>
+
+    <include file="$(find pantheon_planning_and_control)/launch/gui.launch">
+		<arg name="output" value="log" />
+    </include>
+
+    <node name="landmark_parser" pkg="sherpa_ros" type="landmark_parser_sx.py" output="screen"/>
+    <node name="spray_controller_aim" pkg="spray_controller" type="spray_controller_aim.py" output="screen"/>
+    <node name="spray_controller_fire" pkg="spray_controller" type="spray_controller_fire.py" output="screen"/>
+
+    <node name="master_discovery_robot" pkg="master_discovery_fkie" type="master_discovery" output="screen">
+        <param name="_mcast_group" value="224.0.0.251"/>
+    </node>
+
+    <node name="master_sync_robot" pkg="sherpa_ros" type="mm_sync" output="screen"/>
+
+</launch>

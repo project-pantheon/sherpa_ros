@@ -15,12 +15,12 @@
     <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" output="screen">
         <param name="reference" value="geo" />
         <param name="task_name" value="spraying" />
-	    <param name="tour" value="current_mission/tour" />
-        <param name="map_points" value="mission" />
+	    <param name="tour" value="test/spray_tour" />
+        <param name="map_points" value="test/spray_map" />
         <param name="odometry_topic" value="$(arg odometry_topic)" />
         <param name="enable_task" value="$(arg enable_task)" />
         <param name="threshold" value="0.25"/>
-        <param name="threshold_waypoint" value="0.5"/>
+        <param name="threshold_waypoint" value="0.30"/>
         <param name="initial_waypoint_id" value="$(arg initial_waypoint_id)"/>
     </node>
 
