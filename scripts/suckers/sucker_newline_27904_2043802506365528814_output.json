@@ -1,0 +1,51 @@
+{
+    "id_campaign": "camp_2021-09-10_12-20-40", 
+    "id_mission_part": "M_2021-07-19_16-58-15__Field_16_1", 
+    "results": [
+        {
+            "id_target": "Yo_B1", 
+            "info": {
+                "herbicide": "Metam_potassium", 
+                "phenology": "active_growing", 
+                "quantity": 38.999773156499998, 
+                "sucker_area": 1.3622908592
+            }
+        }, 
+        {
+            "id_target": "Yo_B2", 
+            "info": {
+                "herbicide": "Metam_potassium", 
+                "phenology": "active_growing", 
+                "quantity": 35.395052746200001, 
+                "sucker_area": 1.2124662398999999
+            }
+        }, 
+        {
+            "id_target": "Yo_B3", 
+            "info": {
+                "herbicide": "Metam_potassium", 
+                "phenology": "active_growing", 
+                "quantity": 58.6233201605, 
+                "sucker_area": 2.1779131888999999
+            }
+        }, 
+        {
+            "id_target": "Yo_B4", 
+            "info": {
+                "herbicide": "Metam_potassium", 
+                "phenology": "active_growing", 
+                "quantity": 31.802100264300002, 
+                "sucker_area": 1.0631307364
+            }
+        }, 
+        {
+            "id_target": "Yo_B5", 
+            "info": {
+                "herbicide": "Metam_potassium", 
+                "phenology": "active_growing", 
+                "quantity": 58.011095331699998, 
+                "sucker_area": 2.1524670123999998
+            }
+        }
+    ]
+}

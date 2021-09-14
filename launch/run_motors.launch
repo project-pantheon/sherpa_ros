@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+
+	<group ns="base">
+                <include file="$(find rbsherpa_hl_control)/launch/rbsherpa_hl_control.launch">
+
+                </include>
+                <include file="$(find rbsherpa_hl_bringup)/launch/robotnik_base_hw.launch">
+                        <arg name="debug" value="false"/>
+                </include>
+
+	</group>
+
+</launch>

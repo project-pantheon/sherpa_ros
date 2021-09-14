@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+	<group ns="base">
+                <include file="$(find rbsherpa_hl_pad)/launch/rbsherpa_hl_pad.launch"/>
+	</group>
+
+</launch>

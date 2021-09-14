@@ -6,7 +6,7 @@
 			"delta_cols": 5,
 			"trees_cols": 20,
 			"trees_rows": 20,
-			"orientation": 0.0303346732
+			"orientation": 0
 		},
 		"map_file": "Adult.csv",
 		"mapping": "AdultTrees.csv"
@@ -18,7 +18,7 @@
             "delta_cols": 3.5,
             "trees_cols": 20,
             "trees_rows": 20,
-			"orientation": 0.0303346732
+			"orientation": 0
         },
         "map_file": "Young.csv",
         "mapping": "YoungTrees.csv"
@@ -30,7 +30,7 @@
             "delta_cols": 3.5,
             "trees_cols": 24,
             "trees_rows": 4,
-			"orientation": 0.0303346732
+			"orientation": 0
         },
         "map_file": "YoungGFP.csv",
         "mapping": "YoungGFPtrees.csv"
@@ -42,7 +42,7 @@
             "delta_cols": 5,
             "trees_cols": 18,
             "trees_rows": 1,
-			"orientation": 0.0303346732
+			"orientation": 0
         },
         "map_file": "MapTest.csv",
         "mapping": "MapTestTrees.csv"

@@ -6,6 +6,9 @@
 
     <arg name="initial_waypoint_id" default="1"/>
 
+    <arg name="tour" default="tour"/>
+    <arg name="map_points" default="map" />
+
 <!--    <arg name="odometry_topic" default="/odom_gps"/>-->
     <arg name="odometry_topic" default="/ekf_slam_node/slam_odom"/>
 
@@ -15,12 +18,12 @@
     <node name="task_manager" pkg="sherpa_ros" type="task_manager.py" output="screen">
         <param name="reference" value="geo" />
         <param name="task_name" value="spraying" />
-	    <param name="tour" value="current_mission/tour" />
-        <param name="map_points" value="mission" />
+	<param name="tour" value="$(arg tour)" />
+        <param name="map_points" value="$(arg map_points)" />
         <param name="odometry_topic" value="$(arg odometry_topic)" />
         <param name="enable_task" value="$(arg enable_task)" />
         <param name="threshold" value="0.25"/>
-        <param name="threshold_waypoint" value="0.30"/>
+        <param name="threshold_waypoint" value="0.5"/>
         <param name="initial_waypoint_id" value="$(arg initial_waypoint_id)"/>
     </node>
 
